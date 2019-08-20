@@ -1,0 +1,128 @@
+{
+  "allUsers": {
+    "id": 0,
+    "title": "All users",
+    "data": [
+      {
+        "id": 0,
+        "pageTitle": "Homepage",
+        "clickCount": 20000,
+        "errorRate": 0,
+        "errorCount": 0,
+        "avgPerf": 0.9,
+        "99thPerc": 1.5
+      },
+      {
+        "id": 1,
+        "pageTitle": "Plans",
+        "clickCount": 12000,
+        "errorRate": 3,
+        "errorCount": 37,
+        "avgPerf": 0.96,
+        "99thPerc": 1.75
+      },
+      {
+        "id": 2,
+        "pageTitle": "Cart",
+        "clickCount": 1000,
+        "errorRate": 0,
+        "errorCount": 0,
+        "avgPerf": 0.8,
+        "99thPerc": 0.9
+      },
+      {
+        "id": 3,
+        "pageTitle": "Checkout",
+        "clickCount": 1800,
+        "errorRate": 0,
+        "errorCount": 0,
+        "avgPerf": 0.5,
+        "99thPerc": 0.75
+      }
+    ]
+  },
+  "UsOnly": {
+    "id": 1,
+    "title": "Columbus, Ohio",
+    "data": [
+      {
+        "id": 4,
+        "pageTitle": "Homepage",
+        "clickCount": 15500,
+        "errorRate": 0,
+        "errorCount": 0,
+        "avgPerf": 1.0,
+        "99thPerc": 1.4
+      },
+      {
+        "id": 5,
+        "pageTitle": "Plans",
+        "clickCount": 13200,
+        "errorRate": 0,
+        "errorCount": 0,
+        "avgPerf": 0.9,
+        "99thPerc": 2.0
+      },
+      {
+        "id": 6,
+        "pageTitle": "Cart",
+        "clickCount": 5000,
+        "errorRate": 10,
+        "errorCount": 291,
+        "avgPerf": 0.8,
+        "99thPerc": 3.1
+      },
+      {
+        "id": 7,
+        "pageTitle": "Checkout",
+        "clickCount": 4600,
+        "errorRate": 0,
+        "errorCount": 0,
+        "avgPerf": 0.4,
+        "99thPerc": 0.43
+      }
+    ]
+  },
+  "mobileUsers": {
+    "id": 2,
+    "title": "IE Browsers",
+    "data": [
+      {
+        "id": 8,
+        "pageTitle": "Homepage",
+        "clickCount": 12000,
+        "errorRate": 0,
+        "errorCount": 0,
+        "avgPerf": 2.3,
+        "99thPerc": 3.8
+      },
+      {
+        "id": 9,
+        "pageTitle": "Plans",
+        "clickCount": 1600,
+        "errorRate": 3,
+        "errorCount": 37,
+        "avgPerf": 3.4,
+        "99thPerc": 3.7
+      },
+      {
+        "id": 10,
+        "pageTitle": "Cart",
+        "clickCount": 120,
+        "errorRate": 0,
+        "errorCount": 0,
+        "avgPerf": 3.0,
+        "99thPerc": 3.3
+      },
+      {
+        "id": 11,
+        "pageTitle": "Checkout",
+        "clickCount": 114,
+        "errorRate": 0,
+        "errorCount": 0,
+        "avgPerf": 1.0,
+        "99thPerc": 3.1
+      }
+    ]
+  }
+}

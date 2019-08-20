@@ -1,0 +1,8 @@
+{
+    "schemaType": "LAUNCHER",
+    "id": "my-launcher",
+    "description": "Reusable component for customer journey visualizations. Don't stop believing.",
+    "displayName": "Customer Journey",
+    "icon": "interface_operations_filter_v-alternate",
+    "rootNerdletId": "c428d309-f12d-4d7f-9e4c-4755a07a6626.root"
+}
