@@ -34,6 +34,7 @@ const journeyConfig = [{
       nrql:
         "name='WebTransaction/MVC/ServiceCheck/Post/{serviceCheck}'",
       altNrql: {
+        AvailabilitySLI: "ServiceabilityResponseCode NOT IN('2005', '1002', 'NACK022','-1')"
         // JavaScriptError: " requestUri = '/' or requestUri = '/index.html' "
       }
     },
@@ -50,6 +51,7 @@ const journeyConfig = [{
       label: "Credit",
       nrql: "name='WebTransaction/MVC/CreditCheck/Post/{ropeData}'",
       altNrql: {
+        AvailabilitySLI: "CreditResponseCode NOT IN('3021', '1002', '3016', '1001', '3009', '3024', '1084')"
         // JavaScriptError: " requestUri like '/shoppingcart%' "
       }
     },
@@ -58,6 +60,7 @@ const journeyConfig = [{
       label: "Order Submit",
       nrql: "name='WebTransaction/MVC/Order/Post/{ropeData}'",
       altNrql: {
+        AvailabilitySLI: "errorMessage NOT IN('Response Description: Order Processing Error: Payment contains invalid information, please verify credit card billing address and account number.','Response Description: Order Processing Error: Payment Declined')"
         // JavaScriptError: " requestUri like '/checkout%' "
       }
     }
@@ -67,6 +70,7 @@ const journeyConfig = [{
     ref: "stepAvailability",
     type: "decimal",
     value: {
+      eventName: "AvailabilitySLI",
       nrql: "SELECT percentage(count(*), WHERE error is NULL) FROM Transaction WHERE appName='fr-redventures-frontier-sti-api'",
       display: "percentage"
     }
