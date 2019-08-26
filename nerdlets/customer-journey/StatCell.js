@@ -25,7 +25,7 @@ export default class StatCell extends React.Component {
 
   openDetails() {
     const { config, column, step } = this.props
-    navigation.openCard({
+    navigation.openStackedNerdlet({
       id: "c428d309-f12d-4d7f-9e4c-4755a07a6626.details",
       urlState: {
         selectedJourney: config.id,
