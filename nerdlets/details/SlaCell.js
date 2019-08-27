@@ -13,7 +13,7 @@ export default class SlaCell extends React.Component {
     const stat = this.props.stat;
     const kpi = this.props.kpi;
     const currentValue = this.props.currentValue;
-    const inViolation = (kpi.bounds == "upper") ? currentValue > kpi.value : kpi.value > currentValue;
+    const inViolation = (kpi.bound == "upper") ? currentValue > kpi.value : kpi.value > currentValue;
     console.log(inViolation);
     return (
       <div className={(inViolation) ? "slaCell violation" : "slaCell"} >

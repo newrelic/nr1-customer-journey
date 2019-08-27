@@ -42,7 +42,7 @@ const journeyConfig = [{
           name: "Availability",
           ref: "stepAvailability",
           value: 90.00,
-          bound: "upper",
+          bound: "lower",
           description: "Serviceability Availability Percentage is Percent of Transactions without errors or response codes 2005, 1002, Nack 22, or -1",
         },
         {
