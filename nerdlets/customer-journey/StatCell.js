@@ -123,8 +123,6 @@ export default class StatCell extends React.Component {
                     const value = rs[keys[0]]
                     values[stat.ref] = value
                     //console.debug([stat.ref, value]);
-                    // const kpi = step.kpis.find(k => k.ref == stat.ref);
-                    // console.log(kpi);
                     return (
                       <DataPoint
                         value={value}
