@@ -57,32 +57,33 @@ export default class StatCell extends React.Component {
   }
 
   render() {
-    const { config, stats, step, column, timeRange } = this.props
+    const { config, stats, step, column, timeRange } = this.props;
+
     let q = `{
             actor {
             account(id: ${config.accountId}) {
               ${stats
-                .map(stat => {
-                  const altStep = stat.value.eventName && step.altNrql && Object.keys(step.altNrql).find(k => k == stat.value.eventName);
-                  if (stat.value.nrql) {
-                    if (altStep) {
-                        return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${column.nrql}) AND (${altStep ? step.altNrql[stat.value.eventName]: step.nrql}) SINCE ${timeRange.duration / 1000 / 60} MINUTES AGO") {
+        .map(stat => {
+          const altStep = stat.value.eventName && step.altNrql && Object.keys(step.altNrql).find(k => k == stat.value.eventName);
+          if (stat.value.nrql) {
+            if (altStep) {
+              return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${column.nrql}) AND (${altStep ? step.altNrql[stat.value.eventName] : step.nrql}) SINCE ${timeRange.duration / 1000 / 60} MINUTES AGO") {
                             results
                         }`;
-                    } else {
-                        return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${column.nrql}) AND (${altStep ? step.altNrql[stat.value.eventName]: step.nrql}) SINCE ${timeRange.duration / 1000 / 60} MINUTES AGO") {
+            } else {
+              return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${column.nrql}) AND (${altStep ? step.altNrql[stat.value.eventName] : step.nrql}) SINCE ${timeRange.duration / 1000 / 60} MINUTES AGO") {
                             results
                         }`;
-                    }
-                  } else {
-                    return ""
-                  }
-                })
-                .join("")}
+            }
+          } else {
+            return ""
+          }
+        })
+        .join("")}
             }
           }
         }`
-    console.log(q);
+    // console.log(q);
     q = gql`${q}`
     return (
       <div
@@ -122,6 +123,8 @@ export default class StatCell extends React.Component {
                     const value = rs[keys[0]]
                     values[stat.ref] = value
                     //console.debug([stat.ref, value]);
+                    // const kpi = step.kpis.find(k => k.ref == stat.ref);
+                    // console.log(kpi);
                     return (
                       <DataPoint
                         value={value}
