@@ -349,20 +349,6 @@ body {
     opacity: 1;
 }
 
-/* .svg-funnel-js__label[class*=label] .label__title:after {
-    content: "i";
-    font-style: italic;
-    font-family: serif;
-    font-size: 14px;
-    position: absolute;
-    background-color: rgba(12, 57, 63, 0.18);
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    right: -25px;
-    top: 3px;
-} */
-
 .svg-funnel-js__label[class*=label]:hover .label__title {
     opacity: 0;
 }
