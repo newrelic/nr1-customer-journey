@@ -432,7 +432,8 @@ select:not([multiple]).form-control {
 
 .journeySelectForm label {
     position: absolute;
-    left: 9px;
+    z-index: 10;
+    left: 1px;
     top: 8px;
     font-size: 10px;
     text-transform: uppercase;
