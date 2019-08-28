@@ -175,6 +175,17 @@ body {
         }
     }
 
+    &.violation {
+        background-color: #fcf2f3;
+        box-shadow: -5px 0 0 5px #fcf2f3;
+        border-radius: 1px;
+
+        .value,
+        .label {
+            color: #bf0015;
+        }
+    }
+
     .value {
         margin-bottom: 1px;
         font-family: 'fira sans';
