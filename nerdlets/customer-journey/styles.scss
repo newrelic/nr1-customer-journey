@@ -452,8 +452,10 @@ select:not([multiple]).form-control {
 
 .chartGrid {
     display: grid;
+    box-sizing: border-box;
     grid-template-columns: repeat(auto-fill, 31%);
     grid-gap: 11% 2%;
+    margin: 32px;
 }
 
 .detailPaneHeader {
@@ -462,6 +464,11 @@ select:not([multiple]).form-control {
     margin-bottom: 20px;
     padding-bottom: 26px;
     border-bottom: 1px dotted #e3e4e4;
+}
+
+h3.customerJourneyBreadcrumbs {
+    box-sizing: border-box;
+    margin: 32px;
 }
 
 span.customerJourneyBreadcrumb {
