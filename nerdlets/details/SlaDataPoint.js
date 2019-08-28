@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { Icon } from 'nr1'
+
 export default class SlaDataPoint extends React.Component {
   static propTypes = {
     value: PropTypes.any.isRequired,
@@ -33,9 +35,20 @@ export default class SlaDataPoint extends React.Component {
   render() {
     const { state, kpi, value } = this.props;
     return (
-      <div className="largeDataPoint">
-        <h2 className="value">{this.processValue(value) + ` Defined SLA : ${this.processValue(kpi.value)}`}</h2>
-        <span className="label">{this.props.kpi.description}</span>
+      <div className="slaContainer">
+        <div className="slaComparisonContainer">
+        <Icon type={Icon.TYPE.INTERFACE__SIGN__CHECKMARK__V_ALTERNATE} color="#10a600" className="slaComparisonIcon" />
+          <div className="slaComparisonItem currentValueContainer">
+            <h4 className="slaComparisonItemValue currentValue">{this.processValue(value)}</h4>
+            <h6 className="slaComparisonItemLabel currentLabel">Current</h6>
+          </div>
+          <div className="slaComparisonItem slaValueContainer">
+            <h4 className="slaComparisonItemValue slaValue">{this.processValue(kpi.value)}</h4>
+            <h6 className="slaComparisonItemLabel slaLabel">Defined SLA</h6>
+          </div>
+        </div>
+
+        <p className="slaDescription">{this.props.kpi.description}</p>
       </div>
     )
   }

@@ -69,45 +69,48 @@ export default class Details extends React.Component {
           <span className="customerJourneyBreadcrumb">{step.label}</span>
         </HeadingText>
         {kpis &&
-          <div className="chartGrid">
-            <NerdGraphQuery query={kpisQuery}>
-              {({ loading, data, error }) => {
-                if (loading) {
-                  return (
-                    <div className="skeletonContainer">
-                      {kpis.map((s, i) => {
-                        return (
-                          <div key={i} className="largeDataPoint skeleton">
-                            <h5 className="value" />
-                            <span className="label" />
-                          </div>
-                        )
-                      })}
-                    </div>
-                  )
-                }
-                if (error) {
-                  return <BlockText>{JSON.stringify(error)}</BlockText>;
-                }
-                return (
-                  kpis.map((kpi, i) => {
-                    const rs = data.actor.account[kpi.kpi.ref].results[0];
-                    const keys = Object.keys(rs);
-                    const value = rs[keys[0]];
+          <>
+            <HeadingText type="heading3" className="slasHeader">SLAs</HeadingText>
+            <div className="chartGrid">
+              <NerdGraphQuery query={kpisQuery}>
+                {({ loading, data, error }) => {
+                  if (loading) {
                     return (
-                      <SlaCell
-                        key={i}
-                        currentValue={value}
-                        kpi={kpi.kpi}
-                        stat={kpi.stat}
-                      />
+                      <div className="skeletonContainer">
+                        {kpis.map((s, i) => {
+                          return (
+                            <div key={i} className="largeDataPoint skeleton">
+                              <h5 className="value" />
+                              <span className="label" />
+                            </div>
+                          )
+                        })}
+                      </div>
                     )
-                  })
-                )
+                  }
+                  if (error) {
+                    return <BlockText>{JSON.stringify(error)}</BlockText>;
+                  }
+                  return (
+                    kpis.map((kpi, i) => {
+                      const rs = data.actor.account[kpi.kpi.ref].results[0];
+                      const keys = Object.keys(rs);
+                      const value = rs[keys[0]];
+                      return (
+                          <SlaCell
+                            key={i}
+                            currentValue={value}
+                            kpi={kpi.kpi}
+                            stat={kpi.stat}
+                          />
+                      )
+                    })
+                  )
 
-              }}
-            </NerdGraphQuery>
-          </div>
+                }}
+              </NerdGraphQuery>
+            </div>
+          </>
         }
         <div className="chartGrid">
           {stats.map((stat, i) => {

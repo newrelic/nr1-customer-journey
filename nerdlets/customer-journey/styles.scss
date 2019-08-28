@@ -445,7 +445,7 @@ select:not([multiple]).form-control {
 }
 
 .chartName {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     font-weight: 600;
 }
 
@@ -509,4 +509,54 @@ span.customerJourneyBreadcrumb:not(:first-child):before {
     position: absolute;
     left: 0px;
     top: 0px;
+}
+
+.slaComparisonContainer {
+    display: inline-block;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.slaComparisonItem {
+    display: inline-flex;
+    flex-direction: column;
+    min-width: 140px;
+    height: 70px;
+    justify-content: center;
+    align-items: center;
+    margin-right: -1px;
+    margin-bottom: 0;
+    border: 1px solid #E3E4E4;
+}
+
+.slaComparisonItemValue {
+    font-family: 'fira sans';
+    font-weight: 400;
+    font-size: 24px;
+    color: #000D0D;
+    margin-bottom: 6px;
+}
+
+.slaComparisonItemLabel {
+    font-size: 10px;
+    color: #464E4E;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0;
+    line-height: 11px;
+}
+
+.slaComparisonIcon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-43%, -58%);
+    box-shadow: 0 2px 0 5px #fff;
+    background-color: #fff;
+}
+
+.slasHeader {
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #edeeee;
 }
