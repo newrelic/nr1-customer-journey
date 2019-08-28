@@ -58,7 +58,7 @@ export default class StatCell extends React.Component {
 
   render() {
     const { config, stats, step, column, timeRange } = this.props;
-
+    const kpis = (typeof step.kpis !== 'undefined') ? step.kpis : null;
     let q = `{
             actor {
             account(id: ${config.accountId}) {
@@ -123,12 +123,23 @@ export default class StatCell extends React.Component {
                     const value = rs[keys[0]]
                     values[stat.ref] = value
                     //console.debug([stat.ref, value]);
+                    let kpi = null;
+                    let inViolation = false;
+                    if (kpis != null) {
+                      kpi = kpis.find(k => k.ref == stat.ref);
+                      if (kpi) {
+                        inViolation = (kpi.bound == "upper") ? value > kpi.value : kpi.value > value;
+                        // console.log("violation status", value, kpi.value, kpi.bound, inViolation);
+                      }
+                    }
+
                     return (
                       <DataPoint
                         value={value}
                         label={stat.label}
                         key={i}
                         stat={stat}
+                        inViolation={inViolation}
                       />
                     )
                   })}
