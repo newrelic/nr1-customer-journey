@@ -7,7 +7,8 @@ export default class SlaDataPoint extends React.Component {
   static propTypes = {
     value: PropTypes.any.isRequired,
     kpi: PropTypes.object.isRequired,
-    stat: PropTypes.object.isRequired
+    stat: PropTypes.object.isRequired,
+    isInViolation: PropTypes.bool.isRequired
   }
 
   processValue(value) {
@@ -33,11 +34,11 @@ export default class SlaDataPoint extends React.Component {
   }
 
   render() {
-    const { state, kpi, value } = this.props;
+    const { state, kpi, value, isInViolation } = this.props;
     return (
       <div className="slaContainer">
         <div className="slaComparisonContainer">
-        <Icon type={Icon.TYPE.INTERFACE__SIGN__CHECKMARK__V_ALTERNATE} color="#10a600" className="slaComparisonIcon" />
+        <Icon type={isInViolation ? Icon.TYPE.INTERFACE__SIGN__TIMES__V_ALTERNATE  : Icon.TYPE.INTERFACE__SIGN__CHECKMARK__V_ALTERNATE} color={isInViolation ? '#bf0015' : '#10a600'} className="slaComparisonIcon" />
           <div className="slaComparisonItem currentValueContainer">
             <h4 className="slaComparisonItemValue currentValue">{this.processValue(value)}</h4>
             <h6 className="slaComparisonItemLabel currentLabel">Current</h6>

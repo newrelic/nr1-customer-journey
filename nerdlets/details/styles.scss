@@ -11,8 +11,46 @@
       display: block;
   }
 
-  &.violation{
-    background-color: #e65a5a;
+}
+
+.slaCell.violation {
+  .chartName {
+    color: #BF0015;
+  }
+
+  .currentValueContainer {
+    border-color: #BF0015;
+    background-color: #fcf2f3;
+  }
+
+  .slaValueContainer {
+    border-color: #BF0015;
+  }
+
+  .currentValue {
+    color: #BF0015;
+  }
+
+  .currentLabel {
+    color: #BF0015;
+  }
+
+  .slaComparisonIcon {
+    box-shadow: none;
+    background-color: transparent;
+  }
+
+  .slaComparisonIcon:after {
+    content: "";
+    display: block;
+    width: 14px;
+    height: 14px;
+    background-color: #fff;
+    position: absolute;
+    z-index: -1;
+    top: 2px;
+    left: 1px;
+    border-radius: 100%;
   }
 }
 
@@ -62,3 +100,58 @@
       color: #464E4E;
   }
 }
+
+.slaComparisonContainer {
+  display: inline-block;
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.slaComparisonItem {
+  display: inline-flex;
+  flex-direction: column;
+  min-width: 140px;
+  height: 70px;
+  justify-content: center;
+  align-items: center;
+  margin-right: -1px;
+  margin-bottom: 0;
+  border: 1px solid #E3E4E4;
+}
+
+.slaComparisonItemValue {
+  font-family: 'fira sans';
+  font-weight: 400;
+  font-size: 24px;
+  color: #000D0D;
+  margin-bottom: 6px;
+}
+
+.slaComparisonItemLabel {
+  font-size: 10px;
+  color: #464E4E;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0;
+  line-height: 11px;
+}
+
+.slaComparisonIcon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-43%, -58%);
+  box-shadow: 0 2px 0 5px #fff;
+  background-color: #fff;
+}
+
+.slasHeader {
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #edeeee;
+}
+
+.slaValue {
+  color: #8E9494;
+}
+

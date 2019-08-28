@@ -24,6 +24,7 @@ export default class SlaCell extends React.Component {
           value={currentValue}
           kpi={kpi}
           stat={stat}
+          isInViolation={inViolation}
         />
       </div>
     )
