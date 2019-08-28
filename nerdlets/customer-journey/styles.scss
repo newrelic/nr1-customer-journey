@@ -199,6 +199,14 @@ body {
         font-size: 1em;
         color: #464E4E;
     }
+
+    &.valueIsPercentage .value:after {
+        content: "%";
+        font-size: .75em;
+        font-weight: 600;
+        margin-left: 1px;
+        color: #2a3434;
+    }
 }
 
 .standardStatCell {
@@ -279,6 +287,7 @@ body {
         color: #8E9494;
         line-height: 20px;
         text-transform: uppercase;
+        letter-spacing: .65px;
     }
 }
 
