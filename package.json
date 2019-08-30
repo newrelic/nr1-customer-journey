@@ -1,6 +1,6 @@
 {
     "private": true,
-    "name": "nr1-customer-journey-nerdpack",
+    "name": "nr1-customer-journey",
     "description": "NR1 Nerdpack for Customer Journeys.",
     "version": "0.1.0",
     "scripts": {
