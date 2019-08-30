@@ -25,7 +25,7 @@ export default class DataPoint extends React.Component {
         }
         switch (stat.value.display) {
             case "percentage":
-                return `${workingVal}%`;
+                return `${workingVal}`;
             case "seconds":
                 return `${workingVal} s`;
             case "integer":
@@ -36,9 +36,9 @@ export default class DataPoint extends React.Component {
     }
 
     render() {
-        const dataPointClass = (this.props.inViolation) ? 'standardDataPoint violation' : 'standardDataPoint';
+        const { stat, value } = this.props;
         return (
-            <div className={dataPointClass}>
+            <div className={`standardDataPoint ${stat.value.display === 'percentage' ? 'valueIsPercentage' : ''}`}>
                 <h5 className="value">{this.processValue()}</h5>
                 <span className="label">{this.toSentenceCase(this.props.label)}</span>
             </div>

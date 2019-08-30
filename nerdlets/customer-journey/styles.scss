@@ -178,6 +178,17 @@ body {
         }
     }
 
+    &.violation {
+        background-color: #fcf2f3;
+        box-shadow: -5px 0 0 5px #fcf2f3;
+        border-radius: 1px;
+
+        .value,
+        .label {
+            color: #bf0015;
+        }
+    }
+
     .value {
         margin-bottom: 1px;
         font-family: 'fira sans';
@@ -190,6 +201,14 @@ body {
     .label {
         font-size: 1em;
         color: #464E4E;
+    }
+
+    &.valueIsPercentage .value:after {
+        content: "%";
+        font-size: .75em;
+        font-weight: 600;
+        margin-left: 1px;
+        color: #2a3434;
     }
 }
 
@@ -271,6 +290,7 @@ body {
         color: #8E9494;
         line-height: 20px;
         text-transform: uppercase;
+        letter-spacing: .65px;
     }
 }
 
@@ -340,20 +360,6 @@ body {
 .svg-funnel-js__label[class*=label]:hover .label__segment-percentages {
     opacity: 1;
 }
-
-/* .svg-funnel-js__label[class*=label] .label__title:after {
-    content: "i";
-    font-style: italic;
-    font-family: serif;
-    font-size: 14px;
-    position: absolute;
-    background-color: rgba(12, 57, 63, 0.18);
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    right: -25px;
-    top: 3px;
-} */
 
 .svg-funnel-js__label[class*=label]:hover .label__title {
     opacity: 0;
@@ -435,7 +441,8 @@ select:not([multiple]).form-control {
 
 .journeySelectForm label {
     position: absolute;
-    left: 9px;
+    z-index: 10;
+    left: 1px;
     top: 8px;
     font-size: 10px;
     text-transform: uppercase;
@@ -454,8 +461,10 @@ select:not([multiple]).form-control {
 
 .chartGrid {
     display: grid;
+    box-sizing: border-box;
     grid-template-columns: repeat(auto-fill, 31%);
     grid-gap: 11% 2%;
+    margin: 32px;
 }
 
 .detailPaneHeader {
@@ -464,6 +473,11 @@ select:not([multiple]).form-control {
     margin-bottom: 20px;
     padding-bottom: 26px;
     border-bottom: 1px dotted #e3e4e4;
+}
+
+h3.customerJourneyBreadcrumbs {
+    box-sizing: border-box;
+    margin: 32px;
 }
 
 span.customerJourneyBreadcrumb {
