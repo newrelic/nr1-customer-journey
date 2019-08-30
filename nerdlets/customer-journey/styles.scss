@@ -173,6 +173,9 @@ body {
             height: 12px;
             width: 65px;
         }
+
+        .violation {
+        }
     }
 
     &.violation {
@@ -452,7 +455,7 @@ select:not([multiple]).form-control {
 }
 
 .chartName {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     font-weight: 600;
 }
 
