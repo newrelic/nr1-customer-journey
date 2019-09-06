@@ -5,7 +5,9 @@
     "version": "0.1.0",
     "scripts": {
         "start": "nr1 nerdpack:serve",
-        "test": "exit 0"
+        "test": "exit 0",
+        "eslint-check": "eslint nerdlets/",
+        "eslint-fix": "eslint nerdlets/ --fix"
     },
     "bugs": {
         "email": "opensource@newrelic.com"
@@ -15,13 +17,19 @@
         "sdkVersion": 2
     },
     "dependencies": {
+        "babel-eslint": "^10.0.3",
         "babel-runtime": "^6.26.0",
         "bootstrap": "^4.3.1",
+        "eslint": "^6.3.0",
+        "eslint-config-prettier": "^6.2.0",
+        "eslint-plugin-prettier": "^3.1.0",
+        "eslint-plugin-react": "^7.14.3",
         "file-loader": "^4.2.0",
         "graphql": "^14.4.2",
         "graphql-tag": "^2.10.1",
-        "nr1-funnel-component": "git@github.com:newrelic/nr1-funnel-component.git",
         "nr1-bootstrap-theme": "git@github.com:newrelic/nr1-bootstrap-theme.git",
+        "nr1-funnel-component": "git@github.com:newrelic/nr1-funnel-component.git",
+        "prettier": "^1.18.2",
         "prop-types": "^15.6.2",
         "react": "^16.9.0",
         "react-dom": "^16.9.0",
