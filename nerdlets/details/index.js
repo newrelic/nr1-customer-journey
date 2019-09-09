@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, GridItem, BillboardChart, LineChart, HeadingText, BlockText } from "nr1";
 import journeyConfig from '../../journeyConfig';
+import moment from 'moment';
+import momentDurationFormatSetup from 'moment-duration-format';
+momentDurationFormatSetup(moment);
+
 
 export default class Details extends React.Component {
   static propTypes = {
@@ -35,6 +39,13 @@ export default class Details extends React.Component {
 
     return (
       <Grid style={{ margin: '20px'}}>
+        <GridItem columnSpan="12">
+          <HeadingText type='heading3' className="detailPaneHeader customerJourneyBreadcrumbs">
+            <span className="customerJourneyBreadcrumb">{journey.title}</span>
+            <span className="customerJourneyBreadcrumb">{column.label}</span>
+            <span className="customerJourneyBreadcrumb">{step.label}</span>
+          </HeadingText>
+        </GridItem>
         {kpis && <GridItem columnSpan="12">
           <HeadingText>KPI's</HeadingText>
         </GridItem>}
@@ -47,7 +58,7 @@ export default class Details extends React.Component {
         })}
         <GridItem columnSpan="12">
           <HeadingText>Timeseries Data</HeadingText>
-          <BlockText>Since {durationInMinutes} Minutes Ago</BlockText>
+          <BlockText>Since {moment.duration(duration).format()} ago</BlockText>
         </GridItem>
         {stats.map((stat, i) => {
           const query =

@@ -27,6 +27,8 @@
     "file-loader": "^4.2.0",
     "graphql": "^14.4.2",
     "graphql-tag": "^2.10.1",
+    "moment": "^2.24.0",
+    "moment-duration-format": "^2.3.2",
     "nr1-bootstrap-theme": "git@github.com:newrelic/nr1-bootstrap-theme.git",
     "nr1-funnel-component": "git@github.com:newrelic/nr1-funnel-component.git",
     "prettier": "^1.18.2",
