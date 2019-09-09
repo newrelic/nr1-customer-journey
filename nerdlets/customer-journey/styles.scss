@@ -177,23 +177,27 @@ body {
 
     &.inViolation {
         background-color: #fcf2f3;
-        box-shadow: -5px 0 0 5px #fcf2f3;
+        box-shadow: -2px 0 0 4px #fcf2f3;
         border-radius: 1px;
 
         .value,
         .label {
             color: #bf0015;
         }
+
+        h5.value:after {
+            color: #bf0015;
+        }
     }
 
     &.exceedingTarget {
         background-color: #dbf8db;
-        box-shadow: -5px 0 0 5px #dbf8db;
+        box-shadow: -2px 0 0 4px #dbf8db;
         border-radius: 1px;
 
         .value,
         .label {
-            color: #25c93a;
+            color: #085300;
         }
     }
 
@@ -489,13 +493,13 @@ h3.customerJourneyBreadcrumbs {
 
 span.customerJourneyBreadcrumb {
     background-color: #edeeee;
-    padding: 3px 5px 3px 26px;
-    margin-right: 4px;
+    padding: 5px 5px 5px 26px;
+    margin-right: 8px;
     position: relative;
 }
 
 span.customerJourneyBreadcrumb:first-child {
-    padding: 3px 5px 3px 10px;
+    padding: 5px 5px 5px 10px;
     border-radius: 3px 0 0 3px;
 }
 
@@ -529,8 +533,32 @@ span.customerJourneyBreadcrumb:not(:first-child):before {
     height: 0px;
     border-top: 17px solid transparent;
     border-bottom: 17px solid transparent;
-    border-left: 17px solid #fff;
+    border-left: 17px solid #fafbfb;
     position: absolute;
     left: 0px;
     top: 0px;
+}
+
+.chartContainer {
+    background-color: #fff;
+    padding: 8px;
+    border-radius: 2px;
+    margin-bottom: 8px;
+
+    [class*=heading3] {
+        margin-bottom: 16px;
+        letter-spacing: 0;
+        text-transform: none;
+    }
+}
+
+.timeSeriesHeading {
+    display: inline-block;
+    margin-top: 24px;
+    margin-right: 8px;
+}
+
+.timePeriodText {
+    display: inline-block;
+    color:#464e4e;
 }
