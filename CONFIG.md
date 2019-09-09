@@ -34,9 +34,9 @@ The `journeyConfig` is an array of objects that contain the following. See the [
 | steps[].value | JS Object | true | The object that contains the processing rules for a given Stat. It may be based on a NRQL query or a calculation based on other Stat objects. |
 | steps[].value.nrql | string | false | Full NRQL statement to calculate a single value. |
 | steps[].value.eventName | string | false | If this measure/stat is based on a different NRDB event then the one defined in funnel.event, this is where we declare that. This information is used to append the needed WHERE clauses from the `series` and `steps` to this stat. |
-| steps[].value.display | string | false |  |
-| steps[].value.calculation | string | false |  |
-| steps[].value.calculation.rate | JS Array of 2 strings referencing other `stats[].ref` values for a calculation. | true |  |
+| steps[].value.display | [integer,seconds,percentage] | true | How should the output be formatted. |
+| steps[].value.calculation | JS Object | false | If this Stat is a calculation - the mathematical result of two other stat values - this is where the rules for that calculation will be defined. |
+| steps[].value.calculation.rate | JS Array of 2 strings referencing other `stats[].ref` values for a calculation. | true | `rate` implies that the first `ref` value in the array will be devided by the second `ref` value in the array. |
 
 ## About kpis
 
