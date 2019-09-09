@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import StatColumn from './StatColumn';
-import journeyConfig from '../../journeyConfig';
+import { getJourneys } from '../../journeyConfig';
+const journeyConfig = getJourneys();
 import { FunnelComponent } from 'nr1-funnel-component';
 //import testdata from "nr1-funnel-component/src/components/FunnelComponent/testdata";
 import { Form, FormGroup, Label, Input } from 'reactstrap';

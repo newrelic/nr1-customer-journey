@@ -70,17 +70,12 @@ export default class StatCell extends React.Component {
               ${stats
         .map(stat => {
           const altStep = stat.value.eventName && step.altNrql && Object.keys(step.altNrql).find(k => k == stat.value.eventName);
+          const altColumn = stat.value.eventName && column.altNrql && Object.keys(column.altNrql).find(k => k == stat.value.eventName);
           const durationInMinutes  = timeRange.duration / 1000 / 60;
           if (stat.value.nrql) {
-            if (altStep) {
-              return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${column.nrql}) AND (${altStep ? step.altNrql[stat.value.eventName] : step.nrql}) SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes*2} MINUTES AGO") {
-                            results
-                        }`;
-            } else {
-              return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${column.nrql}) AND (${altStep ? step.altNrql[stat.value.eventName] : step.nrql}) SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes*2} MINUTES AGO") {
-                            results
-                        }`;
-            }
+            return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${ altColumn ? column.altNrql[stat.value.eventName] : column.nrqlWhere }) AND (${ altStep ? step.altNrql[stat.value.eventName] : step.nrqlWhere }) SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes*2} MINUTES AGO") {
+                  results
+              }`;
           } else {
             return ""
           }

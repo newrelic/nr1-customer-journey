@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, GridItem, BillboardChart, LineChart, HeadingText, BlockText } from "nr1";
-import journeyConfig from '../../journeyConfig';
+import { getJourneys } from '../../journeyConfig';
+const journeyConfig = getJourneys();
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
 momentDurationFormatSetup(moment);
@@ -32,7 +33,7 @@ export default class Details extends React.Component {
       kpis = kpis.filter(kpi => stats.find(s => s.ref == kpi.ref) != null)
         .map(kpi => {
           kpi.stat = stats.find(s => s.ref == kpi.ref);
-          kpi.nrql = `${kpi.stat.value.nrql} AND (${column.nrql}) AND (${step.nrql}) ${kpi.altNrql ? `AND (${kpi.altNrql}) ` : ''} SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes*2} MINUTES AGO`
+          kpi.nrql = `${kpi.stat.value.nrql} AND (${column.nrqlWhere}) AND (${step.nrqlWhere}) ${kpi.altNrql ? `AND (${kpi.altNrql}) ` : ''} SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes*2} MINUTES AGO`
           return kpi;
         });
     }
@@ -63,8 +64,8 @@ export default class Details extends React.Component {
         {stats.map((stat, i) => {
           const query =
             stat.value.nrql +
-            ` AND (${step.nrql}) AND (${
-            column.nrql
+            ` AND (${step.nrqlWhere}) AND (${
+            column.nrqlWhere
             }) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes *
             2} MINUTES AGO`
           // console.log(query);

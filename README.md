@@ -2,15 +2,36 @@
 
 ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-customer-journey?include_prereleases&sort=semver) ![AppVeyor](https://img.shields.io/appveyor/ci/newrelic/nr1-customer-journey) [![Snyk](https://snyk.io/test/github/newrelic/nr1-customer-journey/badge.svg)](https://snyk.io/test/github/newrelic/nr1-customer-journey)
 
+
+## Overview
+
+`nr1-customer-journey` is like a [NRQL funnel query](https://docs.newrelic.com/docs/query-data/nrql-new-relic-query-language/nrql-query-examples/funnels-evaluate-data-series-events) on steroids. The Nerdpack is designed to allow devops teams, product manager, and digital marketers to examine a number of pre-defined measures in a side-by-side comparison between cohorts (columns) of users through a set of steps (rows).
+
+* Rows = Steps
+* Columns = Series
+* Measures = Stats
+
+The application does this through a few visualizations.
+
+### Multi-series Funnel
+
+It leverages a [`nr1-funnel-component`](https://github.com/newrelic/nr1-funnel-component). This visualization combines a 3rd party funnel library with the NR1 `NerdGraphQuery` component to execute three New Relic `NRQL` queries in the same GraphQL request and align the results into one data set that is delivered to the funnel visualization.
+
+### Data panels
+
+For each row (Step) and column (Series), the Nerdpack renders a set of measurements (Stat). Those calculations can apply KPI thresholds to color-code the information. Each panel is also `clickable`, leading to a more detailed overview.
+
+![Overview](screenshots/screenshot_01.png)
+
+### Detail Nerdlet
+
+For any `Journey`, `Series`, and `Step`, there's a Nerdlet that will display the more detailed KPI's as well as timeseries view of the the given `Stats` for the selected row and column.
+
+![Details](screenshots/screenshot_02.png)
+
 ## Usage
 
-nr1-customer-journey is like a [NRQL funnel query](https://docs.newrelic.com/docs/query-data/nrql-new-relic-query-language/nrql-query-examples/funnels-evaluate-data-series-events) on steroids. It leverages a `nr1=funnel-component` to align multiple cohorts of data into a common funnel next to cohort (column) and step (row) metrics. Each `chevron` is clickable to access the timeseries data of that given step and cohort.
-
 Currently, the application is driven by a relatively complex JSON config file. The documentation for that configuration file is available [here](CONFIG.md).
-
-![Screenshot #1](screenshots/screenshot_01.png)
-![Screenshot #2](screenshots/screenshot_02.png)
-![Screenshot #3](screenshots/screenshot_03.png)
 
 ## Open Source License
 

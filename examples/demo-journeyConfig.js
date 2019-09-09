@@ -1,7 +1,3 @@
-const getJourneys = (entity) => {
-
-}
-
 const journeyConfig = [{
   id: 0,
   title: "Demo Journey",
@@ -14,49 +10,49 @@ const journeyConfig = [{
     {
       id: 0,
       label: "All Users",
-      nrql: "appName = 'WebPortal'"
+      nrqlWhere: "appName = 'WebPortal'"
     },
     {
       id: 1,
       label: "Columbus",
-      nrql: "appName = 'WebPortal' and city = 'Columbus'"
+      nrqlWhere: "appName = 'WebPortal' and city = 'Columbus'"
     },
     {
       id: 2,
       label: "Internet Explorer",
-      nrql: "appName = 'WebPortal' and userAgentName = 'IE'"
+      nrqlWhere: "appName = 'WebPortal' and userAgentName = 'IE'"
+    }
+  ],
+  kpis: [
+    {
+      name: "Error Rate",
+      ref: "errorRate",
+      value: 3.0,
+      bound: "higher",
+      description: "Serviceability Availability Percentage is Percent of Transactions without errors or response codes 2005, 1002, Nack 22, or -1",
+    },
+    {
+      name: "Avg. Duration",
+      ref: "averageDuration",
+      value: 3.0,
+      bound: "higher",
+      description: "Lets look into why we'd have less than 100 service transactions",
     }
   ],
   steps: [
     {
       id: 0,
       label: "Homepage",
-      nrql:
+      nrqlWhere:
         "pageUrl = 'http://webportal.telco.nrdemo.com/' OR pageUrl = 'http://webportal.telco.nrdemo.com/index.html'",
       altNrql: {
         JavaScriptError: " requestUri = '/' or requestUri = '/index.html' "
-      },
-      kpis: [
-        {
-          name: "Error Rate",
-          ref: "errorRate",
-          value: 3.0,
-          bound: "higher",
-          description: "Serviceability Availability Percentage is Percent of Transactions without errors or response codes 2005, 1002, Nack 22, or -1",
-        },
-        {
-          name: "Avg. Duration",
-          ref: "averageDuration",
-          value: 3.0,
-          bound: "higher",
-          description: "Lets look into why we'd have less than 100 service transactions",
-        }
-      ],
+      }
     },
     {
       id: 1,
       label: "Plans",
-      nrql: "pageUrl like 'http://webportal.telco.nrdemo.com/browse/plans%'",
+      nrqlWhere: "pageUrl like 'http://webportal.telco.nrdemo.com/browse/plans%'",
       altNrql: {
         JavaScriptError: " requestUri like '/browse/plans%' "
       }
@@ -64,7 +60,7 @@ const journeyConfig = [{
     {
       id: 2,
       label: "Cart",
-      nrql: "pageUrl = 'http://webportal.telco.nrdemo.com/shoppingcart'",
+      nrqlWhere: "pageUrl = 'http://webportal.telco.nrdemo.com/shoppingcart'",
       altNrql: {
         JavaScriptError: " requestUri like '/shoppingcart%' "
       }
@@ -72,7 +68,7 @@ const journeyConfig = [{
     {
       id: 3,
       label: "Checkout",
-      nrql: "pageUrl = 'http://webportal.telco.nrdemo.com/checkout'",
+      nrqlWhere: "pageUrl = 'http://webportal.telco.nrdemo.com/checkout'",
       altNrql: {
         JavaScriptError: " requestUri like '/checkout%' "
       }
@@ -125,4 +121,7 @@ const journeyConfig = [{
     }
   }]
 }];
-export default journeyConfig;
+
+export const getJourneys = (entity) => {
+  return journeyConfig;
+}

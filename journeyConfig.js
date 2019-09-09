@@ -1,7 +1,3 @@
-const getJourneys = (entity) => {
-
-}
-
 const journeyConfig = [{
   id: 0,
   title: "Demo Journey",
@@ -30,24 +26,33 @@ const journeyConfig = [{
     {
       id: 0,
       label: "All Users",
-      nrql: "appName = 'WebPortal'"
+      nrqlWhere: "appName = 'WebPortal'",
+      altNrql: {
+        JavaScriptError: " appName = 'WebPortal' "
+      },
     },
     {
       id: 1,
       label: "Columbus",
-      nrql: "appName = 'WebPortal' and city = 'Columbus'"
+      nrqlWhere: "appName = 'WebPortal' and city = 'Columbus' ",
+      altNrql: {
+        JavaScriptError: " appName = 'WebPortal' "
+      }
     },
     {
       id: 2,
       label: "Internet Explorer",
-      nrql: "appName = 'WebPortal' and userAgentName = 'IE'"
+      nrqlWhere: " appName = 'WebPortal' and userAgentName = 'IE' ",
+      altNrql: {
+        JavaScriptError: " appName = 'WebPortal' and userAgentName = 'IE' "
+      }
     }
   ],
   steps: [
     {
       id: 0,
       label: "Homepage",
-      nrql:
+      nrqlWhere:
         "pageUrl = 'http://webportal.telco.nrdemo.com/' OR pageUrl = 'http://webportal.telco.nrdemo.com/index.html'",
       altNrql: {
         JavaScriptError: " requestUri = '/' or requestUri = '/index.html' "
@@ -56,7 +61,7 @@ const journeyConfig = [{
     {
       id: 1,
       label: "Plans",
-      nrql: "pageUrl like 'http://webportal.telco.nrdemo.com/browse/plans%'",
+      nrqlWhere: "pageUrl like 'http://webportal.telco.nrdemo.com/browse/plans%'",
       altNrql: {
         JavaScriptError: " requestUri like '/browse/plans%' "
       }
@@ -64,7 +69,7 @@ const journeyConfig = [{
     {
       id: 2,
       label: "Cart",
-      nrql: "pageUrl = 'http://webportal.telco.nrdemo.com/shoppingcart'",
+      nrqlWhere: "pageUrl = 'http://webportal.telco.nrdemo.com/shoppingcart'",
       altNrql: {
         JavaScriptError: " requestUri like '/shoppingcart%' "
       }
@@ -72,7 +77,7 @@ const journeyConfig = [{
     {
       id: 3,
       label: "Checkout",
-      nrql: "pageUrl = 'http://webportal.telco.nrdemo.com/checkout'",
+      nrqlWhere: "pageUrl = 'http://webportal.telco.nrdemo.com/checkout'",
       altNrql: {
         JavaScriptError: " requestUri like '/checkout%' "
       }
@@ -134,4 +139,6 @@ const journeyConfig = [{
     }
   }]
 }];
-export default journeyConfig;
+export const getJourneys = (entity) => {
+  return journeyConfig;
+}

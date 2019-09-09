@@ -1,6 +1,6 @@
 # Configure the `journeyConfig.js`
 
-The `journeyConfig` is an array of objects that contain the following. SEee the `examples` directory for more... examples.
+The `journeyConfig` is an array of objects that contain the following. See the [`examples`](examples) directory for more... examples.
 
 | Name  | Valid Values  | Required by Parent  | Description  |
 |---|---|---|---|
@@ -15,25 +15,25 @@ The `journeyConfig` is an array of objects that contain the following. SEee the 
 | kpis[].label | string | true | Name of the KPI. |
 | kpis[].description | string | false | Text describing the KPI. |
 | kpis[].value | numeric | true | Value of the measurement. |
-| kpis[].bound | [higher,lower, percentage] | true | Rule that governs the way the KPI is calculated or interpretted. |
-| kpis[].bound | [higher,lower, percentage] | true | Rule that governs the way the KPI is calculated or interpretted. |
-| series | JS Array of Objects | true/false |  |
-| series[].id | numeric or uuid | true |  |
-| series[].label | string | true |  |
-| series[].nrql | string | true |  |
-| steps | JS Array of Objects | true |  |
-| steps[].id | numeric or uuid | true |  |
-| steps[].label | string | true |  |
-| steps[].nrql | string | true |  |
-| steps[].altNrql | string | false |  |
-| stats | JS Array of Objects | true |  |
-| stats[].id | numeric or uuid | true |  |
-| stats[].ref | string | true |  |
-| stats[].label | string | true |  |
-| steps[].type | string | true |  |
-| steps[].value | JS Object | true |  |
-| steps[].value.nrql | string | false |  |
-| steps[].value.eventName | string | false |  |
+| kpis[].bound | [higher,lower,percentage] | true | Rule that governs the way the KPI is calculated or interpretted. |
+| kpis[].bound | [higher,lower,percentage] | true | Rule that governs the way the KPI is calculated or interpretted. |
+| series | JS Array of Objects | true/false | The series of columns (or cohorts) that are to be compared with one another in the rows (steps) of the visualization. |
+| series[].id | numeric or uuid | true | Unique identifier. |
+| series[].label | string | true | Label/name of the series. |
+| series[].nrqlWhere | string | true | NRQL WHERE clause that defines this series / cohort. |
+| steps | JS Array of Objects | true | The set of rows that comprise the `NRQL` Where clauses of the funnel query. |
+| steps[].id | numeric or uuid | true | Unique identifier. |
+| steps[].label | string | true | Label/name of the step. |
+| steps[].nrqlWhere | string | true | NRQL WHERE clause that defines this step. |
+| steps[].altNrql | JS Object | dependent on Stat configuration | A JS Object keyed by the name of an NRDB event. This data allows Stats to be configured (below in the `stats` array) that do not come from the primary  NRDB event. For instance, if you're calculating Error Rate, you might need to consult the `JavaScriptError` event, even though much of the funnel focuses on an event like `PageView`. See the [examples](examples) for further interrogation. |
+| stats | JS Array of Objects | true | The individual measures for a given column (Series) and row (Step). |
+| stats[].id | numeric or uuid | true | Unique identifier |
+| stats[].ref | string | true | Think of this like the variable name for use through the application in things like the calculations feature. As such, it need to be unique within a given journey. |
+| stats[].label | string | true | Label/name of the measure. |
+| steps[].type | [percentile,decimal,integer] | true | This defines how the stat will be processed and displayed. Decimals are rounded to 2 decimal pts. Integers are formatted into thousands. Percentile receive specific rules in the processing as well as custom display |
+| steps[].value | JS Object | true | The object that contains the processing rules for a given Stat. It may be based on a NRQL query or a calculation based on other Stat objects. |
+| steps[].value.nrql | string | false | Full NRQL statement to calculate a single value. |
+| steps[].value.eventName | string | false | If this measure/stat is based on a different NRDB event then the one defined in funnel.event, this is where we declare that. This information is used to append the needed WHERE clauses from the `series` and `steps` to this stat. |
 | steps[].value.display | string | false |  |
 | steps[].value.calculation | string | false |  |
 | steps[].value.calculation.rate | JS Array of 2 strings referencing other `stats[].ref` values for a calculation. | true |  |
