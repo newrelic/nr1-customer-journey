@@ -39,14 +39,14 @@ const journeyConfig = [{
       },
       kpis: [
         {
-          name: "Availability",
+          label: "Availability",
           ref: "stepAvailability",
           value: 90.00,
           bound: "lower",
           description: "Serviceability Availability Percentage is Percent of Transactions without errors or response codes 2005, 1002, Nack 22, or -1",
         },
         {
-          name: "Minimum Transactions",
+          label: "Minimum Transactions",
           ref: "transactionCount",
           value: 100,
           bound: "lower",

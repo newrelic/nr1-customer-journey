@@ -12,14 +12,14 @@ const journeyConfig = [{
   },
   kpis: [
     {
-      name: "Error Rate",
+      label: "Error Rate",
       ref: "errorRate",
       value: 3.0,
       bound: "higher",
       description: "If the error rate is higher that 3%, mark that as a notable.",
     },
     {
-      name: "Page views",
+      label: "Page views",
       ref: "clickCount",
       value: 10,
       bound: "percentage",

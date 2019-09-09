@@ -19,7 +19,7 @@ export default class SlaCell extends React.Component {
     return (
       <div className={`slaCell$(inViolation ? " violation" : "")`} >
         <HeadingText type="heading4" className="chartName">
-          {kpi.name}
+          {kpi.label}
         </HeadingText>
         <SlaDataPoint
           value={value}

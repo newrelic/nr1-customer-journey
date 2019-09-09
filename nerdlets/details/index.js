@@ -51,7 +51,7 @@ export default class Details extends React.Component {
         </GridItem>}
         {kpis && kpis.map((kpi, i) => {
           return <GridItem key={i} columnSpan="4" >
-            <HeadingText type="heading3">{kpi.name}</HeadingText>
+            <HeadingText type="heading3">{kpi.label}</HeadingText>
             <BillboardChart accountId={journey.accountId} query={kpi.nrql} className="chart" />
             <BlockText>{kpi.description}</BlockText>
           </GridItem>
