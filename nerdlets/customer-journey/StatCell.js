@@ -3,10 +3,14 @@ import PropTypes from 'prop-types'
 import DataPoint from './DataPoint'
 import { NerdGraphQuery, BlockText, navigation } from 'nr1';
 import gql from 'graphql-tag';
+import { get } from 'lodash';
 
 function getValue(rs) {
-  const keys = Object.keys(rs).filter(k => k != 'comparison');
-  return rs[keys[0]];
+  if (rs) {
+    const keys = Object.keys(rs).filter(k => k != 'comparison');
+    return rs[keys[0]];
+  }
+  return null;
 }
 
 export default class StatCell extends React.Component {
@@ -64,18 +68,36 @@ export default class StatCell extends React.Component {
   render() {
     const { config, stats, step, column, timeRange } = this.props;
     const kpis = config.kpis || null;
-    let q = `{
+    const durationInMinutes  = timeRange.duration / 1000 / 60;
+    const sinceStmt = `SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes*2} MINUTES AGO`;
+    let debug = false;
+    let qString = `{
             actor {
             account(id: ${config.accountId}) {
               ${stats
         .map(stat => {
-          const altStep = stat.value.eventName && step.altNrql && Object.keys(step.altNrql).find(k => k == stat.value.eventName);
-          const altColumn = stat.value.eventName && column.altNrql && Object.keys(column.altNrql).find(k => k == stat.value.eventName);
-          const durationInMinutes  = timeRange.duration / 1000 / 60;
+          const requiresAltNrql = stat.value.eventName && stat.value.eventName != config.funnel.event;
+
+          const altStepNrql = requiresAltNrql && step.altNrql && Object.keys(step.altNrql).find(k => k == stat.value.eventName) ? step.altNrql[stat.value.eventName] :  null;
+
+          const altColumnNrql = requiresAltNrql && column.altNrql && Object.keys(column.altNrql).find(k => k == stat.value.eventName) ? column.altNrql[stat.value.eventName] :  null;
+
           if (stat.value.nrql) {
-            return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${ altColumn ? column.altNrql[stat.value.eventName] : column.nrqlWhere }) AND (${ altStep ? step.altNrql[stat.value.eventName] : step.nrqlWhere }) SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes*2} MINUTES AGO") {
+            if (requiresAltNrql) {
+              if (altStepNrql && altColumnNrql) {
+                return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${ altColumnNrql }) AND (${ altStepNrql }) ${sinceStmt}") {
+                  results
+                }`;
+              } else {
+                //we failed to provide the needed altNrql, so the result is incalculable.
+                debug = true;
+                return "";
+              }
+            } else {
+              return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${ column.nrqlWhere }) AND (${ step.nrqlWhere }) ${sinceStmt}") {
                   results
               }`;
+            }
           } else {
             return ""
           }
@@ -84,8 +106,7 @@ export default class StatCell extends React.Component {
             }
           }
         }`
-    // console.log(q);
-    q = gql`${q}`
+    const q = gql`${qString}`
     return (
       <div
         className="standardStatCell"
@@ -120,9 +141,9 @@ export default class StatCell extends React.Component {
                   .filter(s => s.value.calculation == null)
                   .map((stat, i) => {
                     const kpi = kpis ? kpis.find(kpi => kpi.ref == stat.ref) : null;
-                    const value = getValue(data.actor.account[stat.ref].results[0]);
-                    const compareWith = getValue(data.actor.account[stat.ref].results[1]);
-                    values[stat.ref] = value
+                    const value = getValue(get(data, `actor.account["${stat.ref}"].results[0]`));
+                    const compareWith = getValue(get(data, `actor.account["${stat.ref}"].results[1]`));
+                    values[stat.ref] = value;
                     return (
                       <DataPoint
                         value={value}
@@ -139,11 +160,22 @@ export default class StatCell extends React.Component {
                   .map((stat, i) => {
                     const { rate } = stat.value.calculation
                     const kpi = kpis ? kpis.find((kpi) => kpi.ref == stat.ref) : null;
-                    let value = values[rate[0]] / values[rate[1]]
-                    if (stat.value.display == "percentage") {
-                      value = value * 100
+                    //debugger;
+                    const numerator = values[rate[0]];
+                    const denominator = values[rate[1]];
+                    let value = null;
+                    if (denominator) {
+                      value = numerator / denominator;
+                      if (stat.value.display == "percentage") {
+                        value = value * 100
+                      }
+                      values[stat.ref] = value;
+                    } else {
+                      values[stat.ref] = null;
                     }
-                    values[stat.ref] = value
+                    if (debug) {
+                      console.debug(qString);
+                    }
                     //console.debug([rate, stat.ref, value]);
                     return (
                       <DataPoint

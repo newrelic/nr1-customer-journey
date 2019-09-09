@@ -9,14 +9,14 @@ import { Form, FormGroup, Label, Input } from 'reactstrap';
 
 export default class CustomerJourney extends React.Component {
     static propTypes = {
-        launcherUrlState: PropTypes.object.isRequired,
+        launcherUrlState: PropTypes.object.isRequired
     }
 
     constructor(props) {
         super(props);
         //console.debug([props, journeyConfig]); //eslint-disable-line
         this.state = {
-            selectedJourney: null
+            selectedJourney: this.props.launcherUrlState.selectedJourney ? this.props.launcherUrlState.selectedJourney : journeyConfig[0].id
         };
     }
 
@@ -32,7 +32,7 @@ export default class CustomerJourney extends React.Component {
                     <Form className="journeySelectForm">
                         <FormGroup>
                             <Label>Select journey</Label>
-                            <Input type="select" onChange={(e) => {
+                            <Input type="select" defaultValue={selectedJourney} onChange={(e) => {
                                 console.log(e);
                                 this.setState({ selectedJourney: e.target.value });
                             }}>

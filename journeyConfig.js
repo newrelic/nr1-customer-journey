@@ -34,10 +34,7 @@ const journeyConfig = [{
     {
       id: 1,
       label: "Columbus",
-      nrqlWhere: "appName = 'WebPortal' and city = 'Columbus' ",
-      altNrql: {
-        JavaScriptError: " appName = 'WebPortal' "
-      }
+      nrqlWhere: "appName = 'WebPortal' and city = 'Columbus' "
     },
     {
       id: 2,

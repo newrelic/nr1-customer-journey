@@ -10,7 +10,7 @@ function toSentenceCase(input) {
 
 export default class DataPoint extends React.Component {
     static propTypes = {
-        value: PropTypes.any.isRequired,
+        value: PropTypes.any,
         compareWith: PropTypes.any,
         label: PropTypes.string.isRequired,
         stat: PropTypes.object.isRequired,
@@ -19,6 +19,9 @@ export default class DataPoint extends React.Component {
 
     processValue() {
         const { stat, value } = this.props;
+        if (value == null || value  == "N/A") {
+            return "N/A";
+        }
         let workingVal = value;
         if (stat.type == "percentile") {
             const percentileKeys = Object.keys(value);
