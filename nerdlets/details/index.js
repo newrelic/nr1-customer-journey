@@ -50,15 +50,15 @@ export default class Details extends React.Component {
           <HeadingText>KPI's</HeadingText>
         </GridItem>}
         {kpis && kpis.map((kpi, i) => {
-          return <GridItem key={i} columnSpan="4" >
+          return <GridItem key={i} columnSpan="4" className="chartContainer" >
             <HeadingText type="heading3">{kpi.label}</HeadingText>
             <BillboardChart accountId={journey.accountId} query={kpi.nrql} className="chart" />
             <BlockText>{kpi.description}</BlockText>
           </GridItem>
         })}
         <GridItem columnSpan="12">
-          <HeadingText>Timeseries Data</HeadingText>
-          <BlockText>Since {moment.duration(duration).format()} ago</BlockText>
+          <HeadingText className="timeSeriesHeading">Timeseries Data</HeadingText>
+          <BlockText className="timePeriodText">Since {moment.duration(duration).format()} ago</BlockText>
         </GridItem>
         {stats.map((stat, i) => {
           const query =
@@ -68,7 +68,7 @@ export default class Details extends React.Component {
             }) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes *
             2} MINUTES AGO`
           // console.log(query);
-          return <GridItem key={i} columnSpan="4" >
+          return <GridItem key={i} columnSpan="4" className="chartContainer" >
             <HeadingText type="heading3">{stat.label}</HeadingText>
             <LineChart accountId={journey.accountId} query={query} className="chart" />
           </GridItem>
