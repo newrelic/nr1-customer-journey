@@ -15,8 +15,7 @@ The `journeyConfig` is an array of objects that contain the following. See the [
 | kpis[].label | string | true | Name of the KPI. |
 | kpis[].description | string | false | Text describing the KPI. |
 | kpis[].value | numeric | true | Value of the measurement. |
-| kpis[].bound | [higher,lower,percentage] | true | Rule that governs the way the KPI is calculated or interpretted. |
-| kpis[].bound | [higher,lower,percentage] | true | Rule that governs the way the KPI is calculated or interpretted. |
+| kpis[].bound | [higherViolation,lowerViolation,higherTarget,lowerTarget,percentage] | true | Rule that governs the way the KPI is calculated, interpretted, and displayed in the UI. |
 | series | JS Array of Objects | true/false | The series of columns (or cohorts) that are to be compared with one another in the rows (steps) of the visualization. |
 | series[].id | numeric or uuid | true | Unique identifier. |
 | series[].label | string | true | Label/name of the series. |

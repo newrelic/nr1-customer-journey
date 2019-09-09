@@ -11,7 +11,7 @@ const journeyConfig = [{
       label: "Error Rate",
       ref: "errorRate",
       value: 3.0,
-      bound: "higher",
+      bound: "higherViolation",
       description: "If the error rate is higher that 3%, mark that as a notable.",
     },
     {
@@ -20,6 +20,13 @@ const journeyConfig = [{
       value: 10,
       bound: "percentage",
       description: "If the percentage change is plus or minus 10%, flag that.",
+    },
+    {
+      label: "Page Load Avg.",
+      ref: "averageDuration",
+      value: 1,
+      bound: "lowerTarget",
+      description: "We're targeting sub-second load times.",
     }
   ],
   series: [

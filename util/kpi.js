@@ -9,10 +9,10 @@ export default class KpiEval {
 
   isInViolation() {
     switch (this.bound) {
-      case "higher":
+      case "higherViolation":
         return this.value > this.kpi.value;
-      case "lower":
-        return this.value < this.kpi.value;
+      case "lowerViolation":
+            return this.value < this.kpi.value;
       case "percentage":
         if (this.compareWith) {
           const diff = this.value - this.compareWith;
@@ -34,6 +34,10 @@ export default class KpiEval {
           const comparePercentage = this.kpi.value / 100;
           return percentage > comparePercentage;
         }
+      case "higherTarget":
+        return this.value > this.kpi.value;
+      case "lowerTarget":
+        return this.value < this.kpi.value;
       default:
         return false;
     }

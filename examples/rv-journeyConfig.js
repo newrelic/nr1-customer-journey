@@ -28,14 +28,14 @@ const journeyConfig = [{
       label: "Availability",
       ref: "stepAvailability",
       value: 90.00,
-      bound: "lower",
+      bound: "lowerViolation",
       description: "Serviceability Availability Percentage is Percent of Transactions without errors or response codes 2005, 1002, Nack 22, or -1",
     },
     {
       label: "Minimum Transactions",
       ref: "transactionCount",
       value: 100,
-      bound: "lower",
+      bound: "lowerViolation",
       description: "Lets look into why we'd have less than 100 service transactions",
     }
   ],

@@ -28,14 +28,14 @@ const journeyConfig = [{
       name: "Error Rate",
       ref: "errorRate",
       value: 3.0,
-      bound: "higher",
+      bound: "higherViolation",
       description: "Serviceability Availability Percentage is Percent of Transactions without errors or response codes 2005, 1002, Nack 22, or -1",
     },
     {
       name: "Avg. Duration",
       ref: "averageDuration",
       value: 3.0,
-      bound: "higher",
+      bound: "higherVioliation",
       description: "Lets look into why we'd have less than 100 service transactions",
     }
   ],
