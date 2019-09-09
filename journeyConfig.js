@@ -4,99 +4,95 @@ const getJourneys = (entity) => {
 
 const journeyConfig = [{
   id: 0,
-  title: "Frontier Journey",
-  accountId: 439634,
+  title: "Demo Journey",
+  accountId: 1606862,
   funnel: {
-    event: "Transaction",
-    measure: "RopeID"
+    event: "PageView",
+    measure: "session"
   },
+  kpis: [
+    {
+      name: "Error Rate",
+      ref: "errorRate",
+      value: 3.0,
+      bound: "higher",
+      description: "If the error rate is higher that 3%, mark that as a notable.",
+    },
+    {
+      name: "Page views",
+      ref: "clickCount",
+      value: 10,
+      bound: "percentage",
+      description: "If the percentage change is plus or minus 10%, flag that.",
+    }
+  ],
   series: [
     {
       id: 0,
       label: "All Users",
-      nrql: "appName='fr-redventures-frontier-sti-api'"
+      nrql: "appName = 'WebPortal'"
     },
     {
       id: 1,
-      label: "Digital Cart",
-      nrql: "appName='fr-redventures-frontier-sti-api' and ApplicationProfileID = '2071'"
+      label: "Columbus",
+      nrql: "appName = 'WebPortal' and city = 'Columbus'"
     },
     {
       id: 2,
-      label: "Telesales",
-      nrql: "appName='fr-redventures-frontier-sti-api' and ApplicationProfileID = '2009'"
+      label: "Internet Explorer",
+      nrql: "appName = 'WebPortal' and userAgentName = 'IE'"
     }
   ],
   steps: [
     {
       id: 0,
-      label: "Serviceable True",
+      label: "Homepage",
       nrql:
-        "name='WebTransaction/MVC/ServiceCheck/Post/{serviceCheck}'",
+        "pageUrl = 'http://webportal.telco.nrdemo.com/' OR pageUrl = 'http://webportal.telco.nrdemo.com/index.html'",
       altNrql: {
-        Availability: "ServiceabilityResponseCode NOT IN('2005', '1002', 'NACK022','-1')"
-        // JavaScriptError: " requestUri = '/' or requestUri = '/index.html' "
+        JavaScriptError: " requestUri = '/' or requestUri = '/index.html' "
       },
-      kpis: [
-        {
-          name: "Availability",
-          ref: "stepAvailability",
-          value: 90.00,
-          bound: "lower",
-          description: "Serviceability Availability Percentage is Percent of Transactions without errors or response codes 2005, 1002, Nack 22, or -1",
-        },
-        {
-          name: "Minimum Transactions",
-          ref: "transactionCount",
-          value: 100,
-          bound: "lower",
-          description: "Lets look into why we'd have less than 100 service transactions",
-        }
-      ],
     },
     {
       id: 1,
-      label: "Addons",
-      nrql: "name='WebTransaction/MVC/AddOns/Post/{ropeData}'",
+      label: "Plans",
+      nrql: "pageUrl like 'http://webportal.telco.nrdemo.com/browse/plans%'",
       altNrql: {
-        // JavaScriptError: " requestUri like '/browse/plans%' "
+        JavaScriptError: " requestUri like '/browse/plans%' "
       }
     },
     {
       id: 2,
-      label: "Credit",
-      nrql: "name='WebTransaction/MVC/CreditCheck/Post/{ropeData}'",
+      label: "Cart",
+      nrql: "pageUrl = 'http://webportal.telco.nrdemo.com/shoppingcart'",
       altNrql: {
-        Availability: "CreditResponseCode NOT IN('3021', '1002', '3016', '1001', '3009', '3024', '1084')"
-        // JavaScriptError: " requestUri like '/shoppingcart%' "
+        JavaScriptError: " requestUri like '/shoppingcart%' "
       }
     },
     {
       id: 3,
-      label: "Order Submit",
-      nrql: "name='WebTransaction/MVC/Order/Post/{ropeData}'",
+      label: "Checkout",
+      nrql: "pageUrl = 'http://webportal.telco.nrdemo.com/checkout'",
       altNrql: {
-        Availability: "errorMessage NOT IN('Response Description: Order Processing Error: Payment contains invalid information, please verify credit card billing address and account number.','Response Description: Order Processing Error: Payment Declined')"
-        // JavaScriptError: " requestUri like '/checkout%' "
+        JavaScriptError: " requestUri like '/checkout%' "
       }
     }
   ],
   stats: [{
-    label: "Availability",
-    ref: "stepAvailability",
-    type: "decimal",
+    label: "Page views",
+    ref: "clickCount",
+    type: "integer",
     value: {
-      eventName: "Availability",
-      nrql: "SELECT percentage(count(*), WHERE error is NULL) FROM Transaction WHERE appName='fr-redventures-frontier-sti-api'",
-      display: "percentage"
+      nrql: "SELECT count(*) FROM PageView WHERE appName = 'WebPortal'",
+      display: "integer"
     }
   },
   {
-    label: "Trans Count",
-    ref: "transactionCount",
+    label: "Sessions",
+    ref: "sessionCount",
     type: "integer",
     value: {
-      nrql: "SELECT count(*) FROM Transaction WHERE appName='fr-redventures-frontier-sti-api'",
+      nrql: "FROM PageView SELECT uniqueCount(session) WHERE appName = 'WebPortal'",
       display: "integer"
     }
   },
@@ -105,8 +101,8 @@ const journeyConfig = [{
     ref: "errorCount",
     type: "integer",
     value: {
-      eventName: "Transaction Error",
-      nrql: "SELECT count(*) from Transaction WHERE appName = 'fr-redventures-frontier-sti-api' AND error IS NOT NULL",
+      eventName: "JavaScriptError",
+      nrql: "SELECT count(*) FROM JavaScriptError WHERE appName = 'WebPortal'",
       display: "integer"
     }
   },
@@ -115,28 +111,27 @@ const journeyConfig = [{
     ref: "errorRate",
     type: "decimal",
     value: {
-      calculation: { rate: ["errorCount", "transactionCount"] },
+      calculation: { rate: ["errorCount", "clickCount"]},
       display: "percentage"
     }
   },
-    // {
-    //   label: "Avg perf",
-    //   ref: "averageDuration",
-    //   type: "decimal",
-    //   value: {
-    //     nrql: "FROM PageView SELECT average(duration) WHERE appName = 'WebPortal'",
-    //     display: "seconds"
-    //   }
-    // },
-    // {
-    //   label: "99th perc",
-    //   ref: "nnthPercentile",
-    //   type: "percentile",
-    //   value: {
-    //     nrql: "FROM PageView SELECT percentile(duration, 99) WHERE appName = 'WebPortal'",
-    //     display: "seconds"
-    //   }
-    // }
-  ]
+  {
+    label: "Avg perf",
+    ref: "averageDuration",
+    type: "decimal",
+    value: {
+      nrql: "FROM PageView SELECT average(duration) WHERE appName = 'WebPortal'",
+      display: "seconds"
+    }
+  },
+  {
+    label: "99th perc",
+    ref: "nnthPercentile",
+    type: "percentile",
+    value: {
+      nrql: "FROM PageView SELECT percentile(duration, 99) WHERE appName = 'WebPortal'",
+      display: "seconds"
+    }
+  }]
 }];
 export default journeyConfig;

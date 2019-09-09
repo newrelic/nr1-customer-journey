@@ -1,9 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NerdGraphQuery, LineChart, HeadingText, BarChart, Spinner, BlockText } from "nr1";
+import { NerdGraphQuery, LineChart, HeadingText, BlockText } from "nr1";
 import journeyConfig from '../../journeyConfig';
 import gql from 'graphql-tag';
-import SlaCell from './SlaCell'
+import SlaCell from './SlaCell';
+
+function getValue(rs) {
+  const keys = Object.keys(rs).filter(k => k != 'comparison');
+  return rs[keys[0]];
+}
 
 export default class Details extends React.Component {
   static propTypes = {
@@ -23,41 +28,45 @@ export default class Details extends React.Component {
     const journey = journeyConfig.find(j => j.id == selectedJourney);
     const column = journey.series.find(s => s.id == selectedColumn);
     const step = journey.steps.find(s => s.id == selectedStep);
-    let { stats } = journey;
+    let { stats, kpis } = journey;
+    //debugger;
     stats = stats.filter(s => s.value.nrql);
-    let kpis = null;
-    let kpisQuery = null;
-    if (typeof step.kpis !== 'undefined') {
-      kpis = step.kpis.filter(k => k.ref);
-      kpis = kpis.map((kpi, i) => {
-        const stat = stats.find(s => s.ref == kpi.ref);
-        const nrql = stat.value.nrql;
-        const altStep = stat.value.eventName && step.altNrql && Object.keys(step.altNrql).find(k => k == stat.value.eventName);
-        const altNrql = step.altNrql[altStep];
-        return (
-          {
-            stat,
-            kpi,
-            nrql,
-            altNrql,
-          }
-        )
-      });
-      kpisQuery = `{
-      actor {
-      account(id: ${journey.accountId}) {
-        ${kpis
-          .map(kpi => {
-            const altStep = (kpi.altNrql) ? `AND (${kpi.altNrql})` : '';
-            return `${kpi.kpi.ref}:nrql(query: "${kpi.nrql} AND (${column.nrql}) ${altStep} SINCE 30 MINUTES AGO") {
-            results
-        }`;
-          })
-          .join("")}
-      }
+    if (step.kpis) {
+      kpis = step.kpis;
     }
-  }`;
-      console.log(kpisQuery);
+    let kpisQuery = null;
+    if (kpis) {
+      kpis = kpis.filter(kpi => stats.find(s => s.ref == kpi.ref) != null)
+        .map(kpi => {
+          const stat = stats.find(s => s.ref == kpi.ref);
+          const nrql = stat ? stat.value.nrql : null;
+          const altStep = stat.value.eventName && step.altNrql && Object.keys(step.altNrql).find(k => k == stat.value.eventName);
+          const altNrql = step.altNrql[altStep];
+          return (
+            {
+              stat,
+              kpi,
+              nrql,
+              altNrql,
+            }
+          )
+        }
+      );
+      const durationInMinutes  = this.props.launcherUrlState.timeRange.duration / 1000 / 60;
+      kpisQuery = `{
+        actor {
+          account(id: ${journey.accountId}) {
+            ${kpis.map(kpi => {
+              const altStep = (kpi.altNrql) ? `AND (${kpi.altNrql})` : '';
+              return `${kpi.kpi.ref}:nrql(query: "${kpi.nrql} AND (${column.nrql}) ${altStep} SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes*2} MINUTES AGO") {
+              results
+            }`;
+              })
+              .join("")}
+          }
+        }
+      }`;
+      console.debug(kpisQuery);
       kpisQuery = gql(kpisQuery);
     }
 
@@ -69,11 +78,12 @@ export default class Details extends React.Component {
           <span className="customerJourneyBreadcrumb">{step.label}</span>
         </HeadingText>
         {kpis &&
-          <>
+          <React.Fragment>
             <HeadingText type="heading3" className="slasHeader">SLAs</HeadingText>
             <div className="chartGrid">
               <NerdGraphQuery query={kpisQuery}>
                 {({ loading, data, error }) => {
+                  console.debug("Details KPI's", {loading, error, data});
                   if (loading) {
                     return (
                       <div className="skeletonContainer">
@@ -93,13 +103,13 @@ export default class Details extends React.Component {
                   }
                   return (
                     kpis.map((kpi, i) => {
-                      const rs = data.actor.account[kpi.kpi.ref].results[0];
-                      const keys = Object.keys(rs);
-                      const value = rs[keys[0]];
+                      const value = getValue(data.actor.account[kpi.kpi.ref].results[0]);
+                      const compareWith = getValue(data.actor.account[kpi.kpi.ref].results[1]);
                       return (
                           <SlaCell
                             key={i}
-                            currentValue={value}
+                            value={value}
+                            compareWith={compareWith}
                             kpi={kpi.kpi}
                             stat={kpi.stat}
                           />
@@ -110,7 +120,7 @@ export default class Details extends React.Component {
                 }}
               </NerdGraphQuery>
             </div>
-          </>
+          </React.Fragment>
         }
         <div className="chartGrid">
           {stats.map((stat, i) => {

@@ -1,16 +1,20 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
+import KpiEval from '../../util/kpi';
+
+function toSentenceCase(input) {
+    let output = input.split(/(?=[A-Z])/).join(" ").toLowerCase()
+    return output.charAt(0).toUpperCase() + output.slice(1)
+}
+
 
 export default class DataPoint extends React.Component {
     static propTypes = {
         value: PropTypes.any.isRequired,
+        compareWith: PropTypes.any,
         label: PropTypes.string.isRequired,
-        stat: PropTypes.object.isRequired
-    }
-
-    toSentenceCase(input) {
-        let output = input.split(/(?=[A-Z])/).join(" ").toLowerCase()
-        return output.charAt(0).toUpperCase() + output.slice(1)
+        stat: PropTypes.object.isRequired,
+        kpi: PropTypes.object
     }
 
     processValue() {
@@ -35,12 +39,27 @@ export default class DataPoint extends React.Component {
         }
     }
 
+    processClassnames() {
+        const { stat, kpi, value, compareWith } = this.props;
+        let classNames = `standardDataPoint ${stat.value.display === 'percentage' ? 'valueIsPercentage' : ''}`;
+        if (kpi) {
+            const kpiEval = new KpiEval({stat, kpi, value, compareWith});
+            if (kpiEval.isInViolation()) {
+                classNames += ` inViolation`;
+            } else if (kpiEval.isExceedingTarget()) {
+                classNames += ` exceedingTarget`;
+            }
+        }
+        return classNames;
+    }
+
     render() {
-        const { stat, value } = this.props;
+        const { label } = this.props;
+        const classNames = this.processClassnames();
         return (
-            <div className={`standardDataPoint ${stat.value.display === 'percentage' ? 'valueIsPercentage' : ''}`}>
+            <div className={classNames}>
                 <h5 className="value">{this.processValue()}</h5>
-                <span className="label">{this.toSentenceCase(this.props.label)}</span>
+                <span className="label">{toSentenceCase(label)}</span>
             </div>
         )
     }

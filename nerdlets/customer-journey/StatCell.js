@@ -1,8 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import DataPoint from './DataPoint'
-import { Spinner, NerdGraphQuery, BlockText, navigation } from 'nr1';
+import { NerdGraphQuery, BlockText, navigation } from 'nr1';
 import gql from 'graphql-tag';
+
+function getValue(rs) {
+  const keys = Object.keys(rs).filter(k => k != 'comparison');
+  return rs[keys[0]];
+}
 
 export default class StatCell extends React.Component {
   static propTypes = {
@@ -26,7 +31,7 @@ export default class StatCell extends React.Component {
   openDetails() {
     const { config, column, step } = this.props
     navigation.openStackedNerdlet({
-      id: "c428d309-f12d-4d7f-9e4c-4755a07a6626.details",
+      id: "d60ec361-a8a3-4cda-a9ab-65a6a2d647c1.details",
       urlState: {
         selectedJourney: config.id,
         selectedColumn: column.id,
@@ -58,20 +63,21 @@ export default class StatCell extends React.Component {
 
   render() {
     const { config, stats, step, column, timeRange } = this.props;
-    const kpis = (typeof step.kpis !== 'undefined') ? step.kpis : null;
+    const kpis = config.kpis || null;
     let q = `{
             actor {
             account(id: ${config.accountId}) {
               ${stats
         .map(stat => {
           const altStep = stat.value.eventName && step.altNrql && Object.keys(step.altNrql).find(k => k == stat.value.eventName);
+          const durationInMinutes  = timeRange.duration / 1000 / 60;
           if (stat.value.nrql) {
             if (altStep) {
-              return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${column.nrql}) AND (${altStep ? step.altNrql[stat.value.eventName] : step.nrql}) SINCE ${timeRange.duration / 1000 / 60} MINUTES AGO") {
+              return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${column.nrql}) AND (${altStep ? step.altNrql[stat.value.eventName] : step.nrql}) SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes*2} MINUTES AGO") {
                             results
                         }`;
             } else {
-              return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${column.nrql}) AND (${altStep ? step.altNrql[stat.value.eventName] : step.nrql}) SINCE ${timeRange.duration / 1000 / 60} MINUTES AGO") {
+              return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${column.nrql}) AND (${altStep ? step.altNrql[stat.value.eventName] : step.nrql}) SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes*2} MINUTES AGO") {
                             results
                         }`;
             }
@@ -94,7 +100,7 @@ export default class StatCell extends React.Component {
         <h5 className="pageTitle">{step.label}</h5>
         <NerdGraphQuery query={q}>
           {({ loading, data, error }) => {
-            //console.debug([loading, error, data]); //eslint-disable-line
+            //console.debug([loading, error, data, kpis]); //eslint-disable-line
             if (loading) {
               return (
                 <div className="skeletonContainer">
@@ -118,28 +124,18 @@ export default class StatCell extends React.Component {
                 {stats
                   .filter(s => s.value.calculation == null)
                   .map((stat, i) => {
-                    const rs = data.actor.account[stat.ref].results[0]
-                    const keys = Object.keys(rs)
-                    const value = rs[keys[0]]
+                    const kpi = kpis ? kpis.find(kpi => kpi.ref == stat.ref) : null;
+                    const value = getValue(data.actor.account[stat.ref].results[0]);
+                    const compareWith = getValue(data.actor.account[stat.ref].results[1]);
                     values[stat.ref] = value
-                    //console.debug([stat.ref, value]);
-                    let kpi = null;
-                    let inViolation = false;
-                    if (kpis != null) {
-                      kpi = kpis.find(k => k.ref == stat.ref);
-                      if (kpi) {
-                        inViolation = (kpi.bound == "upper") ? value > kpi.value : kpi.value > value;
-                        // console.log("violation status", value, kpi.value, kpi.bound, inViolation);
-                      }
-                    }
-
                     return (
                       <DataPoint
                         value={value}
+                        compareWith={compareWith}
                         label={stat.label}
                         key={i}
                         stat={stat}
-                        inViolation={inViolation}
+                        kpi={kpi}
                       />
                     )
                   })}
@@ -147,6 +143,7 @@ export default class StatCell extends React.Component {
                   .filter(s => s.value.calculation)
                   .map((stat, i) => {
                     const { rate } = stat.value.calculation
+                    const kpi = kpis ? kpis.find((kpi) => kpi.ref == stat.ref) : null;
                     let value = values[rate[0]] / values[rate[1]]
                     if (stat.value.display == "percentage") {
                       value = value * 100
@@ -158,6 +155,7 @@ export default class StatCell extends React.Component {
                         value={value}
                         label={stat.label}
                         key={i}
+                        kpi={kpi}
                         stat={stat}
                       />
                     )

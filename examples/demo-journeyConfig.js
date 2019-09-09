@@ -35,7 +35,23 @@ const journeyConfig = [{
         "pageUrl = 'http://webportal.telco.nrdemo.com/' OR pageUrl = 'http://webportal.telco.nrdemo.com/index.html'",
       altNrql: {
         JavaScriptError: " requestUri = '/' or requestUri = '/index.html' "
-      }
+      },
+      kpis: [
+        {
+          name: "Error Rate",
+          ref: "errorRate",
+          value: 3.0,
+          bound: "higher",
+          description: "Serviceability Availability Percentage is Percent of Transactions without errors or response codes 2005, 1002, Nack 22, or -1",
+        },
+        {
+          name: "Avg. Duration",
+          ref: "averageDuration",
+          value: 3.0,
+          bound: "higher",
+          description: "Lets look into why we'd have less than 100 service transactions",
+        }
+      ],
     },
     {
       id: 1,

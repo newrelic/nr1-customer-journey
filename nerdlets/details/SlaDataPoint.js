@@ -8,7 +8,7 @@ export default class SlaDataPoint extends React.Component {
     value: PropTypes.any.isRequired,
     kpi: PropTypes.object.isRequired,
     stat: PropTypes.object.isRequired,
-    isInViolation: PropTypes.bool.isRequired
+    kpiEval: PropTypes.object.isRequired
   }
 
   processValue(value) {
@@ -34,18 +34,18 @@ export default class SlaDataPoint extends React.Component {
   }
 
   render() {
-    const { state, kpi, value, isInViolation } = this.props;
+    const { kpi, value, kpiEval } = this.props;
     return (
       <div className="slaContainer">
         <div className="slaComparisonContainer">
-        <Icon type={isInViolation ? Icon.TYPE.INTERFACE__SIGN__TIMES__V_ALTERNATE  : Icon.TYPE.INTERFACE__SIGN__CHECKMARK__V_ALTERNATE} color={isInViolation ? '#bf0015' : '#10a600'} className="slaComparisonIcon" />
+        <Icon type={kpiEval.isInViolation() ? Icon.TYPE.INTERFACE__SIGN__TIMES__V_ALTERNATE  : Icon.TYPE.INTERFACE__SIGN__CHECKMARK__V_ALTERNATE} color={kpiEval.isInViolation() ? '#bf0015' : '#10a600'} className="slaComparisonIcon" />
           <div className="slaComparisonItem currentValueContainer">
             <h4 className="slaComparisonItemValue currentValue">{this.processValue(value)}</h4>
             <h6 className="slaComparisonItemLabel currentLabel">Current</h6>
           </div>
           <div className="slaComparisonItem slaValueContainer">
             <h4 className="slaComparisonItemValue slaValue">{this.processValue(kpi.value)}</h4>
-            <h6 className="slaComparisonItemLabel slaLabel">Defined SLA</h6>
+            <h6 className="slaComparisonItemLabel slaLabel">{kpi.bound.toLowerCase() == "percentage" ? "% Change" : "Defined SLA"}</h6>
           </div>
         </div>
 
