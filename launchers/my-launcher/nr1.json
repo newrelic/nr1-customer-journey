@@ -4,5 +4,5 @@
     "description": "Reusable component for customer journey visualizations. Don't stop believing.",
     "displayName": "Customer Journey",
     "icon": "interface_operations_filter_v-alternate",
-    "rootNerdletId": "d60ec361-a8a3-4cda-a9ab-65a6a2d647c1.root"
+    "rootNerdletId": "root"
 }

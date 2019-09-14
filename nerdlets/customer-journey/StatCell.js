@@ -35,7 +35,7 @@ export default class StatCell extends React.Component {
   openDetails() {
     const { config, column, step } = this.props
     navigation.openStackedNerdlet({
-      id: "d60ec361-a8a3-4cda-a9ab-65a6a2d647c1.details",
+      id: "details",
       urlState: {
         selectedJourney: config.id,
         selectedColumn: column.id,
@@ -174,7 +174,7 @@ export default class StatCell extends React.Component {
                       values[stat.ref] = null;
                     }
                     if (debug) {
-                      console.debug(qString);
+                      console.debug(qString); //eslint-disable-line
                     }
                     //console.debug([rate, stat.ref, value]);
                     return (
