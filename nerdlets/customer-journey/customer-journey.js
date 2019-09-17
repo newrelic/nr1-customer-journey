@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import StatColumn from './StatColumn';
 import { getJourneys } from '../../journeyConfig';
+import AccountPicker from './AccountPicker';
 const journeyConfig = getJourneys();
 import { FunnelComponent } from 'nr1-funnel-component';
 //import testdata from "nr1-funnel-component/src/components/FunnelComponent/testdata";
@@ -18,6 +19,12 @@ export default class CustomerJourney extends React.Component {
         this.state = {
             selectedJourney: this.props.launcherUrlState.selectedJourney ? this.props.launcherUrlState.selectedJourney : journeyConfig[0].id
         };
+
+        this._setAccount = this._setAccount.bind(this);
+    }
+
+    _setAccount(account) {
+        this.setState({ account });
     }
 
     render() {
@@ -29,20 +36,11 @@ export default class CustomerJourney extends React.Component {
         return (
             <div className="customerJourneyContainer">
                 <div className="journeySelectFormContainer">
-                    <Form className="journeySelectForm">
-                        <FormGroup>
-                            <Label>Select journey</Label>
-                            <Input type="select" defaultValue={selectedJourney} onChange={(e) => {
-                                console.log(e);
-                                this.setState({ selectedJourney: e.target.value });
-                            }}>
-                                <option>----</option>
-                                {journeyConfig.map((config, i) => {
-                                    return <option key={i} value={config.id}>{config.title}</option>
-                                })}
-                            </Input>
-                        </FormGroup>
-                    </Form>
+                <AccountPicker
+                    accounts={journeyConfig}
+                    account={journey}
+                    setAccount={this._setAccount}
+                ></AccountPicker>
                 </div>
                 <div className="customerJourneyContent">
                     <div className="visualizationContainer">

@@ -562,3 +562,17 @@ span.customerJourneyBreadcrumb:not(:first-child):before {
     display: inline-block;
     color:#464e4e;
 }
+
+[class*=wnd-Dropdown] {
+    display: inline-flex;
+    flex-direction: column;
+
+    label {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    [class*=wnd-Dropdown-trigger] {
+        padding-left: 0;
+    }
+}
