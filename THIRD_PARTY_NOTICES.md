@@ -14,7 +14,6 @@ code, the source code can be found at [https://github.com/newrelic/nr1-customer-
 
 **[dependencies](#dependencies)**
 
-* [bootstrap](#bootstrap)
 * [file-loader](#file-loader)
 * [graphql-tag](#graphql-tag)
 * [graphql](#graphql)
@@ -38,36 +37,6 @@ code, the source code can be found at [https://github.com/newrelic/nr1-customer-
 
 
 ## dependencies
-
-### bootstrap
-
-This product includes source derived from [bootstrap](https://github.com/twbs/bootstrap) ([v4.3.1](https://github.com/twbs/bootstrap/tree/v4.3.1)), distributed under the [MIT License](https://github.com/twbs/bootstrap/blob/v4.3.1/LICENSE):
-
-```
-The MIT License (MIT)
-
-Copyright (c) 2011-2019 Twitter, Inc.
-Copyright (c) 2011-2019 The Bootstrap Authors
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-```
 
 ### file-loader
 
@@ -128,7 +97,7 @@ SOFTWARE.
 
 ### graphql
 
-This product includes source derived from [graphql](https://github.com/graphql/graphql-js) ([v14.4.2](https://github.com/graphql/graphql-js/tree/v14.4.2)), distributed under the [MIT License](https://github.com/graphql/graphql-js/blob/v14.4.2/LICENSE):
+This product includes source derived from [graphql](https://github.com/graphql/graphql-js) ([v14.5.6](https://github.com/graphql/graphql-js/tree/v14.5.6)), distributed under the [MIT License](https://github.com/graphql/graphql-js/blob/v14.5.6/LICENSE):
 
 ```
 MIT License
@@ -433,7 +402,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ### eslint-config-prettier
 
-This product includes source derived from [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier) ([v6.2.0](https://github.com/prettier/eslint-config-prettier/tree/v6.2.0)), distributed under the [MIT License](https://github.com/prettier/eslint-config-prettier/blob/v6.2.0/LICENSE):
+This product includes source derived from [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier) ([v6.3.0](https://github.com/prettier/eslint-config-prettier/tree/v6.3.0)), distributed under the [MIT License](https://github.com/prettier/eslint-config-prettier/blob/v6.3.0/LICENSE):
 
 ```
 The MIT License (MIT)
@@ -524,7 +493,7 @@ SOFTWARE.
 
 ### eslint
 
-This product includes source derived from [eslint](https://github.com/eslint/eslint) ([v6.3.0](https://github.com/eslint/eslint/tree/v6.3.0)), distributed under the [MIT License](https://github.com/eslint/eslint/blob/v6.3.0/LICENSE):
+This product includes source derived from [eslint](https://github.com/eslint/eslint) ([v6.4.0](https://github.com/eslint/eslint/tree/v6.4.0)), distributed under the [MIT License](https://github.com/eslint/eslint/blob/v6.4.0/LICENSE):
 
 ```
 Copyright JS Foundation and other contributors, https://js.foundation

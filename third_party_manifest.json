@@ -1,22 +1,9 @@
 {
-  "lastUpdated": "Tue Sep 17 2019 10:32:57 GMT-0400 (Eastern Daylight Time)",
+  "lastUpdated": "Tue Sep 17 2019 15:45:18 GMT-0400 (Eastern Daylight Time)",
   "projectName": "nr1-customer-journey",
   "projectUrl": "https://github.com/newrelic/nr1-customer-journey",
   "includeDev": true,
   "dependencies": {
-    "bootstrap@4.3.1": {
-      "name": "bootstrap",
-      "version": "4.3.1",
-      "range": "^4.3.1",
-      "licenses": "MIT",
-      "repoUrl": "https://github.com/twbs/bootstrap",
-      "versionedRepoUrl": "https://github.com/twbs/bootstrap/tree/v4.3.1",
-      "licenseFile": "node_modules/bootstrap/LICENSE",
-      "licenseUrl": "https://github.com/twbs/bootstrap/blob/v4.3.1/LICENSE",
-      "licenseTextSource": "file",
-      "publisher": "The Bootstrap Authors",
-      "url": "https://github.com/twbs/bootstrap/graphs/contributors"
-    },
     "file-loader@4.2.0": {
       "name": "file-loader",
       "version": "4.2.0",
@@ -40,15 +27,15 @@
       "licenseUrl": "https://github.com/apollostack/graphql-tag/blob/v2.10.1/LICENSE",
       "licenseTextSource": "file"
     },
-    "graphql@14.4.2": {
+    "graphql@14.5.6": {
       "name": "graphql",
-      "version": "14.4.2",
+      "version": "14.5.6",
       "range": "^14.4.2",
       "licenses": "MIT",
       "repoUrl": "https://github.com/graphql/graphql-js",
-      "versionedRepoUrl": "https://github.com/graphql/graphql-js/tree/v14.4.2",
+      "versionedRepoUrl": "https://github.com/graphql/graphql-js/tree/v14.5.6",
       "licenseFile": "node_modules/graphql/LICENSE",
-      "licenseUrl": "https://github.com/graphql/graphql-js/blob/v14.4.2/LICENSE",
+      "licenseUrl": "https://github.com/graphql/graphql-js/blob/v14.5.6/LICENSE",
       "licenseTextSource": "file"
     },
     "lodash@4.17.15": {
@@ -161,15 +148,15 @@
       "publisher": "Sebastian McKenzie",
       "email": "sebmck@gmail.com"
     },
-    "eslint-config-prettier@6.2.0": {
+    "eslint-config-prettier@6.3.0": {
       "name": "eslint-config-prettier",
-      "version": "6.2.0",
+      "version": "6.3.0",
       "range": "^6.2.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/prettier/eslint-config-prettier",
-      "versionedRepoUrl": "https://github.com/prettier/eslint-config-prettier/tree/v6.2.0",
+      "versionedRepoUrl": "https://github.com/prettier/eslint-config-prettier/tree/v6.3.0",
       "licenseFile": "node_modules/eslint-config-prettier/LICENSE",
-      "licenseUrl": "https://github.com/prettier/eslint-config-prettier/blob/v6.2.0/LICENSE",
+      "licenseUrl": "https://github.com/prettier/eslint-config-prettier/blob/v6.3.0/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Simon Lydell"
     },
@@ -198,15 +185,15 @@
       "publisher": "Yannick Croissant",
       "email": "yannick.croissant+npm@gmail.com"
     },
-    "eslint@6.3.0": {
+    "eslint@6.4.0": {
       "name": "eslint",
-      "version": "6.3.0",
+      "version": "6.4.0",
       "range": "^6.3.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/eslint/eslint",
-      "versionedRepoUrl": "https://github.com/eslint/eslint/tree/v6.3.0",
+      "versionedRepoUrl": "https://github.com/eslint/eslint/tree/v6.4.0",
       "licenseFile": "node_modules/eslint/LICENSE",
-      "licenseUrl": "https://github.com/eslint/eslint/blob/v6.3.0/LICENSE",
+      "licenseUrl": "https://github.com/eslint/eslint/blob/v6.4.0/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Nicholas C. Zakas",
       "email": "nicholas+npm@nczconsulting.com"

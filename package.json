@@ -17,7 +17,6 @@
     "sdkVersion": 2
   },
   "dependencies": {
-    "bootstrap": "^4.3.1",
     "file-loader": "^4.2.0",
     "graphql": "^14.4.2",
     "graphql-tag": "^2.10.1",
