@@ -2,7 +2,7 @@
   "private": true,
   "name": "nr1-customer-journey",
   "description": "NR1 Nerdpack for Customer Journeys.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "scripts": {
     "start": "nr1 nerdpack:serve",
     "test": "exit 0",
@@ -13,7 +13,7 @@
     "email": "opensource@newrelic.com"
   },
   "nr1": {
-    "uuid": "6a213de0-b10c-496e-b4f4-5e39fbd0e2c7",
+    "uuid": "dd1c343b-af62-47a0-ae13-91cb2b45e599",
     "sdkVersion": 2
   },
   "dependencies": {
