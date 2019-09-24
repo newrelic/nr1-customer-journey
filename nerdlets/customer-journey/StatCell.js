@@ -1,6 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import DataPoint from './DataPoint'
+import React from 'react';
+import PropTypes from 'prop-types';
+import DataPoint from './DataPoint';
 import { NerdGraphQuery, BlockText, navigation } from 'nr1';
 import gql from 'graphql-tag';
 import { get } from 'lodash';
@@ -19,33 +19,33 @@ export default class StatCell extends React.Component {
     step: PropTypes.object.isRequired,
     column: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired,
-    timeRange: PropTypes.object.isRequired
-  }
+    timeRange: PropTypes.object.isRequired,
+  };
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      totalElementHeight: 0
-    }
-    this.statCellContainer = React.createRef()
-    this.getComponentHeight = this.getComponentHeight.bind(this)
-    this.openDetails = this.openDetails.bind(this)
+      totalElementHeight: 0,
+    };
+    this.statCellContainer = React.createRef();
+    this.getComponentHeight = this.getComponentHeight.bind(this);
+    this.openDetails = this.openDetails.bind(this);
   }
 
   openDetails() {
-    const { config, column, step } = this.props
+    const { config, column, step } = this.props;
     navigation.openStackedNerdlet({
-      id: "details",
+      id: 'details',
       urlState: {
         selectedJourney: config.id,
         selectedColumn: column.id,
-        selectedStep: step.id
-      }
-    })
+        selectedStep: step.id,
+      },
+    });
   }
 
   getComponentHeight() {
-    const elementHeight = this.statCellContainer.current.offsetHeight
+    const elementHeight = this.statCellContainer.current.offsetHeight;
     const verticalMargin =
       parseInt(
         window
@@ -56,57 +56,76 @@ export default class StatCell extends React.Component {
         window
           .getComputedStyle(this.statCellContainer.current)
           .marginTop.slice(0, -2)
-      )
+      );
 
-    return elementHeight + verticalMargin
+    return elementHeight + verticalMargin;
   }
 
   componentDidMount() {
-    this.setState({ totalElementHeight: this.getComponentHeight() })
+    this.setState({ totalElementHeight: this.getComponentHeight() });
   }
 
   render() {
     const { config, stats, step, column, timeRange } = this.props;
     const kpis = config.kpis || null;
-    const durationInMinutes  = timeRange.duration / 1000 / 60;
-    const sinceStmt = `SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes*2} MINUTES AGO`;
+    const durationInMinutes = timeRange.duration / 1000 / 60;
+    const sinceStmt = `SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes *
+      2} MINUTES AGO`;
     let debug = false;
     let qString = `{
             actor {
             account(id: ${config.accountId}) {
               ${stats
-        .map(stat => {
-          const requiresAltNrql = stat.value.eventName && stat.value.eventName != config.funnel.event;
+                .map(stat => {
+                  const requiresAltNrql =
+                    stat.value.eventName &&
+                    stat.value.eventName != config.funnel.event;
 
-          const altStepNrql = requiresAltNrql && step.altNrql && Object.keys(step.altNrql).find(k => k == stat.value.eventName) ? step.altNrql[stat.value.eventName] :  null;
+                  const altStepNrql =
+                    requiresAltNrql &&
+                    step.altNrql &&
+                    Object.keys(step.altNrql).find(
+                      k => k == stat.value.eventName
+                    )
+                      ? step.altNrql[stat.value.eventName]
+                      : null;
 
-          const altColumnNrql = requiresAltNrql && column.altNrql && Object.keys(column.altNrql).find(k => k == stat.value.eventName) ? column.altNrql[stat.value.eventName] :  null;
+                  const altColumnNrql =
+                    requiresAltNrql &&
+                    column.altNrql &&
+                    Object.keys(column.altNrql).find(
+                      k => k == stat.value.eventName
+                    )
+                      ? column.altNrql[stat.value.eventName]
+                      : null;
 
-          if (stat.value.nrql) {
-            if (requiresAltNrql) {
-              if (altStepNrql && altColumnNrql) {
-                return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${ altColumnNrql }) AND (${ altStepNrql }) ${sinceStmt}") {
+                  if (stat.value.nrql) {
+                    if (requiresAltNrql) {
+                      if (altStepNrql && altColumnNrql) {
+                        return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${altColumnNrql}) AND (${altStepNrql}) ${sinceStmt}") {
                   results
                 }`;
-              } else {
-                //we failed to provide the needed altNrql, so the result is incalculable.
-                debug = true;
-                return "";
-              }
-            } else {
-              return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${ column.nrqlWhere }) AND (${ step.nrqlWhere }) ${sinceStmt}") {
+                      } else {
+                        //we failed to provide the needed altNrql, so the result is incalculable.
+                        debug = true;
+                        return '';
+                      }
+                    } else {
+                      return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${column.nrqlWhere}) AND (${step.nrqlWhere}) ${sinceStmt}") {
                   results
               }`;
+                    }
+                  } else {
+                    return '';
+                  }
+                })
+                .join('')}
             }
-          } else {
-            return ""
           }
-        })
-        .join("")}
-            }
-          }
-        }`
-    const q = gql`${qString}`
+        }`;
+    const q = gql`
+      ${qString}
+    `;
     return (
       <div
         className="standardStatCell"
@@ -126,23 +145,29 @@ export default class StatCell extends React.Component {
                         <h5 className="value" />
                         <span className="label" />
                       </div>
-                    )
+                    );
                   })}
                 </div>
-              )
+              );
             }
             if (error) {
-              return <BlockText>{JSON.stringify(error)}</BlockText>
+              return <BlockText>{JSON.stringify(error)}</BlockText>;
             }
-            const values = {}
+            const values = {};
             return (
               <React.Fragment>
                 {stats
                   .filter(s => s.value.calculation == null)
                   .map((stat, i) => {
-                    const kpi = kpis ? kpis.find(kpi => kpi.ref == stat.ref) : null;
-                    const value = getValue(get(data, `actor.account["${stat.ref}"].results[0]`));
-                    const compareWith = getValue(get(data, `actor.account["${stat.ref}"].results[1]`));
+                    const kpi = kpis
+                      ? kpis.find(kpi => kpi.ref == stat.ref)
+                      : null;
+                    const value = getValue(
+                      get(data, `actor.account["${stat.ref}"].results[0]`)
+                    );
+                    const compareWith = getValue(
+                      get(data, `actor.account["${stat.ref}"].results[1]`)
+                    );
                     values[stat.ref] = value;
                     return (
                       <DataPoint
@@ -153,28 +178,30 @@ export default class StatCell extends React.Component {
                         stat={stat}
                         kpi={kpi}
                       />
-                    )
+                    );
                   })}
                 {stats
                   .filter(s => s.value.calculation)
                   .map((stat, i) => {
-                    const { rate } = stat.value.calculation
-                    const kpi = kpis ? kpis.find((kpi) => kpi.ref == stat.ref) : null;
+                    const { rate } = stat.value.calculation;
+                    const kpi = kpis
+                      ? kpis.find(kpi => kpi.ref == stat.ref)
+                      : null;
                     //debugger;
                     const numerator = values[rate[0]];
                     const denominator = values[rate[1]];
                     let value = null;
                     if (denominator) {
                       value = numerator / denominator;
-                      if (stat.value.display == "percentage") {
-                        value = value * 100
+                      if (stat.value.display == 'percentage') {
+                        value = value * 100;
                       }
                       values[stat.ref] = value;
                     } else {
                       values[stat.ref] = null;
                     }
                     if (debug) {
-                      console.debug(qString); //eslint-disable-line
+                      // console.debug(qString); //eslint-disable-line
                     }
                     //console.debug([rate, stat.ref, value]);
                     return (
@@ -185,13 +212,13 @@ export default class StatCell extends React.Component {
                         kpi={kpi}
                         stat={stat}
                       />
-                    )
+                    );
                   })}
               </React.Fragment>
-            )
+            );
           }}
         </NerdGraphQuery>
       </div>
-    )
+    );
   }
 }

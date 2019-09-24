@@ -1,29 +1,29 @@
 import React from 'react';
 import { Dropdown, DropdownItem } from 'nr1';
 
-export default class AccountPicker extends React.PureComponent {
+export default class JourneyPicker extends React.PureComponent {
   render() {
-    let { account, accounts, setAccount } = this.props;
+    let { journey, journeys, setJourney } = this.props;
     const { filter } = this.state || {};
 
     if (filter && filter.length > 0) {
       const re = new RegExp(filter, 'i');
-      accounts = accounts.filter(a => {
-        return a.title.match(re);
+      journeys = journeys.filter(j => {
+        return j.title.match(re);
       });
     }
 
     return (
       <Dropdown
-        title={account.title}
+        title={journey.title}
         filterable
-        label="Account"
+        label="Journey"
         onChangeFilter={event => this.setState({ filter: event.target.value })}
       >
-        {accounts.map(a => {
+        {journeys.map((j, index) => {
           return (
-            <DropdownItem key={a.id} onClick={() => setAccount(a)}>
-              {a.title}
+            <DropdownItem key={index} onClick={() => setJourney(j)}>
+              {j.title}
             </DropdownItem>
           );
         })}
