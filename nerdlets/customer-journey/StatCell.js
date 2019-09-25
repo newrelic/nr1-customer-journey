@@ -196,7 +196,7 @@ export default class StatCell extends React.Component {
                     } else {
                       values[stat.ref] = null;
                     }
-                    console.debug([rate, stat.ref, value, kpi]);
+                    //console.debug([rate, stat.ref, value, kpi]);
                     return (
                       <DataPoint
                         value={value}
