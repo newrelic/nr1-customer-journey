@@ -196,10 +196,7 @@ export default class StatCell extends React.Component {
                     } else {
                       values[stat.ref] = null;
                     }
-                    if (debug) {
-                      // console.debug(q); //eslint-disable-line
-                    }
-                    //console.debug([rate, stat.ref, value]);
+                    console.debug([rate, stat.ref, value, kpi]);
                     return (
                       <DataPoint
                         value={value}
