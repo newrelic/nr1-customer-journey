@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DataPoint from './DataPoint';
 import { NerdGraphQuery, BlockText, navigation } from 'nr1';
-import gql from 'graphql-tag';
 import { get } from 'lodash';
 
 function getValue(rs) {
@@ -72,7 +71,7 @@ export default class StatCell extends React.Component {
     const sinceStmt = `SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes *
       2} MINUTES AGO`;
     let debug = false;
-    let qString = `{
+    let q = `{
             actor {
             account(id: ${config.accountId}) {
               ${stats
@@ -123,9 +122,6 @@ export default class StatCell extends React.Component {
             }
           }
         }`;
-    const q = gql`
-      ${qString}
-    `;
     return (
       <div
         className="standardStatCell"
@@ -200,10 +196,7 @@ export default class StatCell extends React.Component {
                     } else {
                       values[stat.ref] = null;
                     }
-                    if (debug) {
-                      // console.debug(qString); //eslint-disable-line
-                    }
-                    //console.debug([rate, stat.ref, value]);
+                    //console.debug([rate, stat.ref, value, kpi]);
                     return (
                       <DataPoint
                         value={value}

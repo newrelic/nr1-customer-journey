@@ -9,16 +9,10 @@ export default class Wrapper extends React.PureComponent {
         {platformUrlState => (
           <NerdletStateContext.Consumer>
             {nerdletUrlState => (
-              <AutoSizer>
-                {({ width, height }) => (
-                  <Details
-                    launcherUrlState={platformUrlState}
-                    nerdletUrlState={nerdletUrlState}
-                    width={width}
-                    height={height}
-                  />
-                )}
-              </AutoSizer>
+              <Details
+                launcherUrlState={platformUrlState}
+                nerdletUrlState={nerdletUrlState}
+              />
             )}
           </NerdletStateContext.Consumer>
         )}

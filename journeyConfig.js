@@ -19,7 +19,7 @@ const journeyConfig = [
       {
         label: 'Page views',
         ref: 'clickCount',
-        value: 10,
+        value: 5.0,
         bound: 'percentage',
         description:
           'If the percentage change is plus or minus 10%, flag that.',
@@ -162,31 +162,6 @@ const journeyConfig = [
       event: 'PageView',
       measure: 'session',
     },
-    kpis: [
-      {
-        label: 'Error Rate',
-        ref: 'errorRate',
-        value: 3.0,
-        bound: 'higherViolation',
-        description:
-          'If the error rate is higher that 3%, mark that as a notable.',
-      },
-      {
-        label: 'Page views',
-        ref: 'clickCount',
-        value: 10,
-        bound: 'percentage',
-        description:
-          'If the percentage change is plus or minus 10%, flag that.',
-      },
-      {
-        label: 'Page Load Avg.',
-        ref: 'averageDuration',
-        value: 1,
-        bound: 'lowerTarget',
-        description: "We're targeting sub-second load times.",
-      },
-    ],
     series: [
       {
         id: 0,
