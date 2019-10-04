@@ -48,7 +48,9 @@ See [CONFIG.md](CONFIG.md) for detailed instructions on the capabilities of each
 
 ## Getting started
 
-Clone this repository and run the following scripts:
+First, install the [NR1 CLI](https://one.newrelic.com/launcher/developer-center.launcher) by going to https://one.newrelic.com/launcher/developer-center.launcher and following the instructions (5 minutes or less) to install and setup your New Relic development environment.
+
+Next, to clone this repository and run the code locally against your New Relic data, execute the following command:
 
 ```bash
 nr1 nerdpack:clone -r https://github.com/newrelic/nr1-customer-journey.git
