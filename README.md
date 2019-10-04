@@ -53,8 +53,6 @@ Clone this repository and run the following scripts:
 ```bash
 nr1 nerdpack:clone -r https://github.com/newrelic/nr1-customer-journey.git
 cd nr1-customer-journey
-nr1 nerdpack:uuid -gf
-npm install
 npm start
 ```
 
@@ -65,8 +63,8 @@ Visit [https://one.newrelic.com/?nerdpacks=local](https://one.newrelic.com/?nerd
 Open a command prompt in the nerdpack's directory and run the following commands.
 
 ```bash
-# this is to create a new uuid for the nerdpack so that you can deploy it to your account
-nr1 nerdpack:uuid -g [--profile=your_profile_name]
+# If you need to create a new uuid for the account to which you're deploying this Nerdpack, use the following
+# nr1 nerdpack:uuid -g [--profile=your_profile_name]
 # to see a list of APIkeys / profiles available in your development environment, run nr1 credentials:list
 nr1 nerdpack:publish [--profile=your_profile_name]
 nr1 nerdpack:deploy [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
