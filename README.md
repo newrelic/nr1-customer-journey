@@ -53,7 +53,7 @@ Clone this repository and run the following scripts:
 ```bash
 nr1 nerdpack:clone -r https://github.com/newrelic/nr1-customer-journey.git
 cd nr1-customer-journey
-npm start
+nr1 nerdpack:serve
 ```
 
 Visit [https://one.newrelic.com/?nerdpacks=local](https://one.newrelic.com/?nerdpacks=local), navigate to the Nerdpack, and :sparkles:
