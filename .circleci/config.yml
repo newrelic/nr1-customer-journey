@@ -41,8 +41,8 @@ jobs:
     steps:
       - run:
         name: Generate Contributors
-          command: |
-            echo 'Generating a list of contributors'
+        command: |
+          echo 'Generating a list of contributors'
 
 workflows:
   build-and-test:
