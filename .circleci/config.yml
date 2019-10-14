@@ -2,6 +2,8 @@
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
+
+# https://discuss.circleci.com/t/circleci-2-1-config-overview/26057
 version: 2.1
 jobs:
   build:
@@ -41,24 +43,23 @@ jobs:
             echo 'Generating a list of contributors'
 
 workflows:
-  version: 2
-    build-and-test:
-      jobs:
-        - build
-          filters:
-            branches:
-              only: circle-ci-test
+  build-and-test:
+    jobs:
+      - build
+        filters:
+          branches:
+            only: circle-ci-test
 
-        - test:
-          requires:
-            - build
-          filters:
-            branches:
-              only: circle-ci-test
+      - test:
+        requires:
+          - build
+        filters:
+          branches:
+            only: circle-ci-test
 
-        - contributors:
-          requires:
-            - build
-          filters:
-            branches:
-              only: circle-ci-test
+      - contributors:
+        requires:
+          - build
+        filters:
+          branches:
+            only: circle-ci-test
