@@ -3,15 +3,24 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 
-# CircleCI may require a follower before it will build a project!?
+# Note: The master branch has to have a config or it won't even see other branches
+# Note: CircleCI requires a follower before it will build a project
+# Note: There is a CLI for testing config schema locally - https://circleci.com/docs/2.0/local-cli/#section=configuration
+
 
 # https://discuss.circleci.com/t/circleci-2-1-config-overview/26057
+# 
+# Spec now includes:
+#   orbs
+#   commands
+#   executors
+#   jobs
 version: 2.1
+
 jobs:
   build:
     working_directory: ~/repo
     docker:
-      # specify the version you desire here
       - image: circleci/node:10-browsers
 
     steps:
@@ -33,35 +42,37 @@ jobs:
 
   test:
     working_directory: ~/repo
+    docker:
+      - image: circleci/node:10-browsers
     steps:
       # We don't have tests yet, but we should
       - run: npm test
 
   contributors:
+    docker:
+      - image: circleci/node:10-browsers
     steps:
       - run:
-        name: Generate Contributors
-        command: |
-          echo 'Generating a list of contributors'
+          name: Generate Contributors
+          command: |
+            echo 'Generating a list of contributors'
 
 workflows:
   build-and-test:
     jobs:
       - build:
-        filters:
-          branches:
-            only: circle-ci-test
-
+          filters:
+            branches:
+              only: circle-ci-test
       - test:
-        requires:
-          - build
-        filters:
-          branches:
-            only: circle-ci-test
-
+          requires:
+            - build
+          filters:
+            branches:
+              only: circle-ci-test
       - contributors:
-        requires:
-          - build
-        filters:
-          branches:
-            only: circle-ci-test
+          requires:
+            - build
+          filters:
+            branches:
+              only: circle-ci-test
