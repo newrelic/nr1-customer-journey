@@ -57,7 +57,7 @@ commands:
           name: "Install NR1 CLI"
           command: |
             if ! type "nr1" > /dev/null; then
-              sudo curl -s https://cli.nr-ext.net/installer.sh | bash
+              curl -s https://cli.nr-ext.net/installer.sh | sudo bash
             fi
             
 
