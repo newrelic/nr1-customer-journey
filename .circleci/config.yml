@@ -56,7 +56,10 @@ commands:
       - run:
           name: "Install NR1 CLI"
           command: |
-            curl -s https://cli.nr-ext.net/installer.sh | bash
+            if ! type "nr1" > /dev/null; then
+              sudo curl -s https://cli.nr-ext.net/installer.sh | bash
+            fi
+            
 
   validate_os_schema:
     steps:
