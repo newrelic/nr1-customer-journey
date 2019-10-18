@@ -226,8 +226,9 @@ jobs:
           command: |
             outputFile=contributors.json
             echo 'Generating a list of contributors'
+            echo 'oss generate:contributors --output=contributors.json'
             echo 'git add contributors.json'
-            echo 'git commit -m "Updating contributors"'
+            echo 'git commit -m "[skip ci] Updating contributors"'
             echo 'git push'
     
   # TO DO - Profile keys (private env variables) & actual commands including adding --profile etc.
