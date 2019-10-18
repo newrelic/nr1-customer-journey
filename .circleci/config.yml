@@ -46,10 +46,10 @@ commands:
   restore_or_checkout:
     steps:
       - restore_cache:
-            keys:
-              - source-v1-{{ .Branch }}-{{ .Revision }}
-              - source-v1-{{ .Branch }}-
-              - source-v1-
+          keys:
+            - source-v1-{{ .Branch }}-{{ .Revision }}
+            - source-v1-{{ .Branch }}-
+            - source-v1-
 
       - checkout
 
@@ -92,7 +92,7 @@ commands:
             fi
             
 
-  validate_os_schema:
+  validate_nerdpack_schema:
     steps:
       - run:
           name: "Checking for all the necessary OSS bits"
@@ -138,6 +138,7 @@ jobs:
     executor: node10browsers
 
     steps:
+      - restore_or_checkout
       - install_nr1cli
       - run:
           name: "nr1 nerdpack build"
@@ -148,12 +149,13 @@ jobs:
     executor: node10browsers
 
     steps:
-      - validate_os_schema
+      - restore_or_checkout
+      - validate_nerdpack_schema
   
   test_pr:
-    docker:
-      - image: circleci/node:10-browsers
+    executor: node10browsers
     steps:
+      - restore_or_checkout
       # We don't have tests yet, but we should
       - run:
           name: "Additional checks on pr from fork"
@@ -161,9 +163,9 @@ jobs:
             echo 'Validating nothing is awry, maybe we look for changes to package.json or .circle/config.yml'
 
   test_code:
-    docker:
-      - image: circleci/node:10-browsers
+    executor: node10browsers
     steps:
+      - restore_or_checkout
       # We don't have tests yet, but we should
       - run: npm test
 
@@ -171,6 +173,7 @@ jobs:
   version_app:
     executor: node10browsers
     steps:
+      - restore_or_checkout
       - run:
           name: Version bump
           command: |
@@ -180,6 +183,7 @@ jobs:
   generate_release:
     executor: node10browsers
     steps:
+      - restore_or_checkout
       - run:
           name: Generate release placeholder
           command: |
@@ -189,6 +193,7 @@ jobs:
   generate_contributors:
     executor: node10browsers
     steps:
+      - restore_or_checkout
       - run:
           name: Generate Contributors
           command: |
@@ -224,16 +229,17 @@ workflows:
             branches:
               only:
                 - master
-      - generate_release:
+      - version_app:
           requires:
             - setup
           filters:
             branches:
               only:
                 - master
-      - version_app:
+      - generate_release:
           requires:
             - setup
+            - version_app
           filters:
             branches:
               only:
