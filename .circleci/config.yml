@@ -131,6 +131,7 @@ commands:
 
 jobs:
   setup:
+    working_directory: ~/repo
     executor: node10
 
     steps:
@@ -138,6 +139,7 @@ jobs:
       - install
 
   build:
+    working_directory: ~/repo
     executor: node10browsers
 
     steps:
@@ -148,7 +150,7 @@ jobs:
             nr1 nerdpack:build
 
   validate:
-    # TO DO - Do I need working directory here/everywhere?
+    working_directory: ~/repo
     executor: node10browsers
 
     steps:
@@ -175,6 +177,7 @@ jobs:
 
   # TO DO - How do we decide between major/minor/patch?
   version_app:
+    working_directory: ~/repo
     executor: node10browsers
     steps:
       - run:
@@ -184,6 +187,7 @@ jobs:
 
   # TO DO - utilize our future oss-cli or a script to callout to github to generate a release utilizing the version in package.json
   generate_release:
+    working_directory: ~/repo
     executor: node10browsers
     steps:
       - run:
@@ -193,6 +197,7 @@ jobs:
 
   # TO DO - How do we ensure checking this in doesn't run a build?
   generate_contributors:
+    working_directory: ~/repo
     executor: node10browsers
     steps:
       - run:
@@ -206,6 +211,7 @@ jobs:
     
   # TO DO - Profile keys (private env variables) & actual commands including adding --profile etc.
   deploy:
+    working_directory: ~/repo
     executor: node10
 
     steps:
