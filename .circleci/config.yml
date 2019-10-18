@@ -103,14 +103,14 @@ commands:
   validate_nerdpack_schema:
     steps:
       - run:
-          name: "Checking for all the necessary OSS bits"
+          name: "Validating Nerdpack"
           command: |
             nr1 nerdpack:validate
 
   validate_opensource_files:
     steps:
       - run:
-          name: "Checking for files"
+          name: "Checking for OSS files"
           command: |
             rootDir=./
 
@@ -136,7 +136,7 @@ commands:
                 echo "$FILE is missing from Nerdpack"
                 exit 1
               else
-                echo "Found for "${rootDir}$FILE
+                echo "Found "${rootDir}$FILE
               fi
             done
 
