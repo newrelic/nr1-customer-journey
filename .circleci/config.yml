@@ -25,9 +25,6 @@ version: 2.1
 #
 
 executor_defaults: &executor_defaults
-  # TO DO - Is there any benefit to this being the name of the actual project?
-  working_directory: ~/repo
-
   environment:
     - GIT_COMMIT_DESC: git log --format=oneline -n 1 $CIRCLE_SHA1
 
@@ -130,8 +127,7 @@ commands:
             echo "nr1 nerdpack:subscribe"
 
 jobs:
-  setup:
-    working_directory: ~/repo
+  setup:    
     executor: node10
 
     steps:
@@ -139,7 +135,6 @@ jobs:
       - install
 
   build:
-    working_directory: ~/repo
     executor: node10browsers
 
     steps:
@@ -150,14 +145,12 @@ jobs:
             nr1 nerdpack:build
 
   validate:
-    working_directory: ~/repo
     executor: node10browsers
 
     steps:
       - validate_os_schema
   
   test_pr:
-    working_directory: ~/repo
     docker:
       - image: circleci/node:10-browsers
     steps:
@@ -168,7 +161,6 @@ jobs:
             echo 'Validating nothing is awry, maybe we look for changes to package.json or .circle/config.yml'
 
   test_code:
-    working_directory: ~/repo
     docker:
       - image: circleci/node:10-browsers
     steps:
@@ -177,7 +169,6 @@ jobs:
 
   # TO DO - How do we decide between major/minor/patch?
   version_app:
-    working_directory: ~/repo
     executor: node10browsers
     steps:
       - run:
@@ -187,7 +178,6 @@ jobs:
 
   # TO DO - utilize our future oss-cli or a script to callout to github to generate a release utilizing the version in package.json
   generate_release:
-    working_directory: ~/repo
     executor: node10browsers
     steps:
       - run:
@@ -197,7 +187,6 @@ jobs:
 
   # TO DO - How do we ensure checking this in doesn't run a build?
   generate_contributors:
-    working_directory: ~/repo
     executor: node10browsers
     steps:
       - run:
@@ -211,7 +200,6 @@ jobs:
     
   # TO DO - Profile keys (private env variables) & actual commands including adding --profile etc.
   deploy:
-    working_directory: ~/repo
     executor: node10
 
     steps:
