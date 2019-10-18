@@ -91,21 +91,47 @@ commands:
               curl -s https://cli.nr-ext.net/installer.sh | sudo bash
             fi
             
-
+  # TO DO - Replace validate_nerdpack_schema and validate_opensource_files with the oss-cli
+  # This will allow us to make changes at-will vs. updating dozens of config.yml's
   validate_nerdpack_schema:
     steps:
       - run:
           name: "Checking for all the necessary OSS bits"
           command: |
-            FILE=~/repo/LICENSE
-            if [ -f "$FILE" ]; then
-                echo "$FILE exists"
-            fi
+            nr1 nerdpack:validate
 
-            FILE=~/repo/THIRD_PARTY_NOTICES.md
-            if [ -f "$FILE" ]; then
-                echo "$FILE exists"
-            fi
+  validate_opensource_files:
+    steps:
+      - run:
+          name: "Checking for files"
+          command: |
+            rootDir=./
+
+            declare -a files=(
+              "README.md"
+              ".prettierrc.js"
+              ".eslintrc.js"
+              ".gitignore"
+              ".circleci/config.yml"
+              "package.json"
+
+              "LICENSE"
+              "THIRD_PARTY_NOTICES.md"
+              "CODE_OF_CONDUCT.md"
+              "cla.md"
+              ".github/bug_report.md"
+              ".github/enhancement.md"
+            )
+
+            for FILE in "${files[@]}"
+            do
+              if [ ! -f "${rootDir}$FILE" ]; then
+                echo "$FILE is missing from Nerdpack"
+                exit 1
+              else
+                echo "Found for "${rootDir}$FILE
+              fi
+            done
 
   deploy_demotron:
     steps:
@@ -145,12 +171,13 @@ jobs:
           command: |
             nr1 nerdpack:build
 
-  validate:
+  validate_nerdpack:
     executor: node10browsers
 
     steps:
       - restore_or_checkout
       - validate_nerdpack_schema
+      - validate_opensource_files
   
   test_pr:
     executor: node10browsers
@@ -281,7 +308,7 @@ workflows:
                 - master
 
       # Validate schema of the Nerdpack, files needed for OS
-      - validate:
+      - validate_nerdpack:
           requires:
             - setup
           filters:
