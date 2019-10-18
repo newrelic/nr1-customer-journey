@@ -90,6 +90,13 @@ commands:
             if ! type "nr1" > /dev/null; then
               curl -s https://cli.nr-ext.net/installer.sh | sudo bash
             fi
+
+  install_osscli:
+    steps:
+      - run:
+          name: "Install OSS CLI"
+          command: |
+            npm install -g @newrelic/osscli
             
   # TO DO - Replace validate_nerdpack_schema and validate_opensource_files with the oss-cli
   # This will allow us to make changes at-will vs. updating dozens of config.yml's
@@ -176,6 +183,9 @@ jobs:
 
     steps:
       - restore_or_checkout
+      - install_nr1cli
+      # TO DO - Build and publish the osscli to npm
+      # - install_osscli
       - validate_nerdpack_schema
       - validate_opensource_files
   
@@ -221,6 +231,8 @@ jobs:
     executor: node10browsers
     steps:
       - restore_or_checkout
+      # TO DO - Build and publish the osscli to npm
+      # - install_osscli
       - run:
           name: Generate Contributors
           command: |
