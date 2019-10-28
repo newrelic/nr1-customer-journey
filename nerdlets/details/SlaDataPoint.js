@@ -5,7 +5,7 @@ import { Icon } from 'nr1';
 
 export default class SlaDataPoint extends React.Component {
   static propTypes = {
-    value: PropTypes.any.isRequired,
+    value: PropTypes.string.isRequired,
     kpi: PropTypes.object.isRequired,
     stat: PropTypes.object.isRequired,
     kpiEval: PropTypes.object.isRequired

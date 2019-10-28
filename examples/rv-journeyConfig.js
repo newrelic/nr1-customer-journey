@@ -130,6 +130,6 @@ const journeyConfig = [
   }
 ];
 
-export const getJourneys = entity => {
+export const getJourneys = () => {
   return journeyConfig;
 };

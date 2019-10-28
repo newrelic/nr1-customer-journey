@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { HeadingText, BlockText } from 'nr1';
+import { HeadingText } from 'nr1';
 import SlaDataPoint from './SlaDataPoint';
 import KpiEval from '../../util/kpi';
 
 export default class SlaCell extends React.Component {
   static propTypes = {
-    stat: PropTypes.any.isRequired,
-    kpi: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
-    compareWith: PropTypes.any
+    stat: PropTypes.string.isRequired,
+    kpi: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired
   };
 
   render() {

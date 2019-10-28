@@ -6,7 +6,7 @@ import { get } from 'lodash';
 
 function getValue(rs) {
   if (rs) {
-    const keys = Object.keys(rs).filter(k => k != 'comparison');
+    const keys = Object.keys(rs).filter(k => k !== 'comparison');
     return rs[keys[0]];
   }
   return null;
@@ -23,9 +23,7 @@ export default class StatCell extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      totalElementHeight: 0
-    };
+    this.state = {};
     this.statCellContainer = React.createRef();
     this.getComponentHeight = this.getComponentHeight.bind(this);
     this.openDetails = this.openDetails.bind(this);
@@ -60,17 +58,12 @@ export default class StatCell extends React.Component {
     return elementHeight + verticalMargin;
   }
 
-  componentDidMount() {
-    this.setState({ totalElementHeight: this.getComponentHeight() });
-  }
-
   render() {
     const { config, stats, step, column, timeRange } = this.props;
     const kpis = config.kpis || null;
     const durationInMinutes = timeRange.duration / 1000 / 60;
     const sinceStmt = `SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes *
       2} MINUTES AGO`;
-    let debug = false;
     const q = `{
             actor {
             account(id: ${config.accountId}) {
@@ -78,7 +71,7 @@ export default class StatCell extends React.Component {
                 .map(stat => {
                   const requiresAltNrql =
                     stat.value.eventName &&
-                    stat.value.eventName != config.funnel.event;
+                    stat.value.eventName !== config.funnel.event;
 
                   const altStepNrql =
                     requiresAltNrql &&
@@ -106,7 +99,6 @@ export default class StatCell extends React.Component {
                 }`;
                       } else {
                         // we failed to provide the needed altNrql, so the result is incalculable.
-                        debug = true;
                         return '';
                       }
                     } else {

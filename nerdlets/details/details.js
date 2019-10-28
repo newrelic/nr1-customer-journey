@@ -43,7 +43,7 @@ export default class Details extends React.Component {
     stats = stats.filter(s => s.value.nrql);
     if (kpis) {
       kpis = kpis
-        .filter(kpi => stats.find(s => s.ref === kpi.ref) != null)
+        .filter(kpi => stats.find(s => s.ref === kpi.ref) !== null)
         .map(kpi => {
           kpi.stat = stats.find(s => s.ref === kpi.ref);
           kpi.nrql = `${kpi.stat.value.nrql} AND (${column.nrqlWhere}) AND (${
