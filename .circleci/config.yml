@@ -27,8 +27,9 @@ version: 2.1
 # 
 # Orbs
 # 
-orbs:
-  snyk: snyk/snyk@0.0.8
+# orbs:
+# "Orb snyk/snyk@0.0.8 not loaded. To use this orb, an organization admin must opt-in to using third party orbs in Organization Security settings."
+#   snyk: snyk/snyk@0.0.8
 
 
 #
@@ -80,7 +81,8 @@ commands:
 
       - run: npm install
 
-      - snyk/scan
+      # "Orb snyk/snyk@0.0.8 not loaded. To use this orb, an organization admin must opt-in to using third party orbs in Organization Security settings."
+      # - snyk/scan
 
       - save_cache:
           paths:
