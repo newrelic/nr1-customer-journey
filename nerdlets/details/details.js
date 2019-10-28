@@ -7,23 +7,24 @@ import {
   BillboardChart,
   LineChart,
   HeadingText,
-  BlockText,
+  BlockText
 } from 'nr1';
 import { getJourneys } from '../../journeyConfig';
-const journeyConfig = getJourneys();
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
+
+const journeyConfig = getJourneys();
 momentDurationFormatSetup(moment);
 
 export default class Details extends React.Component {
   static propTypes = {
     launcherUrlState: PropTypes.object.isRequired,
-    nerdletUrlState: PropTypes.object.isRequired,
+    nerdletUrlState: PropTypes.object.isRequired
   };
 
   constructor(props) {
     super(props);
-    //console.debug("Journey Details", props);
+    // console.debug("Journey Details", props);
   }
 
   render() {
@@ -32,13 +33,13 @@ export default class Details extends React.Component {
     const {
       selectedColumn,
       selectedJourney,
-      selectedStep,
+      selectedStep
     } = this.props.nerdletUrlState;
     const journey = journeyConfig.find(j => j.id == selectedJourney);
     const column = journey.series.find(s => s.id == selectedColumn);
     const step = journey.steps.find(s => s.id == selectedStep);
     let { stats, kpis } = journey;
-    //debugger;
+    // debugger;
     stats = stats.filter(s => s.value.nrql);
     if (kpis) {
       kpis = kpis
@@ -96,12 +97,10 @@ export default class Details extends React.Component {
             </BlockText>
           </GridItem>
           {stats.map((stat, i) => {
-            const query =
-              stat.value.nrql +
-              ` AND (${step.nrqlWhere}) AND (${
-                column.nrqlWhere
-              }) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes *
-                2} MINUTES AGO`;
+            const query = `${stat.value.nrql} AND (${step.nrqlWhere}) AND (${
+              column.nrqlWhere
+            }) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes *
+              2} MINUTES AGO`;
             // console.log(query);
             return (
               <GridItem key={i} columnSpan="4" className="chartContainer">

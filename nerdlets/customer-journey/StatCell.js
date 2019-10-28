@@ -18,13 +18,13 @@ export default class StatCell extends React.Component {
     step: PropTypes.object.isRequired,
     column: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired,
-    timeRange: PropTypes.object.isRequired,
+    timeRange: PropTypes.object.isRequired
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      totalElementHeight: 0,
+      totalElementHeight: 0
     };
     this.statCellContainer = React.createRef();
     this.getComponentHeight = this.getComponentHeight.bind(this);
@@ -38,8 +38,8 @@ export default class StatCell extends React.Component {
       urlState: {
         selectedJourney: config.id,
         selectedColumn: column.id,
-        selectedStep: step.id,
-      },
+        selectedStep: step.id
+      }
     });
   }
 
@@ -71,7 +71,7 @@ export default class StatCell extends React.Component {
     const sinceStmt = `SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes *
       2} MINUTES AGO`;
     let debug = false;
-    let q = `{
+    const q = `{
             actor {
             account(id: ${config.accountId}) {
               ${stats
@@ -105,7 +105,7 @@ export default class StatCell extends React.Component {
                   results
                 }`;
                       } else {
-                        //we failed to provide the needed altNrql, so the result is incalculable.
+                        // we failed to provide the needed altNrql, so the result is incalculable.
                         debug = true;
                         return '';
                       }
@@ -131,7 +131,7 @@ export default class StatCell extends React.Component {
         <h5 className="pageTitle">{step.label}</h5>
         <NerdGraphQuery query={q}>
           {({ loading, data, error }) => {
-            //console.debug([loading, error, data, kpis]); //eslint-disable-line
+            // console.debug([loading, error, data, kpis]); //eslint-disable-line
             if (loading) {
               return (
                 <div className="skeletonContainer">
@@ -151,7 +151,7 @@ export default class StatCell extends React.Component {
             }
             const values = {};
             return (
-              <React.Fragment>
+              <>
                 {stats
                   .filter(s => s.value.calculation == null)
                   .map((stat, i) => {
@@ -183,7 +183,7 @@ export default class StatCell extends React.Component {
                     const kpi = kpis
                       ? kpis.find(kpi => kpi.ref == stat.ref)
                       : null;
-                    //debugger;
+                    // debugger;
                     const numerator = values[rate[0]];
                     const denominator = values[rate[1]];
                     let value = null;
@@ -196,7 +196,7 @@ export default class StatCell extends React.Component {
                     } else {
                       values[stat.ref] = null;
                     }
-                    //console.debug([rate, stat.ref, value, kpi]);
+                    // console.debug([rate, stat.ref, value, kpi]);
                     return (
                       <DataPoint
                         value={value}
@@ -207,7 +207,7 @@ export default class StatCell extends React.Component {
                       />
                     );
                   })}
-              </React.Fragment>
+              </>
             );
           }}
         </NerdGraphQuery>

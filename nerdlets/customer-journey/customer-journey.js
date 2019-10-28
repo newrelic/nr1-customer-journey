@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import StatColumn from './StatColumn';
 import { getJourneys } from '../../journeyConfig';
 import JourneyPicker from './JourneyPicker';
-const journeyConfig = getJourneys();
 import { FunnelComponent } from 'nr1-funnel-component';
+
+const journeyConfig = getJourneys();
 
 export default class CustomerJourney extends React.Component {
   static propTypes = {
-    launcherUrlState: PropTypes.object.isRequired,
+    launcherUrlState: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -19,7 +20,7 @@ export default class CustomerJourney extends React.Component {
     this.state = {
       selectedJourney: this.props.launcherUrlState.selectedJourney
         ? this.props.launcherUrlState.selectedJourney
-        : journeyConfig[0].id,
+        : journeyConfig[0].id
     };
 
     this.setJourney = this.setJourney.bind(this);
@@ -43,7 +44,7 @@ export default class CustomerJourney extends React.Component {
             journeys={journeyConfig}
             journey={journey}
             setJourney={this.setJourney}
-          ></JourneyPicker>
+          />
         </div>
         <div className="customerJourneyContent">
           <div className="visualizationContainer">

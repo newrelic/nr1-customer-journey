@@ -6,12 +6,12 @@ export default class StatColumn extends React.Component {
   static propTypes = {
     config: PropTypes.object.isRequired,
     timeRange: PropTypes.object.isRequired,
-    column: PropTypes.object.isRequired,
+    column: PropTypes.object.isRequired
   };
 
   constructor(props) {
     super(props);
-    //console.log(props);
+    // console.log(props);
   }
 
   render() {

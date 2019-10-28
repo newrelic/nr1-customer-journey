@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import KpiEval from '../../util/kpi';
 
 function toSentenceCase(input) {
-  let output = input
+  const output = input
     .split(/(?=[A-Z])/)
     .join(' ')
     .toLowerCase();
@@ -16,7 +16,7 @@ export default class DataPoint extends React.Component {
     compareWith: PropTypes.any,
     label: PropTypes.string.isRequired,
     stat: PropTypes.object.isRequired,
-    kpi: PropTypes.object,
+    kpi: PropTypes.object
   };
 
   processValue() {

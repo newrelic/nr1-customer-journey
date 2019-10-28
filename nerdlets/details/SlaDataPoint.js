@@ -8,7 +8,7 @@ export default class SlaDataPoint extends React.Component {
     value: PropTypes.any.isRequired,
     kpi: PropTypes.object.isRequired,
     stat: PropTypes.object.isRequired,
-    kpiEval: PropTypes.object.isRequired,
+    kpiEval: PropTypes.object.isRequired
   };
 
   processValue(value) {

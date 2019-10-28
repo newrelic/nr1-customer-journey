@@ -1,139 +1,154 @@
-const journeyConfig = [{
-  id: 0,
-  title: "Demo Journey",
-  accountId: 1,
-  funnel: {
-    event: "PageView",
-    measure: "session"
-  },
-  kpis: [
-    {
-      label: "Error Rate",
-      ref: "errorRate",
-      value: 3.0,
-      bound: "higherViolation",
-      description: "If the error rate is higher that 3%, mark that as a notable.",
+const journeyConfig = [
+  {
+    id: 0,
+    title: 'Demo Journey',
+    accountId: 1,
+    funnel: {
+      event: 'PageView',
+      measure: 'session'
     },
-    {
-      label: "Page views",
-      ref: "clickCount",
-      value: 10,
-      bound: "percentage",
-      description: "If the percentage change is plus or minus 10%, flag that.",
-    },
-    {
-      label: "Page Load Avg.",
-      ref: "averageDuration",
-      value: 1,
-      bound: "lowerTarget",
-      description: "We're targeting sub-second load times.",
-    }
-  ],
-  series: [
-    {
-      id: 0,
-      label: "All Users",
-      nrqlWhere: "appName = 'Alerting UI - Production'",
-      altNrql: {
-        JavaScriptError: " appName = 'Alerting UI - Production' "
+    kpis: [
+      {
+        label: 'Error Rate',
+        ref: 'errorRate',
+        value: 3.0,
+        bound: 'higherViolation',
+        description:
+          'If the error rate is higher that 3%, mark that as a notable.'
       },
-    },
-    {
-      id: 1,
-      label: "Indianapolis",
-      nrqlWhere: "appName = 'Alerting UI - Production' and city = 'Indianapolis' "
-    },
-    {
-      id: 2,
-      label: "Firefox",
-      nrqlWhere: " appName = 'Alerting UI - Production' and userAgentName = 'Firefox' ",
-      altNrql: {
-        JavaScriptError: " appName = 'Alerting UI - Production' and userAgentName = 'Firefox' "
+      {
+        label: 'Page views',
+        ref: 'clickCount',
+        value: 10,
+        bound: 'percentage',
+        description: 'If the percentage change is plus or minus 10%, flag that.'
+      },
+      {
+        label: 'Page Load Avg.',
+        ref: 'averageDuration',
+        value: 1,
+        bound: 'lowerTarget',
+        description: "We're targeting sub-second load times."
       }
-    }
-  ],
-  steps: [
-    {
-      id: 0,
-      label: "Accounts",
-      nrqlWhere: "pageUrl like 'https://alerts.newrelic.com/accounts/%'",
-      altNrql: {
-        JavaScriptError: " requestUri like '/accounts/%' "
+    ],
+    series: [
+      {
+        id: 0,
+        label: 'All Users',
+        nrqlWhere: "appName = 'Alerting UI - Production'",
+        altNrql: {
+          JavaScriptError: " appName = 'Alerting UI - Production' "
+        }
+      },
+      {
+        id: 1,
+        label: 'Indianapolis',
+        nrqlWhere:
+          "appName = 'Alerting UI - Production' and city = 'Indianapolis' "
+      },
+      {
+        id: 2,
+        label: 'Firefox',
+        nrqlWhere:
+          " appName = 'Alerting UI - Production' and userAgentName = 'Firefox' ",
+        altNrql: {
+          JavaScriptError:
+            " appName = 'Alerting UI - Production' and userAgentName = 'Firefox' "
+        }
       }
-    },
-    {
-      id: 1,
-      label: "Incidents",
-      nrqlWhere: "pageUrl like 'https://alerts.newrelic.com/accounts/%/incidents'",
-      altNrql: {
-        JavaScriptError: " requestUri like '/accounts/%/incidents' "
+    ],
+    steps: [
+      {
+        id: 0,
+        label: 'Accounts',
+        nrqlWhere: "pageUrl like 'https://alerts.newrelic.com/accounts/%'",
+        altNrql: {
+          JavaScriptError: " requestUri like '/accounts/%' "
+        }
+      },
+      {
+        id: 1,
+        label: 'Incidents',
+        nrqlWhere:
+          "pageUrl like 'https://alerts.newrelic.com/accounts/%/incidents'",
+        altNrql: {
+          JavaScriptError: " requestUri like '/accounts/%/incidents' "
+        }
+      },
+      {
+        id: 2,
+        label: 'Incident Details',
+        nrqlWhere:
+          "pageUrl = 'https://alerts.newrelic.com/accounts/1351150/incidents/%'",
+        altNrql: {
+          JavaScriptError: " requestUri like '/accounts/%/incidents/%%' "
+        }
       }
-    },
-    {
-      id: 2,
-      label: "Incident Details",
-      nrqlWhere: "pageUrl = 'https://alerts.newrelic.com/accounts/1351150/incidents/%'",
-      altNrql: {
-        JavaScriptError: " requestUri like '/accounts/%/incidents/%%' "
+    ],
+    stats: [
+      {
+        label: 'Page views',
+        ref: 'clickCount',
+        type: 'integer',
+        value: {
+          nrql:
+            "SELECT count(*) FROM PageView WHERE appName = 'Alerting UI - Production'",
+          display: 'integer'
+        }
+      },
+      {
+        label: 'Sessions',
+        ref: 'sessionCount',
+        type: 'integer',
+        value: {
+          nrql:
+            "FROM PageView SELECT uniqueCount(session) WHERE appName = 'Alerting UI - Production'",
+          display: 'integer'
+        }
+      },
+      {
+        label: 'Error count',
+        ref: 'errorCount',
+        type: 'integer',
+        value: {
+          eventName: 'JavaScriptError',
+          nrql:
+            "SELECT count(*) FROM JavaScriptError WHERE appName = 'Alerting UI - Production'",
+          display: 'integer'
+        }
+      },
+      {
+        label: 'Error rate',
+        ref: 'errorRate',
+        type: 'decimal',
+        value: {
+          calculation: { rate: ['errorCount', 'clickCount'] },
+          display: 'percentage'
+        }
+      },
+      {
+        label: 'Avg perf',
+        ref: 'averageDuration',
+        type: 'decimal',
+        value: {
+          nrql:
+            "FROM PageView SELECT average(duration) WHERE appName = 'Alerting UI - Production'",
+          display: 'seconds'
+        }
+      },
+      {
+        label: '99th perc',
+        ref: 'nnthPercentile',
+        type: 'percentile',
+        value: {
+          nrql:
+            "FROM PageView SELECT percentile(duration, 99) WHERE appName = 'Alerting UI - Production'",
+          display: 'seconds'
+        }
       }
-    }
-  ],
-  stats: [{
-    label: "Page views",
-    ref: "clickCount",
-    type: "integer",
-    value: {
-      nrql: "SELECT count(*) FROM PageView WHERE appName = 'Alerting UI - Production'",
-      display: "integer"
-    }
-  },
-  {
-    label: "Sessions",
-    ref: "sessionCount",
-    type: "integer",
-    value: {
-      nrql: "FROM PageView SELECT uniqueCount(session) WHERE appName = 'Alerting UI - Production'",
-      display: "integer"
-    }
-  },
-  {
-    label: "Error count",
-    ref: "errorCount",
-    type: "integer",
-    value: {
-      eventName: "JavaScriptError",
-      nrql: "SELECT count(*) FROM JavaScriptError WHERE appName = 'Alerting UI - Production'",
-      display: "integer"
-    }
-  },
-  {
-    label: "Error rate",
-    ref: "errorRate",
-    type: "decimal",
-    value: {
-      calculation: { rate: ["errorCount", "clickCount"]},
-      display: "percentage"
-    }
-  },
-  {
-    label: "Avg perf",
-    ref: "averageDuration",
-    type: "decimal",
-    value: {
-      nrql: "FROM PageView SELECT average(duration) WHERE appName = 'Alerting UI - Production'",
-      display: "seconds"
-    }
-  },
-  {
-    label: "99th perc",
-    ref: "nnthPercentile",
-    type: "percentile",
-    value: {
-      nrql: "FROM PageView SELECT percentile(duration, 99) WHERE appName = 'Alerting UI - Production'",
-      display: "seconds"
-    }
-  }]
-}];
-export const getJourneys = (entity) => {
+    ]
+  }
+];
+export const getJourneys = entity => {
   return journeyConfig;
-}
+};

@@ -9,13 +9,13 @@ export default class SlaCell extends React.Component {
     stat: PropTypes.any.isRequired,
     kpi: PropTypes.any.isRequired,
     value: PropTypes.any.isRequired,
-    compareWith: PropTypes.any,
+    compareWith: PropTypes.any
   };
 
   render() {
     const { kpi, value, stat } = this.props;
     const kpiEval = new KpiEval({ ...this.props });
-    //console.log(inViolation);
+    // console.log(inViolation);
     return (
       <div className={`slaCell$(inViolation ? " violation" : "")`}>
         <HeadingText type="heading4" className="chartName">
