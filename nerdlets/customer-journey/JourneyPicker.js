@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Dropdown, DropdownItem } from 'nr1';
 
 export default class JourneyPicker extends React.PureComponent {
-  propTypes = {
+  static propTypes = {
     filter: PropTypes.string,
     journey: PropTypes.object,
     journeys: PropTypes.array,
