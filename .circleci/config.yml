@@ -24,6 +24,13 @@
 # Version 2.1 moves towards a single version at the top of the file vs. under workflow
 version: 2.1
 
+# 
+# Orbs
+# 
+orbs:
+  snyk: snyk/snyk@0.0.8
+
+
 #
 # Executors
 #
@@ -72,6 +79,8 @@ commands:
             - v1-dependencies-
 
       - run: npm install
+
+      - snyk/scan
 
       - save_cache:
           paths:
