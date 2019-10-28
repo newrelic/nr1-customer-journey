@@ -21,15 +21,15 @@ export default class DataPoint extends React.Component {
 
   processValue() {
     const { stat, value } = this.props;
-    if (value == null || value == 'N/A') {
+    if (value === null || value === 'N/A') {
       return 'N/A';
     }
     let workingVal = value;
-    if (stat.type == 'percentile') {
+    if (stat.type === 'percentile') {
       const percentileKeys = Object.keys(value);
       workingVal = value[percentileKeys[0]].toFixed(2);
     }
-    if (stat.type == 'decimal') {
+    if (stat.type === 'decimal') {
       workingVal = workingVal.toFixed(2);
     }
     switch (stat.value.display) {

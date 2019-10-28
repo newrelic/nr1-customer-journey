@@ -84,7 +84,7 @@ export default class StatCell extends React.Component {
                     requiresAltNrql &&
                     step.altNrql &&
                     Object.keys(step.altNrql).find(
-                      k => k == stat.value.eventName
+                      k => k === stat.value.eventName
                     )
                       ? step.altNrql[stat.value.eventName]
                       : null;
@@ -93,7 +93,7 @@ export default class StatCell extends React.Component {
                     requiresAltNrql &&
                     column.altNrql &&
                     Object.keys(column.altNrql).find(
-                      k => k == stat.value.eventName
+                      k => k === stat.value.eventName
                     )
                       ? column.altNrql[stat.value.eventName]
                       : null;
@@ -153,10 +153,10 @@ export default class StatCell extends React.Component {
             return (
               <>
                 {stats
-                  .filter(s => s.value.calculation == null)
+                  .filter(s => s.value.calculation === null)
                   .map((stat, i) => {
                     const kpi = kpis
-                      ? kpis.find(kpi => kpi.ref == stat.ref)
+                      ? kpis.find(kpi => kpi.ref === stat.ref)
                       : null;
                     const value = getValue(
                       get(data, `actor.account["${stat.ref}"].results[0]`)
@@ -181,7 +181,7 @@ export default class StatCell extends React.Component {
                   .map((stat, i) => {
                     const { rate } = stat.value.calculation;
                     const kpi = kpis
-                      ? kpis.find(kpi => kpi.ref == stat.ref)
+                      ? kpis.find(kpi => kpi.ref === stat.ref)
                       : null;
                     // debugger;
                     const numerator = values[rate[0]];
@@ -189,7 +189,7 @@ export default class StatCell extends React.Component {
                     let value = null;
                     if (denominator) {
                       value = numerator / denominator;
-                      if (stat.value.display == 'percentage') {
+                      if (stat.value.display === 'percentage') {
                         value = value * 100;
                       }
                       values[stat.ref] = value;

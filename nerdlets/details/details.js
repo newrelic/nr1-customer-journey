@@ -35,17 +35,17 @@ export default class Details extends React.Component {
       selectedJourney,
       selectedStep
     } = this.props.nerdletUrlState;
-    const journey = journeyConfig.find(j => j.id == selectedJourney);
-    const column = journey.series.find(s => s.id == selectedColumn);
-    const step = journey.steps.find(s => s.id == selectedStep);
+    const journey = journeyConfig.find(j => j.id === selectedJourney);
+    const column = journey.series.find(s => s.id === selectedColumn);
+    const step = journey.steps.find(s => s.id === selectedStep);
     let { stats, kpis } = journey;
     // debugger;
     stats = stats.filter(s => s.value.nrql);
     if (kpis) {
       kpis = kpis
-        .filter(kpi => stats.find(s => s.ref == kpi.ref) != null)
+        .filter(kpi => stats.find(s => s.ref === kpi.ref) != null)
         .map(kpi => {
-          kpi.stat = stats.find(s => s.ref == kpi.ref);
+          kpi.stat = stats.find(s => s.ref === kpi.ref);
           kpi.nrql = `${kpi.stat.value.nrql} AND (${column.nrqlWhere}) AND (${
             step.nrqlWhere
           }) ${
