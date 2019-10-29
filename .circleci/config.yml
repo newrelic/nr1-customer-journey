@@ -419,15 +419,3 @@ workflows:
             branches:
               ignore:
                 - master
-      
-      # TO DO - Update to master only and remove after testing on circle-ci-test branch
-      - job-generate-release:
-          requires:
-            - job-setup
-            - job-test-code
-            - job-test-pr
-
-          filters:
-            branches:
-              only:
-                - circle-ci-test
