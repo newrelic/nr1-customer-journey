@@ -25,6 +25,17 @@
 version: 2.1
 
 # 
+# Configs
+# 
+
+github-semantic-bot: &github-semantic-bot
+  GIT_AUTHOR_NAME: @semantic-release-bot
+  # GIT_AUTHOR_EMAIL: @semantic-release-bot email address
+  GIT_COMMITTER_NAME: @semantic-release-bot
+  # GIT_COMMITTER_EMAIL: @semantic-release-bot email address
+    
+
+# 
 # Orbs
 # 
 # orbs:
@@ -97,7 +108,7 @@ commands:
           fingerprints:
             - "6a:ca:a9:d4:15:97:96:e1:1d:0f:af:e5:85:27:88:d4"
 
-  install-nr1-cli:
+  command-install-nr1-cli:
     steps:
       - run:
           name: "Install NR1 CLI"
@@ -106,23 +117,23 @@ commands:
               curl -s https://cli.nr-ext.net/installer.sh | sudo bash
             fi
 
-  install-oss-cli:
+  command-install-oss-cli:
     steps:
       - run:
           name: "Install OSS CLI"
           command: |
             npm install -g @newrelic/osscli
             
-  # TO DO - Replace validate-nerdpack-schema and validate-opensource-files with the oss-cli
+  # TO DO - Replace command-validate-nerdpack-schema and command-validate-opensource-files with the oss-cli
   # This will allow us to make changes at-will vs. updating dozens of config.yml's
-  validate-nerdpack-schema:
+  command-validate-nerdpack-schema:
     steps:
       - run:
           name: "Validating Nerdpack"
           command: |
             nr1 nerdpack:validate
 
-  validate-opensource-files:
+  command-validate-opensource-files:
     steps:
       - run:
           name: "Checking for OSS files"
@@ -154,60 +165,75 @@ commands:
                 echo "Found "${rootDir}$FILE
               fi
             done
-
-  deploy-demotron:
+  
+  command-deploy-demotron:
     steps:
+      - run:
+          name: "Adding nr1 profile api key"
+          command: |
+            nr1 profiles:add --name demotronv2 --api-key $NR1CLI_PROFILE_DEMOTRONV2 --region us
+
       - run:
           name: "Build"
           command: |
-            echo "nr1 nerdpack:build"
+            nr1 nerdpack:build
 
-      - run:
-          name: "Publish"
-          command: |
-            echo "nr1 nerdpack:publish"
+      # - run:
+      #     name: "Publish"
+      #     command: |
+      #       nr1 nerdpack:publish
 
-      - run:
-          name: "Deploy"
-          command: |
-            echo "nr1 nerdpack:deploy"
+      # - run:
+      #     name: "Deploy"
+      #     command: |
+      #       nr1 nerdpack:deploy
 
-      - run:
-          name: "Subscribe"
-          command: |
-            echo "nr1 nerdpack:subscribe"
+      # - run:
+      #     name: "Subscribe"
+      #     command: |
+      #       nr1 nerdpack:subscribe
 
 jobs:
-  setup:    
+  job-setup:    
     executor: node10
 
     steps:
       - command-restore-or-checkout
       - command-install
 
-  build:
+  job-build:
     executor: node10browsers
 
     steps:
       - command-restore-or-checkout
-      - install-nr1-cli
+      - command-install-nr1-cli
       - run:
           name: "nr1 nerdpack build"
           command: |
             nr1 nerdpack:build
 
-  validate-nerdpack:
+  job-validate-nerdpack:
     executor: node10browsers
 
     steps:
       - command-restore-or-checkout
-      - install-nr1-cli
+      - command-install-nr1-cli
       # TO DO - Build and publish the osscli to npm
-      # - install-oss-cli
-      - validate-nerdpack-schema
-      - validate-opensource-files
+      # - command-install-oss-cli
+      - command-validate-nerdpack-schema
+      - command-validate-opensource-files
   
-  test-pr:
+  # Requires project to be setup and configured with eslint-plugin-newrelic
+  job-lint:
+    executor: node10browsers
+
+    steps:
+      - run:
+          name: "ESLinting"
+          command: |
+            npm run eslint-check
+
+  job-test-pr:
     executor: node10browsers
 
     steps:
@@ -218,7 +244,7 @@ jobs:
           command: |
             echo 'Validating nothing is awry, maybe we look for changes to package.json or .circle/config.yml'
 
-  test-code:
+  job-test-code:
     executor: node10browsers
 
     steps:
@@ -226,33 +252,7 @@ jobs:
       # We don't have tests yet, but we should
       - run: npm test
 
-  # TO DO - How do we decide between major/minor/patch?
-  version-app:
-    executor: node10browsers
-
-    steps:
-      - command-restore-or-checkout
-      - command-setup-ci-keys
-      - run:
-          name: Version bump
-          command: |
-            git config user.name "CircleCI Customer Journey"
-            git config user.email "opensource+nr1-customer-journey-nerdpack@newrelic.com"
-            npm version patch -m "%s Version bump [skip ci]"
-            git push origin $CIRCLE_BRANCH
-
-  # TO DO - utilize our future oss-cli or a script to callout to github to generate a release utilizing the version in package.json
-  generate-release:
-    executor: node10browsers
-
-    steps:
-      - command-restore-or-checkout
-      - run:
-          name: Generate release placeholder
-          command: |
-            echo 'Placeholder for generating a release via Github'
-
-  generate-contributors:
+  job-generate-contributors:
     executor: node10browsers
 
     steps:
@@ -260,7 +260,7 @@ jobs:
       - command-setup-ci-keys
       # TO DO - Build and publish the osscli to npm
       # TO DO - Generate Contributors list
-      # - install-oss-cli
+      # - command-install-oss-cli
       - run:
           name: Generate Contributors
           command: |
@@ -273,28 +273,47 @@ jobs:
             git add contributors.json
             git commit -m "Updating contributors [skip ci]"
             git push origin $CIRCLE_BRANCH
-    
+  
+  # TO DO - utilize our future oss-cli or a script to callout to github to generate a release utilizing the version in package.json
+  job-generate-release:
+    executor: node10browsers
+
+    steps:
+      - command-restore-or-checkout
+      - command-setup-ci-keys
+
+      # https://semantic-release.gitbook.io/semantic-release/usage/plugins
+      # Based on our current .releaserc, this will execute the following:
+      #   execute @semantic-release/git
+      #   execute the analyzeCommits implementation of @semantic-release/commit-analyzer
+      #   execute the prepare implementation of @semantic-release/npm then @semantic-release/git
+      #   execute the generateNotes implementation of @semantic-release/release-notes-generator
+      - run:
+          name: Semantic Release
+          command: |
+            npx semantic-release
+
   # TO DO - Profile keys (private env variables) & actual commands including adding --profile etc.
-  deploy:
+  job-deploy:
     executor: node10
 
     steps:
       - command-restore-or-checkout
       - command-install
-      - install-nr1-cli
-      - deploy-demotron
+      - command-install-nr1-cli
+      - command-deploy-demotron
 
 workflows:
   # A merge or commit to the master branch
   release:
     jobs:
-      - setup:
+      - job-setup:
           filters:
             branches:
               only:
                 - master
 
-      - build:
+      - job-build:
           requires:
             - setup
 
@@ -303,19 +322,13 @@ workflows:
               only:
                 - master
 
-      - version-app:
-          requires:
-            - setup
-
-          filters:
-            branches:
-              only:
-                - master
-
-      - generate-release:
+      - job-generate-release:
           requires:
             - setup
             - version-app
+          
+          environment:
+            <<: *github-semantic-bot
 
           filters:
             branches:
@@ -323,7 +336,7 @@ workflows:
                 - master
 
       # TO DO - Should deploy be based on the output of generating a release or the current state of the repo?
-      - deploy:
+      - job-deploy:
           requires:
             - setup
 
@@ -336,15 +349,24 @@ workflows:
   # Our Advanced Settings of "Only build pull requests" will limit this to branches with open pull requests
   analyze:
     jobs:
-      - setup:
+      - job-setup:
           filters:
             branches:
               ignore:
                 - master
       
+      - job-lint:
+          requires:
+            - setup
+
+          filters:
+            branches:
+              ignore:
+                - master
+
       # All contributions, even those by maintainers should follow the pr's from forks workflow
       # CircleCI sets the name of pull requests originating from forks to /pull/{id}
-      - test-pr:
+      - job-test-pr:
           requires:
             - setup
 
@@ -352,7 +374,7 @@ workflows:
             branches:
               only: /pull\/[0-9]+/
 
-      - test-code:
+      - job-test-code:
           requires:
             - setup
 
@@ -360,31 +382,9 @@ workflows:
             branches:
               ignore:
                 - master
-      
-      - version-app:
-          requires:
-            - setup
-            - test-code
-            - test-pr
-
-          filters:
-            branches:
-              only:
-                - circle-ci-test
-      
-      - generate-contributors:
-          requires:
-            - setup
-            - test-code
-            - test-pr
-
-          filters:
-            branches:
-              only:
-                - circle-ci-test
 
       # Validate schema of the Nerdpack, files needed for OS
-      - validate-nerdpack:
+      - job-validate-nerdpack:
           requires:
             - setup
 
@@ -392,3 +392,25 @@ workflows:
             branches:
               ignore:
                 - master
+
+      # TO DO - Update to master only and remove after testing on circle-ci-test branch
+      - job-generate-contributors:
+          requires:
+            - setup
+            - test-code
+            - test-pr
+
+          filters:
+            branches:
+              only:
+                - circle-ci-test
+      
+      # TO DO - Update to master only and remove after testing on circle-ci-test branch
+      - job-deploy:
+          requires:
+            - setup
+
+          filters:
+            branches:
+              only:
+                - circle-ci-test
