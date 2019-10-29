@@ -237,8 +237,8 @@ jobs:
           name: Version bump
           command: |
             npm version patch
+            git config user.name "CircleCI Customer Journey"
             git config user.email "opensource+nr1-customer-journey-nerdpack@newrelic.com"
-            git config user.name "CircleCI"
             git add package.json
             git commit -m "Version bump [skip ci]"
             git push origin $CIRCLE_BRANCH
@@ -270,8 +270,8 @@ jobs:
             touch contributors.json
             echo 'oss generate:contributors --output=contributors.json'
 
+            git config user.name "CircleCI Customer Journey"
             git config user.email "opensource+nr1-customer-journey-nerdpack@newrelic.com"
-            git config user.name "CircleCI"
             git add contributors.json
             git commit -m "Updating contributors [skip ci]"
             git push origin $CIRCLE_BRANCH
