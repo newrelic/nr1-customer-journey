@@ -232,6 +232,7 @@ jobs:
 
     steps:
       - command-restore-or-checkout
+      - command-setup-ci-keys
       - run:
           name: Version bump
           command: |
@@ -258,6 +259,7 @@ jobs:
 
     steps:
       - command-restore-or-checkout
+      - command-setup-ci-keys
       # TO DO - Build and publish the osscli to npm
       # TO DO - Generate Contributors list
       # - install-oss-cli
