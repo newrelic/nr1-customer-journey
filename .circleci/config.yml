@@ -278,6 +278,9 @@ jobs:
   job-generate-release:
     executor: node10browsers
 
+    environment:
+      <<: *github-semantic-bot
+
     steps:
       - command-restore-or-checkout
       - command-setup-ci-keys
@@ -315,7 +318,7 @@ workflows:
 
       - job-build:
           requires:
-            - setup
+            - job-setup
 
           filters:
             branches:
@@ -324,11 +327,7 @@ workflows:
 
       - job-generate-release:
           requires:
-            - setup
-            - version-app
-          
-          environment:
-            <<: *github-semantic-bot
+            - job-setup
 
           filters:
             branches:
@@ -338,7 +337,7 @@ workflows:
       # TO DO - Should deploy be based on the output of generating a release or the current state of the repo?
       - job-deploy:
           requires:
-            - setup
+            - job-setup
 
           filters:
             branches:
@@ -357,7 +356,7 @@ workflows:
       
       - job-lint:
           requires:
-            - setup
+            - job-setup
 
           filters:
             branches:
@@ -368,7 +367,7 @@ workflows:
       # CircleCI sets the name of pull requests originating from forks to /pull/{id}
       - job-test-pr:
           requires:
-            - setup
+            - job-setup
 
           filters:
             branches:
@@ -376,7 +375,7 @@ workflows:
 
       - job-test-code:
           requires:
-            - setup
+            - job-setup
 
           filters:
             branches:
@@ -386,7 +385,7 @@ workflows:
       # Validate schema of the Nerdpack, files needed for OS
       - job-validate-nerdpack:
           requires:
-            - setup
+            - job-setup
 
           filters:
             branches:
@@ -396,9 +395,9 @@ workflows:
       # TO DO - Update to master only and remove after testing on circle-ci-test branch
       - job-generate-contributors:
           requires:
-            - setup
-            - test-code
-            - test-pr
+            - job-setup
+            - job-test-code
+            - job-test-pr
 
           filters:
             branches:
@@ -408,7 +407,7 @@ workflows:
       # TO DO - Update to master only and remove after testing on circle-ci-test branch
       - job-deploy:
           requires:
-            - setup
+            - job-setup
 
           filters:
             branches:
