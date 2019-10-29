@@ -236,11 +236,9 @@ jobs:
       - run:
           name: Version bump
           command: |
-            npm version patch
             git config user.name "CircleCI Customer Journey"
             git config user.email "opensource+nr1-customer-journey-nerdpack@newrelic.com"
-            git add package.json
-            git commit -m "Version bump [skip ci]"
+            npm version patch -m "%s Version bump [skip ci]"
             git push origin $CIRCLE_BRANCH
 
   # TO DO - utilize our future oss-cli or a script to callout to github to generate a release utilizing the version in package.json
