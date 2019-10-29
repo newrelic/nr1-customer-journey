@@ -235,7 +235,12 @@ jobs:
       - run:
           name: Version bump
           command: |
-            echo 'npm version { major | minor | patch }'
+            npm version patch
+            git config user.email "opensource+nr1-customer-journey-nerdpack@newrelic.com"
+            git config user.name "CircleCI"
+            git add package.json
+            git commit -m "Version bump [skip ci]"
+            git push origin $CIRCLE_BRANCH
 
   # TO DO - utilize our future oss-cli or a script to callout to github to generate a release utilizing the version in package.json
   generate-release:
@@ -248,23 +253,26 @@ jobs:
           command: |
             echo 'Placeholder for generating a release via Github'
 
-  # TO DO - How do we ensure checking this in doesn't run a build?
   generate-contributors:
     executor: node10browsers
 
     steps:
       - command-restore-or-checkout
       # TO DO - Build and publish the osscli to npm
+      # TO DO - Generate Contributors list
       # - install-oss-cli
       - run:
           name: Generate Contributors
           command: |
-            outputFile=contributors.json
             echo 'Generating a list of contributors'
+            touch contributors.json
             echo 'oss generate:contributors --output=contributors.json'
-            echo 'git add contributors.json'
-            echo 'git commit -m "[skip ci] Updating contributors"'
-            echo 'git push'
+
+            git config user.email "opensource+nr1-customer-journey-nerdpack@newrelic.com"
+            git config user.name "CircleCI"
+            git add contributors.json
+            git commit -m "Updating contributors [skip ci]""
+            git push origin $CIRCLE_BRANCH
     
   # TO DO - Profile keys (private env variables) & actual commands including adding --profile etc.
   deploy:
@@ -352,6 +360,28 @@ workflows:
             branches:
               ignore:
                 - master
+      
+      - version-app:
+          requires:
+            - setup
+            - test-code
+            - test-pr
+
+          filters:
+            branches:
+              only:
+                - circle-ci-test
+      
+      - generate-contributors:
+          requires:
+            - setup
+            - test-code
+            - test-pr
+
+          filters:
+            branches:
+              only:
+                - circle-ci-test
 
       # Validate schema of the Nerdpack, files needed for OS
       - validate-nerdpack:
