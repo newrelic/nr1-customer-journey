@@ -228,6 +228,8 @@ jobs:
     executor: node10browsers
 
     steps:
+      - command-restore-or-checkout
+      - command-install
       - run:
           name: "ESLinting"
           command: |
