@@ -178,20 +178,20 @@ commands:
           command: |
             nr1 nerdpack:build
 
-      # - run:
-      #     name: "Publish"
-      #     command: |
-      #       nr1 nerdpack:publish
+      - run:
+          name: "Publish"
+          command: |
+            nr1 nerdpack:publish
 
-      # - run:
-      #     name: "Deploy"
-      #     command: |
-      #       nr1 nerdpack:deploy
+      - run:
+          name: "Deploy"
+          command: |
+            nr1 nerdpack:deploy
 
-      # - run:
-      #     name: "Subscribe"
-      #     command: |
-      #       nr1 nerdpack:subscribe
+      - run:
+          name: "Subscribe"
+          command: |
+            nr1 nerdpack:subscribe
 
 jobs:
   job-setup:    
@@ -252,6 +252,7 @@ jobs:
       # We don't have tests yet, but we should
       - run: npm test
 
+  # TO DO - Finish building out oss-cli contrib generator and publish oss-cli to npm
   job-generate-contributors:
     executor: node10browsers
 
@@ -262,17 +263,28 @@ jobs:
       # TO DO - Generate Contributors list
       # - command-install-oss-cli
       - run:
-          name: Generate Contributors
+          name: Updating Contributors
           command: |
-            echo 'Generating a list of contributors'
-            touch contributors.json
-            echo 'oss generate:contributors --output=contributors.json'
+            CONTRIB_FILE=contributors.json
 
-            git config user.name "CircleCI Customer Journey"
-            git config user.email "opensource+nr1-customer-journey-nerdpack@newrelic.com"
-            git add contributors.json
-            git commit -m "Updating contributors [skip ci]"
-            git push origin $CIRCLE_BRANCH
+            # echo 'Generating a list of contributors'
+            # echo 'oss generate:contributors --output=$CONTRIB_FILE'
+
+            if [ -f "$CONTRIB_FILE" ]; then
+              rm $CONTRIB_FILE
+            fi
+
+            touch $CONTRIB_FILE
+            SAMPLE_CONTRIB_JSON='{"timestamp": "$(date)", "login":"devfreddy","id":197140,"node_id":"MDQ6VXNlcjE5NzE0MA==","avatar_url":"https://avatars1.githubusercontent.com/u/197140?v=4","gravatar_id":"","url":"https://api.github.com/users/devfreddy","html_url":"https://github.com/devfreddy","followers_url":"https://api.github.com/users/devfreddy/followers","following_url":"https://api.github.com/users/devfreddy/following{/other_user}","gists_url":"https://api.github.com/users/devfreddy/gists{/gist_id}","starred_url":"https://api.github.com/users/devfreddy/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/devfreddy/subscriptions","organizations_url":"https://api.github.com/users/devfreddy/orgs","repos_url":"https://api.github.com/users/devfreddy/repos","events_url":"https://api.github.com/users/devfreddy/events{/privacy}","received_events_url":"https://api.github.com/users/devfreddy/received_events","type":"User","site_admin":false,"contributions":7}'
+            echo $SAMPLE_CONTRIB_JSON > $CONTRIB_FILE
+
+            if ! git diff-index --quiet HEAD --; then
+              git config user.name "CircleCI Customer Journey"
+              git config user.email "opensource+nr1-customer-journey-nerdpack@newrelic.com"
+              git add $CONTRIB_FILE
+              git commit -m "Updating contributors [skip ci]"
+              git push origin $CIRCLE_BRANCH
+            fi
   
   # TO DO - utilize our future oss-cli or a script to callout to github to generate a release utilizing the version in package.json
   job-generate-release:
@@ -324,10 +336,21 @@ workflows:
             branches:
               only:
                 - master
+      
+      - job-generate-contributors:
+          requires:
+            - job-setup
+            - job-build
+
+          filters:
+            branches:
+              only:
+                - master
 
       - job-generate-release:
           requires:
             - job-setup
+            - job-build
 
           filters:
             branches:
@@ -338,6 +361,9 @@ workflows:
       - job-deploy:
           requires:
             - job-setup
+            - job-build
+            - job-generate-contributors
+            - job-generate-release
 
           filters:
             branches:
@@ -382,7 +408,7 @@ workflows:
               ignore:
                 - master
 
-      # Validate schema of the Nerdpack, files needed for OS
+      # Validate schema of the Nerdpack
       - job-validate-nerdpack:
           requires:
             - job-setup
@@ -391,23 +417,13 @@ workflows:
             branches:
               ignore:
                 - master
-
+      
       # TO DO - Update to master only and remove after testing on circle-ci-test branch
-      - job-generate-contributors:
+      - job-generate-release:
           requires:
             - job-setup
             - job-test-code
             - job-test-pr
-
-          filters:
-            branches:
-              only:
-                - circle-ci-test
-      
-      # TO DO - Update to master only and remove after testing on circle-ci-test branch
-      - job-deploy:
-          requires:
-            - job-setup
 
           filters:
             branches:
