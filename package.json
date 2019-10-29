@@ -10,7 +10,7 @@
     "eslint-fix": "eslint nerdlets/ --fix"
   },
   "bugs": {
-    "email": "opensource+nr1-customer-journey-nerdpack@newrelic.com"
+    "email": "opensource+nr1-customer-journey@newrelic.com"
   },
   "nr1": {
     "uuid": "dd1c343b-af62-47a0-ae13-91cb2b45e599",
