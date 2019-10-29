@@ -29,10 +29,10 @@ version: 2.1
 # 
 
 github-semantic-bot: &github-semantic-bot
-  GIT_AUTHOR_NAME: @semantic-release-bot
-  # GIT_AUTHOR_EMAIL: @semantic-release-bot email address
-  GIT_COMMITTER_NAME: @semantic-release-bot
-  # GIT_COMMITTER_EMAIL: @semantic-release-bot email address
+  GIT_AUTHOR_NAME: "@semantic-release-bot"
+  # GIT_AUTHOR_EMAIL: "@semantic-release-bot email address"
+  GIT_COMMITTER_NAME: "@semantic-release-bot"
+  # GIT_COMMITTER_EMAIL: "@semantic-release-bot email address"
     
 
 # 
