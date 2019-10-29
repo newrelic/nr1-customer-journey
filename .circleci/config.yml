@@ -271,7 +271,7 @@ jobs:
             git config user.email "opensource+nr1-customer-journey-nerdpack@newrelic.com"
             git config user.name "CircleCI"
             git add contributors.json
-            git commit -m "Updating contributors [skip ci]""
+            git commit -m "Updating contributors [skip ci]"
             git push origin $CIRCLE_BRANCH
     
   # TO DO - Profile keys (private env variables) & actual commands including adding --profile etc.
