@@ -1,6 +1,6 @@
 import React from 'react';
 import Details from './details';
-import { PlatformStateContext, NerdletStateContext, AutoSizer } from 'nr1';
+import { PlatformStateContext, NerdletStateContext } from 'nr1';
 
 export default class Wrapper extends React.PureComponent {
   render() {
