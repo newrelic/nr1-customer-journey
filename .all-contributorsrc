@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "tangollama",
+      "name": "Joel Worrall",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/929261?v=4",
+      "profile": "http://joelworrall.com",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "nr1-customer-journey",
+  "projectOwner": "newrelic",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}
