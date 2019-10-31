@@ -68,18 +68,22 @@ commands:
   # Download and cache source code
   command-restore-or-checkout:
     steps:
-      # - restore_cache:
-      #     keys:
-      #       - source-v1-{{ .Branch }}-{{ .Revision }}
-      #       - source-v1-{{ .Branch }}-
-      #       - source-v1-
+      - restore_cache:
+          keys:
+            - source-v2-{{ .Branch }}-{{ .Revision }}
+            - source-v2-{{ .Branch }}-
 
       - checkout
 
-      # - save_cache:
-      #     key: source-v1-{{ .Branch }}-{{ .Revision }}
-      #     paths:
-      #       - ".git"
+      - save_cache:
+          key: source-v2-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - ".git"
+
+      - run:
+          name: "package.json version"
+          command: |
+            node -p "require('./package.json').version"
 
   # Download and cache dependencies
   command-install:
