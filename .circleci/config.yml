@@ -281,8 +281,8 @@ jobs:
             echo $SAMPLE_CONTRIB_JSON > $CONTRIB_FILE
 
             if ! git diff-index --quiet HEAD --; then
-              git config user.name "CircleCI Customer Journey"
-              git config user.email "opensource+nr1-customer-journey-nerdpack@newrelic.com"
+              git config user.name "circleci[bot]"
+              git config user.email "opensource+nr1-customer-journey@newrelic.com"
               git add $CONTRIB_FILE
               git commit -m "Updating contributors [skip ci]"
               git push origin $CIRCLE_BRANCH
