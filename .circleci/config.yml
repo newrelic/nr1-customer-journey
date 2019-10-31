@@ -30,9 +30,9 @@ version: 2.1
 
 github-semantic-bot: &github-semantic-bot
   GIT_AUTHOR_NAME: "@semantic-release-bot"
-  # GIT_AUTHOR_EMAIL: "@semantic-release-bot email address"
+  GIT_AUTHOR_EMAIL: "opensource+nr1-customer-journey@newrelic.com"
   GIT_COMMITTER_NAME: "@semantic-release-bot"
-  # GIT_COMMITTER_EMAIL: "@semantic-release-bot email address"
+  GIT_COMMITTER_EMAIL: "opensource+nr1-customer-journey@newrelic.com"
     
 
 # 
@@ -277,7 +277,7 @@ jobs:
             SAMPLE_CONTRIB_JSON='{"timestamp": "$(date)", "login":"devfreddy","id":197140,"node_id":"MDQ6VXNlcjE5NzE0MA==","avatar_url":"https://avatars1.githubusercontent.com/u/197140?v=4","gravatar_id":"","url":"https://api.github.com/users/devfreddy","html_url":"https://github.com/devfreddy","followers_url":"https://api.github.com/users/devfreddy/followers","following_url":"https://api.github.com/users/devfreddy/following{/other_user}","gists_url":"https://api.github.com/users/devfreddy/gists{/gist_id}","starred_url":"https://api.github.com/users/devfreddy/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/devfreddy/subscriptions","organizations_url":"https://api.github.com/users/devfreddy/orgs","repos_url":"https://api.github.com/users/devfreddy/repos","events_url":"https://api.github.com/users/devfreddy/events{/privacy}","received_events_url":"https://api.github.com/users/devfreddy/received_events","type":"User","site_admin":false,"contributions":7}'
             echo $SAMPLE_CONTRIB_JSON > $CONTRIB_FILE
 
-            if ! git diff-index --quiet HEAD --; then
+            if git diff-index --quiet HEAD --; then
               git config user.name "circleci[bot]"
               git config user.email "opensource+nr1-customer-journey@newrelic.com"
               git add $CONTRIB_FILE
