@@ -1,0 +1,10 @@
+{
+    "branch": "circle-ci-test",
+    "plugins": [
+        "@semantic-release/commit-analyzer",
+        "@semantic-release/release-notes-generator",
+        "@semantic-release/github"
+    ],
+    "dryRun": false,
+    "debug": true
+}
