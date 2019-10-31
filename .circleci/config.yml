@@ -147,14 +147,16 @@ commands:
               "THIRD_PARTY_NOTICES.md"
               "CODE_OF_CONDUCT.md"
               "cla.md"
-              ".github/bug_report.md"
-              ".github/enhancement.md"
+              ".github/ISSUE_TEMPLATE/bug_report.md"
+              ".github/ISSUE_TEMPLATE/enhancement.md"
             )
 
             for FILE in "${files[@]}"
             do
               if [ ! -f "${rootDir}$FILE" ]; then
-                echo "$FILE is missing from Nerdpack"
+                printf "\n"
+                echo "Error: $FILE is missing from Nerdpack"
+                printf "\n"
                 exit 1
               else
                 echo "Found "${rootDir}$FILE
