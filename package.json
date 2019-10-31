@@ -27,6 +27,8 @@
   },
   "devDependencies": {
     "@newrelic/eslint-plugin-newrelic": "^0.3.0",
+    "@semantic-release/changelog": "^3.0.5",
+    "@semantic-release/git": "^7.0.17",
     "babel-eslint": "^10.0.3",
     "babel-runtime": "^6.26.0",
     "eslint": "^6.3.0",
