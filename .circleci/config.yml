@@ -186,12 +186,12 @@ commands:
       - run:
           name: "Deploy"
           command: |
-            nr1 nerdpack:deploy
+            nr1 nerdpack:deploy --channel=STABLE
 
       - run:
           name: "Subscribe"
           command: |
-            nr1 nerdpack:subscribe
+            nr1 nerdpack:subscribe --channel=STABLE
 
 jobs:
   job-setup:    
