@@ -14,6 +14,17 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "danielgolden",
+      "name": "Daniel Golden",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/812989?v=4",
+      "profile": "https://twitter.com/dangolden1",
+      "contributions": [
+        "ideas",
+        "code",
+        "design"
+      ]
     }
   ],
   "contributorsPerLine": 7,
