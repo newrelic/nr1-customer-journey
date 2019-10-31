@@ -95,11 +95,6 @@ commands:
       # "Orb snyk/snyk@0.0.8 not loaded. To use this orb, an organization admin must opt-in to using third party orbs in Organization Security settings."
       # - snyk/scan
 
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-
   # Add ssh key with write access
   # Note: only to be used on merges to master, i.e. it has been reviewed by a NewRelic maintainer
   command-setup-ci-keys:

@@ -5,20 +5,20 @@ import { Icon } from 'nr1';
 
 export default class SlaDataPoint extends React.Component {
   static propTypes = {
-    value: PropTypes.any.isRequired,
+    value: PropTypes.string.isRequired,
     kpi: PropTypes.object.isRequired,
     stat: PropTypes.object.isRequired,
-    kpiEval: PropTypes.object.isRequired,
+    kpiEval: PropTypes.object.isRequired
   };
 
   processValue(value) {
     const { stat } = this.props;
     let workingVal = value;
-    if (stat.type == 'percentile') {
+    if (stat.type === 'percentile') {
       const percentileKeys = Object.keys(value);
       workingVal = value[percentileKeys[0]].toFixed(2);
     }
-    if (stat.type == 'decimal') {
+    if (stat.type === 'decimal') {
       workingVal = workingVal.toFixed(2);
     }
     switch (stat.value.display) {
@@ -58,7 +58,7 @@ export default class SlaDataPoint extends React.Component {
               {this.processValue(kpi.value)}
             </h4>
             <h6 className="slaComparisonItemLabel slaLabel">
-              {kpi.bound.toLowerCase() == 'percentage'
+              {kpi.bound.toLowerCase() === 'percentage'
                 ? '% Change'
                 : 'Defined SLA'}
             </h6>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import KpiEval from '../../util/kpi';
 
 function toSentenceCase(input) {
-  let output = input
+  const output = input
     .split(/(?=[A-Z])/)
     .join(' ')
     .toLowerCase();
@@ -12,24 +12,24 @@ function toSentenceCase(input) {
 
 export default class DataPoint extends React.Component {
   static propTypes = {
-    value: PropTypes.any,
-    compareWith: PropTypes.any,
+    value: PropTypes.string,
+    compareWith: PropTypes.number,
     label: PropTypes.string.isRequired,
     stat: PropTypes.object.isRequired,
-    kpi: PropTypes.object,
+    kpi: PropTypes.object
   };
 
   processValue() {
     const { stat, value } = this.props;
-    if (value == null || value == 'N/A') {
+    if (value === null || value === 'N/A') {
       return 'N/A';
     }
     let workingVal = value;
-    if (stat.type == 'percentile') {
+    if (stat.type === 'percentile') {
       const percentileKeys = Object.keys(value);
       workingVal = value[percentileKeys[0]].toFixed(2);
     }
-    if (stat.type == 'decimal') {
+    if (stat.type === 'decimal') {
       workingVal = workingVal.toFixed(2);
     }
     switch (stat.value.display) {
