@@ -1,5 +1,5 @@
 # nr1-customer-journey
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
 
 ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-customer-journey?include_prereleases&sort=semver) [![Snyk](https://snyk.io/test/github/newrelic/nr1-customer-journey/badge.svg)](https://snyk.io/test/github/newrelic/nr1-customer-journey)
 
@@ -116,6 +116,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="http://joelworrall.com"><img src="https://avatars0.githubusercontent.com/u/929261?v=4" width="100px;" alt="Joel Worrall"/><br /><sub><b>Joel Worrall</b></sub></a><br /><a href="https://github.com/newrelic/nr1-customer-journey/commits?author=tangollama" title="Code">💻</a> <a href="#ideas-tangollama" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://twitter.com/dangolden1"><img src="https://avatars2.githubusercontent.com/u/812989?v=4" width="100px;" alt="Daniel Golden"/><br /><sub><b>Daniel Golden</b></sub></a><br /><a href="#ideas-danielgolden" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/newrelic/nr1-customer-journey/commits?author=danielgolden" title="Code">💻</a> <a href="#design-danielgolden" title="Design">🎨</a></td>
+    <td align="center"><a href="https://github.com/wesleyradcliffe"><img src="https://avatars1.githubusercontent.com/u/1923933?v=4" width="100px;" alt="Wesley D. Radcliffe"/><br /><sub><b>Wesley D. Radcliffe</b></sub></a><br /><a href="#ideas-wesleyradcliffe" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/newrelic/nr1-customer-journey/commits?author=wesleyradcliffe" title="Code">💻</a></td>
   </tr>
 </table>
 
