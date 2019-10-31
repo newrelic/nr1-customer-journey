@@ -1,3 +1,10 @@
+## [0.2.1](https://github.com/newrelic/nr1-customer-journey/compare/v0.2.0...v0.2.1) (2019-10-31)
+
+
+### Bug Fixes
+
+* **circleci-autodeploy:** restore cache and make less aggressive ([68eb709](https://github.com/newrelic/nr1-customer-journey/commit/68eb70981e0fbf06a18ba2256adb55163c4cec30))
+
 # [0.2.0](https://github.com/newrelic/nr1-customer-journey/compare/v0.1.8...v0.2.0) (2019-10-31)
 
 
