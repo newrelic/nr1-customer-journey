@@ -38,9 +38,8 @@ github-semantic-bot: &github-semantic-bot
 # 
 # Orbs
 # 
-# orbs:
-# "Orb snyk/snyk@0.0.8 not loaded. To use this orb, an organization admin must opt-in to using third party orbs in Organization Security settings."
-#   snyk: snyk/snyk@0.0.8
+orbs:
+  snyk: snyk/snyk@0.0.8
 
 
 #
@@ -96,8 +95,7 @@ commands:
 
       - run: npm install
 
-      # "Orb snyk/snyk@0.0.8 not loaded. To use this orb, an organization admin must opt-in to using third party orbs in Organization Security settings."
-      # - snyk/scan
+      - snyk/scan
 
   # Add ssh key with write access
   # Note: only to be used on merges to master, i.e. it has been reviewed by a NewRelic maintainer
