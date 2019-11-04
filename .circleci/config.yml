@@ -311,18 +311,21 @@ workflows:
               only:
                 - master
 
-      # TO DO - Should deploy be based on the output of generating a release or the current state of the repo?
-      - job-deploy:
-          requires:
-            - job-setup
-            - job-build
-            - job-generate-release
+  # Deploy on tag creation
+  deploy-demotronv2:
+    - job-deploy:
+        requires:
+          - job-setup
+          - job-build
 
-          filters:
-            branches:
-              only:
-                - master
-  
+        filters:
+          branches:
+            ignore: /.*/
+          tags:
+            only: /v.*/
+            # For more specificity:
+            #   /^version-2\.1\.[3-7]/
+
   # Test and Analyze a branch (other than master)
   # Our Advanced Settings of "Only build pull requests" will limit this to branches with open pull requests
   analyze:
