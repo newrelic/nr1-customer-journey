@@ -1,3 +1,10 @@
+## [0.2.2](https://github.com/newrelic/nr1-customer-journey/compare/v0.2.1...v0.2.2) (2019-11-04)
+
+
+### Bug Fixes
+
+* correct equality comparison for absence of property ([d9b0701](https://github.com/newrelic/nr1-customer-journey/commit/d9b070196ccf87fc423e7dff7c1a4219058a3405))
+
 ## [0.2.1](https://github.com/newrelic/nr1-customer-journey/compare/v0.2.0...v0.2.1) (2019-10-31)
 
 
