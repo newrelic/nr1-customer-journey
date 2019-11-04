@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DataPoint from './DataPoint';
 import { NerdGraphQuery, BlockText, navigation } from 'nr1';
-import { get } from 'lodash';
+import { get, has } from 'lodash';
 
 function getValue(rs) {
   if (rs) {
@@ -145,7 +145,7 @@ export default class StatCell extends React.Component {
             return (
               <>
                 {stats
-                  .filter(s => s.value.calculation === null)
+                  .filter(s => !has(s.value, 'calculation'))
                   .map((stat, i) => {
                     const kpi = kpis
                       ? kpis.find(kpi => kpi.ref === stat.ref)

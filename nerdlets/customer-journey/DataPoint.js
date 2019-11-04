@@ -12,8 +12,8 @@ function toSentenceCase(input) {
 
 export default class DataPoint extends React.Component {
   static propTypes = {
-    value: PropTypes.string,
-    compareWith: PropTypes.number,
+    value: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+    compareWith: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
     label: PropTypes.string.isRequired,
     stat: PropTypes.object.isRequired,
     kpi: PropTypes.object

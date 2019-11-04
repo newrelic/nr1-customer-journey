@@ -11,7 +11,6 @@ export default class StatColumn extends React.Component {
 
   constructor(props) {
     super(props);
-    // console.log(props);
   }
 
   render() {
