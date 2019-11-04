@@ -313,18 +313,34 @@ workflows:
 
   # Deploy on tag creation
   deploy-demotronv2:
-    - job-deploy:
-        requires:
-          - job-setup
-          - job-build
+    jobs:
+      - job-setup:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /v.*/
 
-        filters:
-          branches:
-            ignore: /.*/
-          tags:
-            only: /v.*/
-            # For more specificity:
-            #   /^version-2\.1\.[3-7]/
+      - job-build:
+          requires:
+            - job-setup
+
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /v.*/
+
+      - job-deploy:
+          requires:
+            - job-setup
+            - job-build
+
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /v.*/
 
   # Test and Analyze a branch (other than master)
   # Our Advanced Settings of "Only build pull requests" will limit this to branches with open pull requests
