@@ -1,3 +1,11 @@
+## [0.2.3](https://github.com/newrelic/nr1-customer-journey/compare/v0.2.2...v0.2.3) (2019-11-04)
+
+
+### Bug Fixes
+
+* **circleci:** deploy on creation of tags ([36cadd8](https://github.com/newrelic/nr1-customer-journey/commit/36cadd8d65807e0f05d2e635ec3e4ed70585d929))
+* **circleci:** deploy on creation of tags ([990b291](https://github.com/newrelic/nr1-customer-journey/commit/990b291ea9e7067743ed069409504dcd0fff8f4e))
+
 ## [0.2.2](https://github.com/newrelic/nr1-customer-journey/compare/v0.2.1...v0.2.2) (2019-11-04)
 
 
