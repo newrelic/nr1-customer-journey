@@ -1,3 +1,10 @@
+## [0.2.4](https://github.com/newrelic/nr1-customer-journey/compare/v0.2.3...v0.2.4) (2019-11-05)
+
+
+### Bug Fixes
+
+* equality refactor cleanup, updating some nr1 component props ([5351920](https://github.com/newrelic/nr1-customer-journey/commit/535192051b0f04c79c9dc7371307dd467d3893ce))
+
 ## [0.2.3](https://github.com/newrelic/nr1-customer-journey/compare/v0.2.2...v0.2.3) (2019-11-04)
 
 
