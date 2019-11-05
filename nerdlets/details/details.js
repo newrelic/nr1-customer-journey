@@ -40,10 +40,12 @@ export default class Details extends React.Component {
     const step = journey.steps.find(s => s.id === selectedStep);
     let { stats, kpis } = journey;
     // debugger;
-    stats = stats.filter(s => s.value.nrql);
+    stats = stats.filter(s => {
+      return s.value.nrql;
+    });
     if (kpis) {
       kpis = kpis
-        .filter(kpi => stats.find(s => s.ref === kpi.ref) !== null)
+        .filter(kpi => stats.find(s => s.ref === kpi.ref))
         .map(kpi => {
           kpi.stat = stats.find(s => s.ref === kpi.ref);
           kpi.nrql = `${kpi.stat.value.nrql} AND (${column.nrqlWhere}) AND (${
@@ -59,9 +61,9 @@ export default class Details extends React.Component {
     return (
       <ChartGroup>
         <Grid style={{ margin: '20px' }}>
-          <GridItem columnSpan="12">
+          <GridItem columnSpan={12}>
             <HeadingText
-              type="heading3"
+              type="heading-3"
               className="detailPaneHeader customerJourneyBreadcrumbs"
             >
               <span className="customerJourneyBreadcrumb">{journey.title}</span>
@@ -70,15 +72,15 @@ export default class Details extends React.Component {
             </HeadingText>
           </GridItem>
           {kpis && (
-            <GridItem columnSpan="12">
+            <GridItem columnSpan={12}>
               <HeadingText>KPI's</HeadingText>
             </GridItem>
           )}
           {kpis &&
             kpis.map((kpi, i) => {
               return (
-                <GridItem key={i} columnSpan="4" className="chartContainer">
-                  <HeadingText type="heading3">{kpi.label}</HeadingText>
+                <GridItem key={i} columnSpan={4} className="chartContainer">
+                  <HeadingText type="heading-3">{kpi.label}</HeadingText>
                   <BillboardChart
                     accountId={journey.accountId}
                     query={kpi.nrql}
@@ -88,7 +90,7 @@ export default class Details extends React.Component {
                 </GridItem>
               );
             })}
-          <GridItem columnSpan="12">
+          <GridItem columnSpan={12}>
             <HeadingText className="timeSeriesHeading">
               Timeseries Data
             </HeadingText>
@@ -103,8 +105,8 @@ export default class Details extends React.Component {
               2} MINUTES AGO`;
             // console.log(query);
             return (
-              <GridItem key={i} columnSpan="4" className="chartContainer">
-                <HeadingText type="heading3">{stat.label}</HeadingText>
+              <GridItem key={i} columnSpan={4} className="chartContainer">
+                <HeadingText type="heading-3">{stat.label}</HeadingText>
                 <LineChart
                   accountId={journey.accountId}
                   query={query}
