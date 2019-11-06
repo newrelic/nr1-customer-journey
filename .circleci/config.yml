@@ -283,9 +283,12 @@ jobs:
       # https://discuss.circleci.com/t/checkout-fails-on-git-tags-when-git-directory-is-already-present/22437/6
       # https://stackoverflow.com/questions/45338495/fetch-a-single-tag-from-remote-repository/45338695#45338695
       - run:
-          name: Checkout with tags
+          name: Create local tag
           command: |
-            git fetch --force origin "refs/tags/${CIRCLE_TAG}:refs/tags/${CIRCLE_TAG}"
+            if [ -n "$CIRCLE_TAG" ]
+            then
+              git fetch --force origin "refs/tags/${CIRCLE_TAG}:refs/tags/${CIRCLE_TAG}"
+            fi
 
       - command-install
       - command-install-nr1-cli
