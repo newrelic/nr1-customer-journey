@@ -1,3 +1,10 @@
+## [0.2.5](https://github.com/newrelic/nr1-customer-journey/compare/v0.2.4...v0.2.5) (2019-11-06)
+
+
+### Bug Fixes
+
+* **ci:** explicitly add git tag locally ([408e948](https://github.com/newrelic/nr1-customer-journey/commit/408e948c12e7ef2146e774148d55106a0f23e554))
+
 ## [0.2.4](https://github.com/newrelic/nr1-customer-journey/compare/v0.2.3...v0.2.4) (2019-11-05)
 
 
