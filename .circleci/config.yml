@@ -6,6 +6,7 @@
 # Gotchas:
 # - The master branch has to have a config or it won't see other branches config files
 # - CircleCI requires a follower before it will build a project
+# - Have you enabled 3rd party orbs from Organization -> Settings -> Security -> Orb Security Settings ?
 
 
 # Testing
@@ -28,12 +29,49 @@ version: 2.1
 # Configs
 # 
 
+# The private ENV variable in CircleCI where we've stored the API key for deployment
+nr1-profile-env-name: &nr1-profile-env-name
+  NR1CLI_PROFILE_DEMOTRONV2
+
+# Channel we deploy to on pushes to master
+nr1-deploy-channel: &nr1-deploy-channel
+  STABLE
+
+# Channel we subscribe to on pushes to master
+nr1-subscribe-channel: &nr1-subscribe-channel
+  STABLE
+
+# Semantic release configs
 github-semantic-bot: &github-semantic-bot
   GIT_AUTHOR_NAME: "@semantic-release-bot"
   GIT_AUTHOR_EMAIL: "opensource+nr1-customer-journey@newrelic.com"
   GIT_COMMITTER_NAME: "@semantic-release-bot"
   GIT_COMMITTER_EMAIL: "opensource+nr1-customer-journey@newrelic.com"
-    
+
+# Fingerprint for a Github repository write access deploy key
+# Required for
+  # - commiting the incremented package.json version back to the repository
+  # - auto-generated change logs from semantic-release
+deploy-key-fingerprint: &deploy-key-fingerprint
+  6a:ca:a9:d4:15:97:96:e1:1d:0f:af:e5:85:27:88:d4
+
+# Source code caching
+source-cache-key: &source-cache-key
+  source-v2-{{ .Branch }}-{{ .Revision }}
+
+source-cache-keys: &source-cache-keys
+  - *source-cache-key
+
+# Node module caching
+npm-cache-key: &npm-cache-key
+  v1-dependencies-{{ checksum "package-lock.json" }}
+
+npm-backup-cache-key: &npm-backup-cache-key
+  v1-dependencies
+
+npm-cache-keys: &npm-cache-keys
+  - *npm-cache-key
+  - *npm-backup-cache-key
 
 # 
 # Orbs
@@ -63,14 +101,14 @@ executors:
     docker:
       - image: circleci/node:10-browsers
 
+# 
+# Commands
+# 
 commands: 
   # Download and cache source code
-  command-restore-or-checkout:
+  command-checkout-source:
     steps:
-      - restore_cache:
-          keys:
-            - source-v2-{{ .Branch }}-{{ .Revision }}
-            - source-v2-{{ .Branch }}-
+      - checkout
 
       # Temporary workaround for https://discuss.circleci.com/t/22437
       - run:
@@ -83,39 +121,47 @@ commands:
               git fetch --force origin "refs/tags/${CIRCLE_TAG}:refs/tags/${CIRCLE_TAG}"
             fi
 
-      - checkout
-
       - save_cache:
-          key: source-v2-{{ .Branch }}-{{ .Revision }}
+          key: *source-cache-key
           paths:
-            - ".git"
+            - .
 
       - run:
           name: "package.json version"
           command: |
             node -p "require('./package.json').version"
 
-  # Download and cache dependencies
-  command-install:
+  command-restore-source:
     steps:
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+            *source-cache-keys
 
+  # Download and cache npm dependencies
+  command-npm-install:
+    steps:
       - run: npm install
 
       - snyk/scan
 
-  # Add ssh key with write access
-  # Note: only to be used on merges to master, i.e. it has been reviewed by a NewRelic maintainer
+      - save_cache:
+          key: *npm-cache-key
+          paths:
+            - node_modules
+
+  command-restore-npm:
+    steps:
+      - restore_cache:
+          keys:
+            *npm-cache-keys
+
   command-setup-ci-keys:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "6a:ca:a9:d4:15:97:96:e1:1d:0f:af:e5:85:27:88:d4"
+            - *deploy-key-fingerprint
 
+  # TO DO - Cache or add to base docker image pre-installed
   command-install-nr1-cli:
     steps:
       - run:
@@ -176,12 +222,15 @@ commands:
               fi
             done
   
-  command-deploy-demotron:
+  command-deploy:
     steps:
       - run:
           name: "Adding nr1 profile api key"
           command: |
-            nr1 profiles:add --name demotronv2 --api-key $NR1CLI_PROFILE_DEMOTRONV2 --region us
+            NR1_PROFILE_KEY=${!NR1_PROFILE_ENV_NAME}
+            nr1 profiles:add --name default-deploy-target --api-key ${NR1_PROFILE_KEY} --region us
+          environment:
+            NR1_PROFILE_ENV_NAME: *nr1-profile-env-name
 
       - run:
           name: "Build"
@@ -196,27 +245,30 @@ commands:
       - run:
           name: "Deploy"
           command: |
-            nr1 nerdpack:deploy --channel=STABLE
+            nr1 nerdpack:deploy --channel=${NR1_DEPLOY_CHANNEL}
+          environment:
+            NR1_DEPLOY_CHANNEL: *nr1-deploy-channel
 
       - run:
           name: "Subscribe"
           command: |
-            nr1 nerdpack:subscribe --channel=STABLE
+            nr1 nerdpack:subscribe --channel=${NR1_SUBSCRIBE_CHANNEL}
+          environment:
+            NR1_SUBSCRIBE_CHANNEL: *nr1-subscribe-channel
 
+# 
+# Jobs
+# 
 jobs:
-  job-setup:    
-    executor: node10
-
-    steps:
-      - command-restore-or-checkout
-      - command-install
-
-  job-build:
+  job-checkout-and-build:    
     executor: node10browsers
 
     steps:
-      - command-restore-or-checkout
+      - command-checkout-source
+      - command-npm-install
       - command-install-nr1-cli
+
+      # Test and fail early if the above isn't enough to build the app
       - run:
           name: "nr1 nerdpack build"
           command: |
@@ -226,10 +278,8 @@ jobs:
     executor: node10browsers
 
     steps:
-      - command-restore-or-checkout
+      - command-restore-source
       - command-install-nr1-cli
-      # TO DO - Build and publish the osscli to npm
-      # - command-install-oss-cli
       - command-validate-nerdpack-schema
       - command-validate-opensource-files
   
@@ -238,8 +288,8 @@ jobs:
     executor: node10browsers
 
     steps:
-      - command-restore-or-checkout
-      - command-install
+      - command-restore-source
+      - command-restore-npm
       - run:
           name: "ESLinting"
           command: |
@@ -249,7 +299,8 @@ jobs:
     executor: node10browsers
 
     steps:
-      - command-restore-or-checkout
+      - command-restore-source
+      - command-restore-npm
       # We don't have tests yet, but we should
       - run:
           name: "Additional checks on pr from fork"
@@ -260,7 +311,8 @@ jobs:
     executor: node10browsers
 
     steps:
-      - command-restore-or-checkout
+      - command-restore-source
+      - command-restore-npm
       # We don't have tests yet, but we should
       - run: npm test
   
@@ -272,8 +324,11 @@ jobs:
       <<: *github-semantic-bot
 
     steps:
-      - command-restore-or-checkout
-      - command-install
+      - command-restore-source
+      # Necessary so github.com is a known host for when semantic-release interacts with git
+      # TO DO - Replace with a smaller slice of the checkout command
+      - command-checkout-source
+      - command-restore-npm
       - command-setup-ci-keys
 
       # https://semantic-release.gitbook.io/semantic-release/usage/plugins
@@ -285,28 +340,19 @@ jobs:
 
   # TO DO - Profile keys (private env variables) & actual commands including adding --profile etc.
   job-deploy:
-    executor: node10
+    executor: node10browsers
 
     steps:
-      - command-restore-or-checkout
-      - command-install
+      - command-restore-source
+      - command-restore-npm
       - command-install-nr1-cli
-      - command-deploy-demotron
+      - command-deploy
 
 workflows:
   # A merge or commit to the master branch
   release:
     jobs:
-      - job-setup:
-          filters:
-            branches:
-              only:
-                - master
-
-      - job-build:
-          requires:
-            - job-setup
-
+      - job-checkout-and-build:
           filters:
             branches:
               only:
@@ -314,8 +360,7 @@ workflows:
 
       - job-generate-release:
           requires:
-            - job-setup
-            - job-build
+            - job-checkout-and-build
 
           filters:
             branches:
@@ -323,19 +368,9 @@ workflows:
                 - master
 
   # Deploy on tag creation
-  deploy-demotronv2:
+  deploy-to:
     jobs:
-      - job-setup:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /v.*/
-
-      - job-build:
-          requires:
-            - job-setup
-
+      - job-checkout-and-build:
           filters:
             branches:
               ignore: /.*/
@@ -344,8 +379,7 @@ workflows:
 
       - job-deploy:
           requires:
-            - job-setup
-            - job-build
+            - job-checkout-and-build
 
           filters:
             branches:
@@ -357,7 +391,7 @@ workflows:
   # Our Advanced Settings of "Only build pull requests" will limit this to branches with open pull requests
   analyze:
     jobs:
-      - job-setup:
+      - job-checkout-and-build:
           filters:
             branches:
               ignore:
@@ -365,7 +399,7 @@ workflows:
       
       - job-lint:
           requires:
-            - job-setup
+            - job-checkout-and-build
 
           filters:
             branches:
@@ -376,7 +410,7 @@ workflows:
       # CircleCI sets the name of pull requests originating from forks to /pull/{id}
       - job-test-pr:
           requires:
-            - job-setup
+            - job-checkout-and-build
 
           filters:
             branches:
@@ -384,7 +418,7 @@ workflows:
 
       - job-test-code:
           requires:
-            - job-setup
+            - job-checkout-and-build
 
           filters:
             branches:
@@ -394,7 +428,7 @@ workflows:
       # Validate schema of the Nerdpack
       - job-validate-nerdpack:
           requires:
-            - job-setup
+            - job-checkout-and-build
 
           filters:
             branches:
