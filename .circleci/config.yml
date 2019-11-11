@@ -40,11 +40,11 @@ nr1-nerdpack-uuid: &nr1-nerdpack-uuid
 
 # Channel we deploy to on pushes to master
 nr1-deploy-channel: &nr1-deploy-channel
-  STABLE
+  BETA
 
 # Channel we subscribe to on pushes to master
 nr1-subscribe-channel: &nr1-subscribe-channel
-  STABLE
+  BETA
 
 # Semantic release configs
 github-semantic-bot: &github-semantic-bot
