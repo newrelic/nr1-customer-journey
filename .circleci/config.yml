@@ -33,13 +33,18 @@ version: 2.1
 nr1-profile-env-name: &nr1-profile-env-name
   NR1CLI_PROFILE_DEMOTRONV2
 
+# The Nerdpack UUID we should deploy with
+# Currently set to one associated with DemotronV2
+nr1-nerdpack-uuid: &nr1-nerdpack-uuid
+  dd1c343b-af62-47a0-ae13-91cb2b45e599
+
 # Channel we deploy to on pushes to master
 nr1-deploy-channel: &nr1-deploy-channel
-  STABLE
+  BETA
 
 # Channel we subscribe to on pushes to master
 nr1-subscribe-channel: &nr1-subscribe-channel
-  STABLE
+  BETA
 
 # Semantic release configs
 github-semantic-bot: &github-semantic-bot
@@ -161,6 +166,13 @@ commands:
           fingerprints:
             - *deploy-key-fingerprint
 
+  command-install-json-cli:
+    steps:
+      - run:
+          name: "Install json cli tool"
+          command: |
+            npm install -g json
+
   # TO DO - Cache or add to base docker image pre-installed
   command-install-nr1-cli:
     steps:
@@ -231,6 +243,11 @@ commands:
             nr1 profiles:add --name default-deploy-target --api-key ${NR1_PROFILE_KEY} --region us
           environment:
             NR1_PROFILE_ENV_NAME: *nr1-profile-env-name
+
+      - run:
+          name: "Setting target UUID"
+          command: |
+            json -I -f package.json -e 'this.nr1.uuid="${NR1_NERDPACK_UUID}"'
 
       - run:
           name: "Build"
@@ -345,6 +362,7 @@ jobs:
     steps:
       - command-restore-source
       - command-restore-npm
+      - command-install-json-cli
       - command-install-nr1-cli
       - command-deploy
 
