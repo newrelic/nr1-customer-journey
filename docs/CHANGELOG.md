@@ -1,3 +1,16 @@
+# [0.3.0](https://github.com/newrelic/nr1-customer-journey/compare/v0.2.6...v0.3.0) (2019-11-12)
+
+
+### Bug Fixes
+
+* **ci:** remove snyk from running on pull request ([23b2c00](https://github.com/newrelic/nr1-customer-journey/commit/23b2c0000842905a49dffff8335e1855bc4071fd))
+
+
+### Features
+
+* **ci:** parameterize uuid deploy target [skip ci] ([126bf9f](https://github.com/newrelic/nr1-customer-journey/commit/126bf9fa617188e9412e5363b2c484b4045f9c27))
+* **ci:** update deploy channel [skip ci] ([8e240ab](https://github.com/newrelic/nr1-customer-journey/commit/8e240ab9832bac1feaf950f95b9f382e65c9d7d8))
+
 ## [0.2.6](https://github.com/newrelic/nr1-customer-journey/compare/v0.2.5...v0.2.6) (2019-11-06)
 
 
