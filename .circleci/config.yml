@@ -426,16 +426,6 @@ workflows:
               only:
                 - master
 
-      - job-generate-third-party-notices:
-          requires:
-            - job-checkout-and-build
-
-          # TO DO - Change to master before deploying
-          filters:
-            branches:
-              only:
-                - feat/autogenerate-third-party-notices
-
   # Deploy on tag creation
   deploy-to:
     jobs:
@@ -503,3 +493,13 @@ workflows:
             branches:
               ignore:
                 - master
+
+      - job-generate-third-party-notices:
+          requires:
+            - job-checkout-and-build
+
+          # TO DO - Move to release workflow and change to master before deploying
+          filters:
+            branches:
+              only:
+                - feat/autogenerate-third-party-notices
