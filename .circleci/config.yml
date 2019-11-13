@@ -395,6 +395,8 @@ jobs:
 
               git commit -m 'chore: update third-party manifest and notices [skip ci]'
               git push
+            else
+              echo "No change in package.json, not regenerating third-party notices"
             fi
 
   job-deploy:
