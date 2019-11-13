@@ -1,3 +1,10 @@
+## [0.3.2](https://github.com/newrelic/nr1-customer-journey/compare/v0.3.1...v0.3.2) (2019-11-13)
+
+
+### Bug Fixes
+
+* **ci:** bug where uuid not set as env variable ([8613968](https://github.com/newrelic/nr1-customer-journey/commit/8613968953323c02627d221abdc7f2b307f2c6b1))
+
 ## [0.3.1](https://github.com/newrelic/nr1-customer-journey/compare/v0.3.0...v0.3.1) (2019-11-13)
 
 
