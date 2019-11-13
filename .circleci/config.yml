@@ -387,6 +387,9 @@ jobs:
             LAST_CHANGED_COMMIT=$(git log -1 --format=format:%H --full-diff package.json)
 
             if [ $LAST_CHANGED_COMMIT = $LATEST_COMMIT ]; then
+              git config user.email "mfrederick@newrelic.com"
+              git config user.name "devfreddy"
+
               oss third-party manifest
               oss third-party notices
 
