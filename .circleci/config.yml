@@ -193,7 +193,7 @@ commands:
       - run:
           name: "Install OSS CLI"
           command: |
-            sudo npm install -g @newrelic/osscli
+            sudo npm install -g @newrelic/newrelic-oss-cli
             
   # TO DO - Replace command-validate-nerdpack-schema and command-validate-opensource-files with the oss-cli
   # This will allow us to make changes at-will vs. updating dozens of config.yml's
@@ -365,7 +365,38 @@ jobs:
           command: |
             npx semantic-release
 
-  # TO DO - Profile keys (private env variables) & actual commands including adding --profile etc.
+  job-generate-third-party-notices:
+    executor: node10browsers
+
+    steps:
+      - command-restore-source
+      - command-restore-npm
+      - command-install-oss-cli
+      
+      - add_ssh_keys:
+          fingerprints:
+            - *deploy-key-fingerprint
+
+      - run:
+          name: Generate Third Party Notices
+          command: |
+            # latest commit
+            LATEST_COMMIT=$(git rev-parse HEAD)
+
+            # latest commit where package.json was changed
+            LAST_CHANGED_COMMIT=$(git log -1 --format=format:%H --full-diff package.json)
+
+            if [ $LAST_CHANGED_COMMIT = $LATEST_COMMIT ];
+              oss third-party manifest
+              oss third-party notices
+
+              git add third_party_manifest.json
+              git add THIRD_PARTY_NOTICES.md
+
+              git commit -m 'chore: update third-party manifest and notices [skip ci]'
+              git push
+            then
+
   job-deploy:
     executor: node10browsers
 
@@ -394,6 +425,16 @@ workflows:
             branches:
               only:
                 - master
+
+      - job-generate-third-party-notices:
+          requires:
+            - job-checkout-and-build
+
+          # TO DO - Change to master before deploying
+          filters:
+            branches:
+              only:
+                - feat/autogenerate-third-party-notices
 
   # Deploy on tag creation
   deploy-to:
