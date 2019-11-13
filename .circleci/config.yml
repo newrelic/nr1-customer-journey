@@ -386,7 +386,7 @@ jobs:
             # latest commit where package.json was changed
             LAST_CHANGED_COMMIT=$(git log -1 --format=format:%H --full-diff package.json)
 
-            if [ $LAST_CHANGED_COMMIT = $LATEST_COMMIT ];
+            if [ $LAST_CHANGED_COMMIT = $LATEST_COMMIT ]; then
               oss third-party manifest
               oss third-party notices
 
@@ -395,7 +395,7 @@ jobs:
 
               git commit -m 'chore: update third-party manifest and notices [skip ci]'
               git push
-            then
+            fi
 
   job-deploy:
     executor: node10browsers
