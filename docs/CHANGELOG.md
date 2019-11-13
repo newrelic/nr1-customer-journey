@@ -1,3 +1,11 @@
+## [0.3.1](https://github.com/newrelic/nr1-customer-journey/compare/v0.3.0...v0.3.1) (2019-11-13)
+
+
+### Bug Fixes
+
+* **ci:** install global npm packages with sudo [skip ci] ([42e12b0](https://github.com/newrelic/nr1-customer-journey/commit/42e12b0fd558bbfc5cf4fdd19570b63be7099896))
+* **ci:** shell expansion bug [skip ci] ([1b5daa3](https://github.com/newrelic/nr1-customer-journey/commit/1b5daa38736415360a75d8fc3a281466e9aadc1f))
+
 # [0.3.0](https://github.com/newrelic/nr1-customer-journey/compare/v0.2.6...v0.3.0) (2019-11-12)
 
 
