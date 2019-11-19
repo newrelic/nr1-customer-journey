@@ -99,10 +99,20 @@ export default class Details extends React.Component {
             </BlockText>
           </GridItem>
           {stats.map((stat, i) => {
-            const query = `${stat.value.nrql} AND (${step.nrqlWhere}) AND (${
-              column.nrqlWhere
-            }) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes *
-              2} MINUTES AGO`;
+            let query = null;
+            if (stat.value.nrql.includes('JavaScriptError')) {
+              query = `${stat.value.nrql} AND (${
+                step.altNrql.JavaScriptError
+              }) AND (${
+                column.nrqlWhere
+              }) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes *
+                2} MINUTES AGO`;
+            } else {
+              query = `${stat.value.nrql} AND (${step.nrqlWhere}) AND (${
+                column.nrqlWhere
+              }) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes *
+                2} MINUTES AGO`;
+            }
             // console.log(query);
             return (
               <GridItem key={i} columnSpan={4} className="chartContainer">
