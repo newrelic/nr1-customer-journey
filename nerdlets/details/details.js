@@ -50,9 +50,9 @@ export default class Details extends React.Component {
           kpi.stat = stats.find(s => s.ref === kpi.ref);
           kpi.nrql = `${kpi.stat.value.nrql} AND (${column.nrqlWhere}) AND (${
             step.nrqlWhere
-            }) ${
+          }) ${
             kpi.altNrql ? `AND (${kpi.altNrql}) ` : ''
-            } SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes *
+          } SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes *
             2} MINUTES AGO`;
           return kpi;
         });
