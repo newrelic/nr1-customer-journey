@@ -101,7 +101,9 @@ export default class Details extends React.Component {
           {stats.map((stat, i) => {
             let query = null;
             if (stat.value.nrql.includes('JavaScriptError')) {
-              query = `${stat.value.nrql} AND (${step.altNrql.JavaScriptError}) AND (${
+              query = `${stat.value.nrql} AND (${
+                step.altNrql.JavaScriptError
+              }) AND (${
                 column.nrqlWhere
               }) TIMESERIES SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes *
                 2} MINUTES AGO`;
