@@ -35,6 +35,16 @@
         "ideas",
         "code"
       ]
+    },
+    {
+      "login": "devfreddy",
+      "name": "Michael Frederick",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/197140?v=4",
+      "profile": "http://devfreddy.com",
+      "contributions": [
+        "tool",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
