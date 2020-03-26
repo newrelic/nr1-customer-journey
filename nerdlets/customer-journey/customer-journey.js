@@ -30,6 +30,28 @@ export default class CustomerJourney extends React.Component {
     this.setState({ selectedJourney: journey });
   }
 
+  renderStepsClass() {
+    const numberOfSteps = journeyConfig[0].steps.length;
+
+    if (numberOfSteps === 3) {
+      return 'three-step-visualization';
+    } else if (numberOfSteps === 5) {
+      return 'five-step-visualization';
+    } else if (numberOfSteps === 6) {
+      return 'six-step-visualization';
+    } else if (numberOfSteps === 7) {
+      return 'seven-step-visualization';
+    } else if (numberOfSteps === 8) {
+      return 'eight-step-visualization';
+    } else if (numberOfSteps === 9) {
+      return 'nine-step-visualization';
+    } else if (numberOfSteps === 10) {
+      return 'ten-step-visualization';
+    } else {
+      return '';
+    }
+  }
+
   render() {
     const { selectedJourney } = this.state;
     const { timeRange } = this.props.launcherUrlState;
@@ -49,7 +71,9 @@ export default class CustomerJourney extends React.Component {
         <div className="customerJourneyContent">
           <div className="visualizationContainer">
             <h3 className="columnHeader">Click Rate</h3>
-            <div className="statCell visualizationCell">
+            <div
+              className={`statCell visualizationCell ${this.renderStepsClass()}`}
+            >
               <FunnelComponent
                 launcherUrlState={this.props.launcherUrlState}
                 {...journey}
