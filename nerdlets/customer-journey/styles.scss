@@ -15,7 +15,7 @@ body {
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: 17px 1fr 1fr;
         grid-column-gap: 3%;
-        height: 634px;
+        height: 647px;
         position: relative;
         padding: 0 16px 0;
         margin-bottom: 0;
@@ -125,6 +125,8 @@ body {
         border-radius: 2px;
         text-align: center;
         display: inline-block;
+        position: relative;
+        bottom: 7px;
     }
 
     // .svg-funnel-js__label *:not(.label__title) {
@@ -133,6 +135,69 @@ body {
 
     .svg-funnel-js__subLabels {
         display: none;
+    }
+
+    &.three-step-visualization {
+        height: 488px;
+    
+        .svg-funnel-js__container {
+            transform: scale(1, .85);
+            top: -43px;
+        }
+    }
+
+    &.five-step-visualization {
+        height: 808px;
+    
+        .svg-funnel-js__container {
+            transform: scale(1, 1.4);
+            top: 116px;
+        }
+    }
+
+    &.six-step-visualization {
+        height: 967px;
+    
+        .svg-funnel-js__container {
+            transform: scale(1, 1.68);
+            top: 197px;
+        }
+    }
+    
+    &.seven-step-visualization {
+        height: 1127px;
+    
+        .svg-funnel-js__container {
+            transform: scale(1, 1.95);
+            top: 275px;
+        }
+    }
+    
+    &.eight-step-visualization {
+        height: 1287px;
+    
+        .svg-funnel-js__container {
+            transform: scale(1, 2.22);
+            top: 353px;
+        }
+    }
+    
+    &.nine-step-visualization {
+        height: 1447px;
+    
+        .svg-funnel-js__container {
+            transform: scale(1, 2.52);
+            top: 440px;
+        }
+    }
+    
+    &.ten-step-visualization {
+        height: 1607px;
+    
+        .svg-funnel-js__container {
+            transform: scale(1, 2.8);
+            top: 521px
+        }
     }
 }
 
@@ -344,8 +409,8 @@ body {
 .svg-funnel-js__container {
     position: relative;
     left: 13px;
-    transform: scale(1, 1.1);
-    top: 30px;
+    transform: scale(1, 1.12);
+    top: 35px;
 
     // svg {
     //     filter: drop-shadow(10px 0px rgba(0, 126, 138, .05)) drop-shadow(-10px 0px rgba(0, 126, 138, .05)) drop-shadow(5px 0px rgba(0, 126, 138, .2)) drop-shadow(-5px 0px rgba(0, 126, 138, .2));
@@ -366,6 +431,7 @@ body {
     position: absolute;
     opacity: 0;
     transition: .1s all ease-in-out;
+    transform: translateY(-10px);
 }
 
 .svg-funnel-js__label[class*=label]:hover .label__segment-percentages {
