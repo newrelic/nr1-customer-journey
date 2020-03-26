@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DataPoint from './DataPoint';
-import { NerdGraphQuery, BlockText, navigation } from 'nr1';
+import { NerdGraphQuery, navigation } from 'nr1';
 import { get, has } from 'lodash';
+import { timeRangeToNrql, NerdGraphError } from '@newrelic/nr1-community';
 
 function getValue(rs) {
   if (rs) {
@@ -18,7 +19,7 @@ export default class StatCell extends React.Component {
     step: PropTypes.object.isRequired,
     column: PropTypes.object.isRequired,
     config: PropTypes.object.isRequired,
-    timeRange: PropTypes.object.isRequired
+    platformUrlState: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -59,11 +60,9 @@ export default class StatCell extends React.Component {
   }
 
   render() {
-    const { config, stats, step, column, timeRange } = this.props;
+    const { config, stats, step, column, platformUrlState } = this.props;
     const kpis = config.kpis || null;
-    const durationInMinutes = timeRange.duration / 1000 / 60;
-    const sinceStmt = `SINCE ${durationInMinutes} MINUTES AGO COMPARE WITH ${durationInMinutes *
-      2} MINUTES AGO`;
+    const sinceStmt = timeRangeToNrql(platformUrlState);
     const q = `{
             actor {
             account(id: ${config.accountId}) {
@@ -139,7 +138,7 @@ export default class StatCell extends React.Component {
               );
             }
             if (error) {
-              return <BlockText>{JSON.stringify(error)}</BlockText>;
+              return <NerdGraphError error={error} />;
             }
             const values = {};
             return (
