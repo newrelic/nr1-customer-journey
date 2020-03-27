@@ -28,12 +28,8 @@ export default class Details extends React.Component {
   render() {
     const { platformUrlState, nerdletUrlState } = this.props;
     const sinceStatement = timeRangeToNrql(platformUrlState);
-    const agoStatement = sinceStatement.split("SINCE")[1];
-    const {
-      selectedColumn,
-      selectedJourney,
-      selectedStep
-    } = nerdletUrlState;
+    const agoStatement = sinceStatement.split('SINCE')[1];
+    const { selectedColumn, selectedJourney, selectedStep } = nerdletUrlState;
     const journey = journeyConfig.find(j => j.id === selectedJourney);
     const column = journey.series.find(s => s.id === selectedColumn);
     const step = journey.steps.find(s => s.id === selectedStep);
@@ -99,15 +95,9 @@ export default class Details extends React.Component {
           {stats.map((stat, i) => {
             let query = null;
             if (stat.value.nrql.includes('JavaScriptError')) {
-              query = `${stat.value.nrql} AND (${
-                step.altNrql.JavaScriptError
-              }) AND (${
-                column.nrqlWhere
-              }) TIMESERIES ${sinceStatement} COMPARE WITH ${agoStatement}`;
+              query = `${stat.value.nrql} AND (${step.altNrql.JavaScriptError}) AND (${column.nrqlWhere}) TIMESERIES ${sinceStatement} COMPARE WITH ${agoStatement}`;
             } else {
-              query = `${stat.value.nrql} AND (${step.nrqlWhere}) AND (${
-                column.nrqlWhere
-              }) TIMESERIES ${sinceStatement} COMPARE WITH ${agoStatement}`;
+              query = `${stat.value.nrql} AND (${step.nrqlWhere}) AND (${column.nrqlWhere}) TIMESERIES ${sinceStatement} COMPARE WITH ${agoStatement}`;
             }
             // console.log(query);
             return (

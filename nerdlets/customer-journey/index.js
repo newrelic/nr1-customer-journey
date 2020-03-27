@@ -8,7 +8,6 @@ import { FunnelComponent } from 'nr1-funnel-component';
 const journeyConfig = getJourneys();
 
 export default class Wrapper extends React.PureComponent {
-
   constructor(props) {
     super(props);
 
@@ -62,29 +61,29 @@ export default class Wrapper extends React.PureComponent {
         </div>
         <PlatformStateContext.Consumer>
           {platformUrlState => (
-                <div className="customerJourneyContent">
-                <div className="visualizationContainer">
-                  <h3 className="columnHeader">Click Rate</h3>
-                  <div
-                    className={`statCell visualizationCell ${this.renderStepsClass()}`}
-                  >
-                    <FunnelComponent
-                      launcherUrlState={platformUrlState}
-                      {...journey}
-                    />
-                  </div>
+            <div className="customerJourneyContent">
+              <div className="visualizationContainer">
+                <h3 className="columnHeader">Click Rate</h3>
+                <div
+                  className={`statCell visualizationCell ${this.renderStepsClass()}`}
+                >
+                  <FunnelComponent
+                    launcherUrlState={platformUrlState}
+                    {...journey}
+                  />
                 </div>
-                {journey.series.map((series, i) => {
-                  return (
-                    <StatColumn
-                      key={i}
-                      column={series}
-                      config={journey}
-                      platformUrlState={platformUrlState}
-                    />
-                  );
-                })}
               </div>
+              {journey.series.map((series, i) => {
+                return (
+                  <StatColumn
+                    key={i}
+                    column={series}
+                    config={journey}
+                    platformUrlState={platformUrlState}
+                  />
+                );
+              })}
+            </div>
           )}
         </PlatformStateContext.Consumer>
       </div>

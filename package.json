@@ -6,8 +6,8 @@
   "scripts": {
     "start": "nr1 nerdpack:serve",
     "test": "exit 0",
-    "eslint-check": "eslint . --ext .js",
-    "eslint-fix": "npm run eslint-check -- --fix"
+    "eslint-check": "eslint nerdlets/",
+    "eslint-fix": "eslint nerdlets/ --fix"
   },
   "bugs": {
     "email": "opensource+nr1-customer-journey@newrelic.com"
