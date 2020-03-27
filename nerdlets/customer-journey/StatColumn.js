@@ -5,7 +5,7 @@ import StatCell from './StatCell';
 export default class StatColumn extends React.Component {
   static propTypes = {
     config: PropTypes.object.isRequired,
-    timeRange: PropTypes.object.isRequired,
+    platformUrlState: PropTypes.object.isRequired,
     column: PropTypes.object.isRequired
   };
 

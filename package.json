@@ -6,8 +6,8 @@
   "scripts": {
     "start": "nr1 nerdpack:serve",
     "test": "exit 0",
-    "eslint-check": "eslint . --ext .js",
-    "eslint-fix": "npm run eslint-check -- --fix"
+    "eslint-check": "eslint nerdlets/",
+    "eslint-fix": "eslint nerdlets/ --fix"
   },
   "bugs": {
     "email": "opensource+nr1-customer-journey@newrelic.com"
@@ -17,9 +17,8 @@
     "sdkVersion": 2
   },
   "dependencies": {
+    "@newrelic/nr1-community": "^1.1.1",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
-    "moment-duration-format": "^2.3.2",
     "nr1-funnel-component": "github:newrelic/nr1-funnel-component",
     "prop-types": "^15.6.2",
     "react": "^16.9.0",
@@ -31,7 +30,7 @@
     "@semantic-release/git": "^7.0.17",
     "babel-eslint": "^10.0.3",
     "babel-runtime": "^6.26.0",
-    "eslint": "^6.3.0",
+    "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-prettier": "^3.1.1",
     "file-loader": "^4.2.0",

@@ -10,7 +10,7 @@ export default class Wrapper extends React.PureComponent {
           <NerdletStateContext.Consumer>
             {nerdletUrlState => (
               <Details
-                launcherUrlState={platformUrlState}
+                platformUrlState={platformUrlState}
                 nerdletUrlState={nerdletUrlState}
               />
             )}
