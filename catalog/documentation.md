@@ -1,6 +1,7 @@
+# Documentation
+
 [![New Relic One Catalog Project header](https://github.com/newrelic/open-source-office/raw/master/examples/categories/images/New_Relic_One_Catalog_Project.png)](https://github.com/newrelic/open-source-office/blob/master/examples/categories/index.md#nr1-catalog)
 
-# nr1-customer-journey
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors)
 
 ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/newrelic/nr1-customer-journey?include_prereleases&sort=semver) [![Snyk](https://snyk.io/test/github/newrelic/nr1-customer-journey/badge.svg)](https://snyk.io/test/github/newrelic/nr1-customer-journey)
@@ -24,30 +25,30 @@ It leverages a [`nr1-funnel-component`](https://github.com/newrelic/nr1-funnel-c
 
 For each row (Step) and column (Series), the Nerdpack renders a set of measurements (Stat). Those calculations can apply KPI thresholds to color-code the information. Each panel is also `clickable`, leading to a more detailed overview.
 
-![Overview](catalog/screenshots/nr1-customer-journey-1.png)
+![Overview](https://github.com/newrelic/nr1-customer-journey/blob/master/screenshots/screenshot_01.png)
 
 ### Detail Nerdlet
 
 For any `Journey`, `Series`, and `Step`, there's a Nerdlet that will display the more detailed KPI's as well as timeseries view of the the given `Stats` for the selected row and column.
 
-![Details](catalog/screenshots/nr1-customer-journey-2.png)
+![Details](https://github.com/newrelic/nr1-customer-journey/blob/master/screenshots/screenshot_02.png)
 
 ## Usage
 
-Currently, the application is driven by a relatively complex JSON config file. The documentation for that configuration file is available [here](CONFIG.md).
+Currently, the application is driven by a relatively complex JSON config file. The documentation for that configuration file is available [here](https://github.com/newrelic/nr1-customer-journey/blob/master/CONFIG.md).
 
 ## Open Source License
 
-This project is distributed under the [Apache 2 license](blob/master/LICENSE).
+This project is distributed under the [Apache 2 license](https://github.com/newrelic/nr1-customer-journey/blob/master/LICENSE).
 
 ## What do you need to make this work?
 
 1. Access to [New Relic One](https://newrelic.com/platform).
-2. Configuring the [journeyConfig.js](journeyConfig.js).
+2. Configuring the [journeyConfig.js](https://github.com/newrelic/nr1-customer-journey/blob/master/journeyConfig.js).
 
 ### Configuring this Nerdpack
 
-See [CONFIG.md](CONFIG.md) for detailed instructions on the capabilities of each portion of the [journeyConfig.js](journeyConfig.js). Also look at the [examples](examples) directory for inspiration.
+See [CONFIG.md](https://github.com/newrelic/nr1-customer-journey/blob/master/CONFIG.md) for detailed instructions on the capabilities of each portion of the [journeyConfig.js](https://github.com/newrelic/nr1-customer-journey/blob/master/journeyConfig.js). Also look at the [examples](https://github.com/newrelic/nr1-customer-journey/tree/master/examples) directory for inspiration.
 
 ## Getting started
 
@@ -75,9 +76,10 @@ Visit [https://one.newrelic.com/?nerdpacks=local](https://one.newrelic.com/?nerd
 Open a command prompt in the nerdpack's directory and run the following commands.
 
 ```bash
-# If you need to create a new uuid for the account to which you're deploying this Nerdpack, use the following
+# To create a new uuid for the nerdpack so that you can deploy it to your account:
 # nr1 nerdpack:uuid -g [--profile=your_profile_name]
-# to see a list of APIkeys / profiles available in your development environment, run nr1 credentials:list
+# To see a list of APIkeys / profiles available in your development environment:
+# nr1 profiles:list
 nr1 nerdpack:publish [--profile=your_profile_name]
 nr1 nerdpack:deploy [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
 nr1 nerdpack:subscribe [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
@@ -100,11 +102,11 @@ https://discuss.newrelic.com/t/customer-journey-nerdpack/83270
 
 ### Issues / Enhancement Requests
 
-Issues and enhancement requests can be submitted in the [Issues tab of this repository](../../issues). Please search for and review the existing open issues before submitting a new issue.
+Issues and enhancement requests can be submitted in the [Issues tab of this repository](https://github.com/newrelic/nr1-customer-journey/issues). Please search for and review the existing open issues before submitting a new issue.
 
 ## Contributing
 
-Contributions are welcome (and if you submit a Enhancement Request, expect to be invited to contribute it yourself :grin:). Please review our [Contributors Guide](CONTRIBUTING.md).
+Contributions are welcome (and if you submit a Enhancement Request, expect to be invited to contribute it yourself :grin:). Please review our [Contributors Guide](https://github.com/newrelic/nr1-customer-journey/blob/master/CONTRIBUTING.md).
 
 Keep in mind that when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. If you'd like to execute our corporate CLA, or if you have any questions, please drop us an email at opensource@newrelic.com.
 

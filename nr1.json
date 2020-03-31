@@ -1,6 +1,6 @@
 {
   "schemaType": "NERDPACK",
   "id": "dd1c343b-af62-47a0-ae13-91cb2b45e599",
-  "displayName": "nr1-customer-journey",
-  "description": "NR1 Nerdpack for Customer Journeys."
+  "displayName": "Customer Journey",
+  "description": "Align multiple cohorts of data and metrics to build an interactive funnel depicting your customers’ journey."
 }
