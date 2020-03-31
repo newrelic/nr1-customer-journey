@@ -1,3 +1,5 @@
+[![New Relic One Catalog Project header](https://github.com/newrelic/open-source-office/raw/master/examples/categories/images/New_Relic_One_Catalog_Project.png)](https://github.com/newrelic/open-source-office/blob/master/examples/categories/index.md#nr1-catalog)
+
 # nr1-customer-journey
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors)
 
@@ -22,13 +24,13 @@ It leverages a [`nr1-funnel-component`](https://github.com/newrelic/nr1-funnel-c
 
 For each row (Step) and column (Series), the Nerdpack renders a set of measurements (Stat). Those calculations can apply KPI thresholds to color-code the information. Each panel is also `clickable`, leading to a more detailed overview.
 
-![Overview](screenshots/screenshot_01.png)
+![Overview](catalog/screenshots/nr1-customer-journey-1.png)
 
 ### Detail Nerdlet
 
 For any `Journey`, `Series`, and `Step`, there's a Nerdlet that will display the more detailed KPI's as well as timeseries view of the the given `Stats` for the selected row and column.
 
-![Details](screenshots/screenshot_02.png)
+![Details](catalog/screenshots/nr1-customer-journey-2.png)
 
 ## Usage
 

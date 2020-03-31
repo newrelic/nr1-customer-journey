@@ -1,0 +1,17 @@
+{
+    "tagline": "An interactive NRQL funnel",
+    "repository": "https://github.com/newrelic/nr1-customer-journey.git",
+    "details": "Align multiple cohorts of data and metrics to build an interactive funnel depicting your customers’ journey.",
+    "support": {
+      "issues": {
+        "url": "https://github.com/newrelic/nr1-customer-journey/issues"
+      },
+      "email": {
+        "address": "opensource+nr1-customer-journey@newrelic.com"
+      },
+      "community": {
+        "url": "https://discuss.newrelic.com/t/customer-journey-nerdpack/83270"
+      }
+    },
+    "whatsNew": "CI: bug where uuid not set as env variable \n\n CI: install global npm packages with sudo [skip ci] (42e12b0) \n\n CI: shell expansion bug [skip ci] (1b5daa3)"
+  }
