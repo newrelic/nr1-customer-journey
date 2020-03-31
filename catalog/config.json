@@ -1,5 +1,5 @@
 {
-    "tagline": "An interactive funnel depicting your customers’ journey",
+    "tagline": "An interactive NRQL funnel",
     "repository": "https://github.com/newrelic/nr1-customer-journey.git",
     "details": "Align multiple cohorts of data and metrics to build an interactive funnel depicting your customers’ journey.",
     "support": {
