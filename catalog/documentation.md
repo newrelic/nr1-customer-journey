@@ -16,8 +16,6 @@ It leverages a [`nr1-funnel-component`](https://github.com/newrelic/nr1-funnel-c
 
 For each row (Step) and column (Series), the Nerdpack renders a set of measurements (Stat). Those calculations can apply KPI thresholds to color-code the information. Each panel is also `clickable`, leading to a more detailed overview.
 
-![Overview](https://github.com/newrelic/nr1-customer-journey/blob/master/screenshots/screenshot_01.png)
-
 ### Detail Nerdlet
 
 For any `Journey`, `Series`, and `Step`, there's a Nerdlet that will display the more detailed KPI's as well as timeseries view of the the given `Stats` for the selected row and column.
