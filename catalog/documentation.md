@@ -20,8 +20,6 @@ For each row (Step) and column (Series), the Nerdpack renders a set of measureme
 
 For any `Journey`, `Series`, and `Step`, there's a Nerdlet that will display the more detailed KPI's as well as timeseries view of the the given `Stats` for the selected row and column.
 
-![Details](https://github.com/newrelic/nr1-customer-journey/blob/master/screenshots/screenshot_02.png)
-
 ## Usage
 
 Currently, the application is driven by a relatively complex JSON config file. The documentation for that configuration file is available [here](https://github.com/newrelic/nr1-customer-journey/blob/master/CONFIG.md).
