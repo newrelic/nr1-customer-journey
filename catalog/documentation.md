@@ -96,22 +96,3 @@ Issues and enhancement requests can be submitted in the [Issues tab of this repo
 Contributions are welcome (and if you submit a Enhancement Request, expect to be invited to contribute it yourself :grin:). Please review our [Contributors Guide](https://github.com/newrelic/nr1-customer-journey/blob/master/CONTRIBUTING.md).
 
 Keep in mind that when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. If you'd like to execute our corporate CLA, or if you have any questions, please drop us an email at opensource@newrelic.com.
-
-## Contributors ✨
-
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore -->
-<table>
-  <tr>
-    <td align="center"><a href="http://joelworrall.com"><img src="https://avatars0.githubusercontent.com/u/929261?v=4" width="100px;" alt="Joel Worrall"/><br /><sub><b>Joel Worrall</b></sub></a><br /><a href="https://github.com/newrelic/nr1-customer-journey/commits?author=tangollama" title="Code">💻</a> <a href="#ideas-tangollama" title="Ideas, Planning, & Feedback">🤔</a></td>
-    <td align="center"><a href="https://twitter.com/dangolden1"><img src="https://avatars2.githubusercontent.com/u/812989?v=4" width="100px;" alt="Daniel Golden"/><br /><sub><b>Daniel Golden</b></sub></a><br /><a href="#ideas-danielgolden" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/newrelic/nr1-customer-journey/commits?author=danielgolden" title="Code">💻</a> <a href="#design-danielgolden" title="Design">🎨</a></td>
-    <td align="center"><a href="https://github.com/wesleyradcliffe"><img src="https://avatars1.githubusercontent.com/u/1923933?v=4" width="100px;" alt="Wesley D. Radcliffe"/><br /><sub><b>Wesley D. Radcliffe</b></sub></a><br /><a href="#ideas-wesleyradcliffe" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/newrelic/nr1-customer-journey/commits?author=wesleyradcliffe" title="Code">💻</a></td>
-    <td align="center"><a href="http://devfreddy.com"><img src="https://avatars1.githubusercontent.com/u/197140?v=4" width="100px;" alt="Michael Frederick"/><br /><sub><b>Michael Frederick</b></sub></a><br /><a href="#tool-devfreddy" title="Tools">🔧</a> <a href="https://github.com/newrelic/nr1-customer-journey/commits?author=devfreddy" title="Code">💻</a></td>
-  </tr>
-</table>
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
