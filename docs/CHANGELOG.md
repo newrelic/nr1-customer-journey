@@ -1,3 +1,23 @@
+# [0.4.0](https://github.com/newrelic/nr1-customer-journey/compare/v0.3.2...v0.4.0) (2020-04-17)
+
+
+### Bug Fixes
+
+* linting issues. ([b054f7b](https://github.com/newrelic/nr1-customer-journey/commit/b054f7bb7d320a155dd1dc1975ed8dbd48afaf8c))
+* remove another image from the documentation ([de371e3](https://github.com/newrelic/nr1-customer-journey/commit/de371e3bfb17bc3851a994dda8bbd775ae7dfbe1))
+* remove contributors from documentation ([55b30ea](https://github.com/newrelic/nr1-customer-journey/commit/55b30ea968e194b137f0522bce916b5b5eff693e))
+* remove image from documentation.md ([335fa96](https://github.com/newrelic/nr1-customer-journey/commit/335fa9640f6b5bef878612b913228102a2086ba5))
+* remove images from catalog documentation ([07f3254](https://github.com/newrelic/nr1-customer-journey/commit/07f3254f2b1060d0af9cac1986b678a8690133f6))
+* Styles for when there are more than 4 rows ([7f7678b](https://github.com/newrelic/nr1-customer-journey/commit/7f7678b3fc4b51a1e3837c3ac7068ed044a79c33)), closes [newrelic#26](https://github.com/newrelic/issues/26)
+* upgrade eslint closes newrelic/nr1-customer-journey[#28](https://github.com/newrelic/nr1-customer-journey/issues/28) ([2e0802d](https://github.com/newrelic/nr1-customer-journey/commit/2e0802d9cdef6128f09764d68154bccb150f8f7b))
+
+
+### Features
+
+* remove moment, add nr1-community, closes newrelic/nr1-customer-journey[#24](https://github.com/newrelic/nr1-customer-journey/issues/24) ([ccd0421](https://github.com/newrelic/nr1-customer-journey/commit/ccd04215cfbd6097696085023832d196448ce128))
+* upgrade project metadata for catalog ([25388bb](https://github.com/newrelic/nr1-customer-journey/commit/25388bb9b74c5b40018ddd8046969e6247cf980e)), closes [newrelic#25](https://github.com/newrelic/issues/25)
+* upgrade project metadata for catalog ([#33](https://github.com/newrelic/nr1-customer-journey/issues/33)) ([3f2cfc4](https://github.com/newrelic/nr1-customer-journey/commit/3f2cfc452fb1481db25f19d2e90a6e2224889ccd)), closes [newrelic#25](https://github.com/newrelic/issues/25)
+
 ## [0.3.2](https://github.com/newrelic/nr1-customer-journey/compare/v0.3.1...v0.3.2) (2019-11-13)
 
 
