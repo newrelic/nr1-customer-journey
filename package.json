@@ -21,8 +21,8 @@
     "lodash": "^4.17.15",
     "nr1-funnel-component": "github:newrelic/nr1-funnel-component",
     "prop-types": "^15.6.2",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   },
   "devDependencies": {
     "@newrelic/eslint-plugin-newrelic": "^0.3.0",
