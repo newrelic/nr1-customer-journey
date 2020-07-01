@@ -38,7 +38,7 @@ code, the source code can be found at [https://github.com/newrelic/nr1-customer-
 
 ### @newrelic/nr1-community
 
-This product includes source derived from [@newrelic/nr1-community](https://github.com/newrelic/nr1-community) ([v1.1.1](https://github.com/newrelic/nr1-community/tree/v1.1.1)), distributed under the [Apache-2.0 License](https://github.com/newrelic/nr1-community/blob/v1.1.1/LICENSE):
+This product includes source derived from [@newrelic/nr1-community](https://github.com/newrelic/nr1-community) ([v1.2.0](https://github.com/newrelic/nr1-community/tree/v1.2.0)), distributed under the [Apache-2.0 License](https://github.com/newrelic/nr1-community/blob/v1.2.0/LICENSE):
 
 ```
                                  Apache License
