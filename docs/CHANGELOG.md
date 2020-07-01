@@ -1,3 +1,10 @@
+## [0.4.1](https://github.com/newrelic/nr1-customer-journey/compare/v0.4.0...v0.4.1) (2020-07-01)
+
+
+### Bug Fixes
+
+* upgrade @newrelic/nr1-community from 1.1.1 to 1.2.0 ([f999c79](https://github.com/newrelic/nr1-customer-journey/commit/f999c79ad707bd525279809340c3b8b45daaa077))
+
 # [0.4.0](https://github.com/newrelic/nr1-customer-journey/compare/v0.3.2...v0.4.0) (2020-04-17)
 
 
