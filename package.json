@@ -17,7 +17,7 @@
     "sdkVersion": 2
   },
   "dependencies": {
-    "@newrelic/nr1-community": "^1.1.1",
+    "@newrelic/nr1-community": "^1.2.0",
     "lodash": "^4.17.15",
     "nr1-funnel-component": "github:newrelic/nr1-funnel-component",
     "prop-types": "^15.6.2",
