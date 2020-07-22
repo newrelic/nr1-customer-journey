@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@newrelic/nr1-community": "^1.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.16",
     "nr1-funnel-component": "github:newrelic/nr1-funnel-component",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
