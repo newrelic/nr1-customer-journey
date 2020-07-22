@@ -1,4 +1,4 @@
-[![New Relic One Catalog Project header](https://github.com/newrelic/open-source-office/raw/master/examples/categories/images/New_Relic_One_Catalog_Project.png)](https://github.com/newrelic/open-source-office/blob/master/examples/categories/index.md#nr1-catalog)
+[![Community Project header](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/Community_Project.png)](https://opensource.newrelic.com/oss-category/#community-project)
 
 # New Relic One Customer Journey (nr1-customer-journey)
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors)
@@ -38,7 +38,7 @@ Currently, the application is driven by a relatively complex JSON config file. T
 
 ## Open Source License
 
-This project is distributed under the [Apache 2 license](blob/master/LICENSE).
+This project is distributed under the [Apache 2 license](LICENSE).
 
 ## What do you need to make this work?
 
