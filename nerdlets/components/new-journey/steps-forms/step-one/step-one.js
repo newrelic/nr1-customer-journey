@@ -4,6 +4,11 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import StepForm from '../step-form';
 
+const validationSchema = Yup.object().shape({
+  title: Yup.string().required('Is required'),
+  funnel_event: Yup.string().required('Is required'),
+  funnel_measure: Yup.string().required('Is required')
+});
 class StepOne extends Component {
   render() {
     return (
@@ -11,11 +16,7 @@ class StepOne extends Component {
         <div style={{ width: '50%' }}>
           <Formik
             initialValues={{ title: '', funnel_event: '', funnel_measure: '' }}
-            validationSchema={Yup.object().shape({
-              title: Yup.string().required('Is required'),
-              funnel_event: Yup.string().required('Is required'),
-              funnel_measure: Yup.string().required('Is required')
-            })}
+            validationSchema={validationSchema}
             onSubmit={values => {
               console.log('StepOne -> render -> values', values);
             }}
