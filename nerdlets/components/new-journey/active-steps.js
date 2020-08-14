@@ -30,7 +30,7 @@ const ActiveSteps = ({ currentStep }) => {
       {STEPS.map(({ id, name }) => {
         let activeStepStyle = 'active-step';
         if (id === currentStep) {
-          activeStepStyle = `${activeStepStyle} active-step active-step--active`;
+          activeStepStyle = `${activeStepStyle} active-step--active`;
         }
 
         return (
