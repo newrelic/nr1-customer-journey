@@ -1,9 +1,10 @@
 import React from 'react';
-import { PlatformStateContext } from 'nr1';
+import { PlatformStateContext, Button } from 'nr1';
 import StatColumn from './StatColumn';
 import { getJourneys } from '../../journeyConfig';
 import JourneyPicker from './JourneyPicker';
 import { FunnelComponent } from 'nr1-funnel-component';
+import NewJourney from '../components/new-journey/new-journey';
 
 const journeyConfig = getJourneys();
 
@@ -12,7 +13,9 @@ export default class Wrapper extends React.PureComponent {
     super(props);
 
     this.state = {
-      selectedJourney: journeyConfig[0].id
+      selectedJourney: journeyConfig[0].id,
+      isFormOpen: false,
+      currentStep: 0
     };
 
     this.setJourney = this.setJourney.bind(this);
@@ -44,6 +47,40 @@ export default class Wrapper extends React.PureComponent {
     }
   }
 
+  handleFormOpen = () => {
+    this.setState(prevState => ({
+      isFormOpen: !prevState.isFormOpen
+    }));
+  };
+
+  handlePrevClick = () => {
+    this.setState(prevState => {
+      if (prevState.currentStep === 0) {
+        return {
+          currentStep: prevState.currentStep
+        };
+      }
+
+      return {
+        currentStep: prevState.currentStep - 1
+      };
+    });
+  };
+
+  handleNextClick = () => {
+    this.setState(prevState => {
+      if (prevState.currentStep === 4) {
+        return {
+          currentStep: prevState.currentStep
+        };
+      }
+
+      return {
+        currentStep: prevState.currentStep + 1
+      };
+    });
+  };
+
   render() {
     const { selectedJourney } = this.state;
     const journey = selectedJourney
@@ -51,17 +88,31 @@ export default class Wrapper extends React.PureComponent {
       : journeyConfig[0];
 
     return (
-      <div className="customerJourneyContainer">
-        <div className="journeySelectFormContainer">
+      <div className="customer-journey">
+        <div className="customer-journey__toolbar">
           <JourneyPicker
             journeys={journeyConfig}
             journey={journey}
             setJourney={this.setJourney}
           />
+          <Button
+            onClick={this.handleFormOpen}
+            type={Button.TYPE.PRIMARY}
+            iconType={Button.ICON_TYPE.DOCUMENTS__DOCUMENTS__NOTES__A_ADD}
+          >
+            Add new Journey
+          </Button>
         </div>
         <PlatformStateContext.Consumer>
           {platformUrlState => (
             <div className="customerJourneyContent">
+              {this.state.isFormOpen ? (
+                <NewJourney
+                  currentStep={this.state.currentStep}
+                  onPrevClick={this.handlePrevClick}
+                  onNextClick={this.handleNextClick}
+                />
+              ) : null}
               <div className="visualizationContainer">
                 <h3 className="columnHeader">Click Rate</h3>
                 <div
