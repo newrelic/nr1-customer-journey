@@ -19,7 +19,8 @@
     "nr1-funnel-component": "github:newrelic/nr1-funnel-component",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
-    "react-dom": "^16.6.3"
+    "react-dom": "^16.6.3",
+    "formik": "^1.5.8"
   },
   "devDependencies": {
     "@newrelic/eslint-plugin-newrelic": "^0.3.1",

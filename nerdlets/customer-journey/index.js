@@ -5,6 +5,13 @@ import { getJourneys } from '../../journeyConfig';
 import JourneyPicker from './JourneyPicker';
 import { FunnelComponent } from 'nr1-funnel-component';
 import NewJourney from '../components/new-journey/new-journey';
+import {
+  StepOne,
+  StepTwo,
+  StepThree,
+  StepFour,
+  StepFive
+} from '../components/new-journey/steps-forms';
 
 const journeyConfig = getJourneys();
 
@@ -81,6 +88,23 @@ export default class Wrapper extends React.PureComponent {
     });
   };
 
+  renderSteps = () => {
+    switch (this.state.currentStep) {
+      case 0:
+        return <StepOne />;
+      case 1:
+        return <StepTwo />;
+      case 2:
+        return <StepThree />;
+      case 3:
+        return <StepFour />;
+      case 4:
+        return <StepFive />;
+
+      default:
+    }
+  };
+
   render() {
     const { selectedJourney } = this.state;
     const journey = selectedJourney
@@ -111,7 +135,9 @@ export default class Wrapper extends React.PureComponent {
                   currentStep={this.state.currentStep}
                   onPrevClick={this.handlePrevClick}
                   onNextClick={this.handleNextClick}
-                />
+                >
+                  {this.renderSteps()}
+                </NewJourney>
               ) : null}
               <div className="visualizationContainer">
                 <h3 className="columnHeader">Click Rate</h3>
