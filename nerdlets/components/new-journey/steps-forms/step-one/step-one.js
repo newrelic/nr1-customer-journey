@@ -4,10 +4,15 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import StepForm from '../step-form';
 
+const initialValues = { title: '', accountId: '', event: '', measure: '' };
+
 const validationSchema = Yup.object().shape({
   title: Yup.string().required('Is required'),
-  funnel_event: Yup.string().required('Is required'),
-  funnel_measure: Yup.string().required('Is required')
+  accountId: Yup.number()
+    .typeError('Must be a number')
+    .required('Is Required'),
+  event: Yup.string().required('Is required'),
+  measure: Yup.string().required('Is required')
 });
 class StepOne extends Component {
   render() {
@@ -15,7 +20,7 @@ class StepOne extends Component {
       <StepForm title="Basic Info">
         <div style={{ width: '50%' }}>
           <Formik
-            initialValues={{ title: '', funnel_event: '', funnel_measure: '' }}
+            initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={values => {
               console.log('StepOne -> render -> values', values);
@@ -31,21 +36,29 @@ class StepOne extends Component {
                   invalid={errors.title}
                 />
                 <TextField
-                  label="Funnel event"
+                  label="Account ID"
                   style={{ marginBottom: '16px' }}
-                  value={values.funnel_event}
-                  onChange={e => setFieldValue('funnel_event', e.target.value)}
-                  invalid={errors.funnel_event}
+                  value={values.accountId}
+                  onChange={e => setFieldValue('accountId', e.target.value)}
+                  invalid={errors.accountId}
                 />
-                <TextField
-                  label="Funnel measure"
-                  style={{ marginBottom: '16px' }}
-                  value={values.funnel_measure}
-                  onChange={e =>
-                    setFieldValue('funnel_measure', e.target.value)
-                  }
-                  invalid={errors.funnel_measure}
-                />
+                <p>Funnel</p>
+                <div className="funnel-fields">
+                  <TextField
+                    label="Funnel event"
+                    style={{ marginBottom: '16px' }}
+                    value={values.event}
+                    onChange={e => setFieldValue('event', e.target.value)}
+                    invalid={errors.event}
+                  />
+                  <TextField
+                    label="Funnel measure"
+                    style={{ marginBottom: '16px' }}
+                    value={values.measure}
+                    onChange={e => setFieldValue('measure', e.target.value)}
+                    invalid={errors.measure}
+                  />
+                </div>
                 <Button type={Button.TYPE.PRIMARY} onClick={handleSubmit}>
                   Submit
                 </Button>

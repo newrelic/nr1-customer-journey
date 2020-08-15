@@ -2,9 +2,15 @@
 @import '../components/new-journey/new-journey.scss';
 @import '../components/new-journey/steps-forms/step-form.scss';
 
+
 body {
     opacity: .9;
     background-color: #F7F7F8;
+}
+
+.funnel-fields, .value-fields {
+  padding-top: 20px;
+  padding-left: 20px;
 }
 
 .visualizationContainer {
