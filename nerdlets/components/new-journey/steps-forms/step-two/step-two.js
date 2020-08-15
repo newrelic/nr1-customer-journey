@@ -42,9 +42,11 @@ class StepTwo extends Component {
       <StepForm title="Stats">
         <div style={{ width: '50%' }}>
           <Formik
-            validateOnChange
             initialValues={initialValues}
             validationSchema={validationSchema}
+            onSubmit={values => {
+              console.log('StepTwo -> render -> values', values);
+            }}
           >
             {({ values, errors, setFieldValue, handleSubmit }) => (
               <form onSubmit={handleSubmit}>
