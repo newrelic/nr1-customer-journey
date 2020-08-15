@@ -16,16 +16,6 @@ const STATS_VALUE_DISPLAY = {
   SECONDS: 'seconds'
 };
 
-const validationSchema = Yup.object().shape({
-  label: Yup.string().required('Is required'),
-  ref: Yup.string().required('Is required'),
-  type: Yup.string().required('Is required'),
-  nrql: Yup.string(),
-  eventNname: Yup.string(),
-  display: Yup.string().required('Is required'),
-  rate: Yup.string().required('Is required')
-});
-
 const initialValues = {
   label: '',
   ref: '',
@@ -35,6 +25,16 @@ const initialValues = {
   display: '',
   rate: ''
 };
+
+const validationSchema = Yup.object().shape({
+  label: Yup.string().required('Is required'),
+  ref: Yup.string().required('Is required'),
+  type: Yup.string().required('Is required'),
+  nrql: Yup.string(),
+  eventNname: Yup.string(),
+  display: Yup.string().required('Is required'),
+  rate: Yup.string().required('Is required')
+});
 
 class StepTwo extends Component {
   render() {
