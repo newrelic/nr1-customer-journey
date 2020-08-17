@@ -1,12 +1,6 @@
 .new-journey {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
   background: white;
   padding: 8px 12px;
-  z-index: 1000;
 
   .active-steps-container {
     display: flex;
@@ -19,7 +13,7 @@
       margin-right: 20px;
       background: #edeeee;
       font-size: 16px;
-      
+
       &:last-of-type{
         margin-right: 0;
       }
@@ -34,7 +28,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  
+
     > button {
       margin-right: 10px;
     }

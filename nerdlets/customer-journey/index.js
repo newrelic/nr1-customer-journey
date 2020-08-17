@@ -5,13 +5,6 @@ import { getJourneys } from '../../journeyConfig';
 import JourneyPicker from './JourneyPicker';
 import { FunnelComponent } from 'nr1-funnel-component';
 import NewJourney from '../components/new-journey/new-journey';
-import {
-  StepOne,
-  StepTwo,
-  StepThree,
-  StepFour,
-  StepFive
-} from '../components/new-journey/steps-forms';
 
 const journeyConfig = getJourneys();
 
@@ -60,53 +53,8 @@ export default class Wrapper extends React.PureComponent {
     }));
   };
 
-  handlePrevClick = () => {
-    this.setState(prevState => {
-      if (prevState.currentStep === 0) {
-        return {
-          currentStep: prevState.currentStep
-        };
-      }
-
-      return {
-        currentStep: prevState.currentStep - 1
-      };
-    });
-  };
-
-  handleNextClick = () => {
-    this.setState(prevState => {
-      if (prevState.currentStep === 4) {
-        return {
-          currentStep: prevState.currentStep
-        };
-      }
-
-      return {
-        currentStep: prevState.currentStep + 1
-      };
-    });
-  };
-
-  renderSteps = () => {
-    switch (this.state.currentStep) {
-      case 0:
-        return <StepOne />;
-      case 1:
-        return <StepTwo />;
-      case 2:
-        return <StepThree />;
-      case 3:
-        return <StepFour />;
-      case 4:
-        return <StepFive />;
-
-      default:
-    }
-  };
-
   render() {
-    const { selectedJourney } = this.state;
+    const { selectedJourney, isFormOpen } = this.state;
     const journey = selectedJourney
       ? journeyConfig.find(j => j.id === selectedJourney.id)
       : journeyConfig[0];
@@ -128,40 +76,35 @@ export default class Wrapper extends React.PureComponent {
           </Button>
         </div>
         <PlatformStateContext.Consumer>
-          {platformUrlState => (
-            <div className="customerJourneyContent">
-              {this.state.isFormOpen ? (
-                <NewJourney
-                  currentStep={this.state.currentStep}
-                  onPrevClick={this.handlePrevClick}
-                  onNextClick={this.handleNextClick}
-                >
-                  {this.renderSteps()}
-                </NewJourney>
-              ) : null}
-              <div className="visualizationContainer">
-                <h3 className="columnHeader">Click Rate</h3>
-                <div
-                  className={`statCell visualizationCell ${this.renderStepsClass()}`}
-                >
-                  <FunnelComponent
-                    launcherUrlState={platformUrlState}
-                    {...journey}
-                  />
+          {platformUrlState =>
+            isFormOpen ? (
+              <NewJourney />
+            ) : (
+              <div className="customerJourneyContent">
+                <div className="visualizationContainer">
+                  <h3 className="columnHeader">Click Rate</h3>
+                  <div
+                    className={`statCell visualizationCell ${this.renderStepsClass()}`}
+                  >
+                    <FunnelComponent
+                      launcherUrlState={platformUrlState}
+                      {...journey}
+                    />
+                  </div>
                 </div>
+                {journey.series.map((series, i) => {
+                  return (
+                    <StatColumn
+                      key={i}
+                      column={series}
+                      config={journey}
+                      platformUrlState={platformUrlState}
+                    />
+                  );
+                })}
               </div>
-              {journey.series.map((series, i) => {
-                return (
-                  <StatColumn
-                    key={i}
-                    column={series}
-                    config={journey}
-                    platformUrlState={platformUrlState}
-                  />
-                );
-              })}
-            </div>
-          )}
+            )
+          }
         </PlatformStateContext.Consumer>
       </div>
     );
