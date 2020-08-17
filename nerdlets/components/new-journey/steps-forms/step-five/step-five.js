@@ -51,7 +51,6 @@ class StepFour extends Component {
       <StepForm title="KPIs">
         <div style={{ width: '50%' }}>
           <Formik
-            validateOnChange
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={values => {
@@ -80,13 +79,6 @@ class StepFour extends Component {
                   value={values.value}
                   onChange={e => setFieldValue('value', e.target.value)}
                   invalid={errors.value}
-                />
-                <TextField
-                  label="Bound"
-                  style={{ marginBottom: '16px' }}
-                  value={values.bound}
-                  onChange={e => setFieldValue('bound', e.target.value)}
-                  invalid={errors.bound}
                 />
                 <Dropdown
                   label="Bound"
