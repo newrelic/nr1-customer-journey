@@ -8,9 +8,6 @@ const initialValues = { title: '', accountId: '', event: '', measure: '' };
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required('Is required'),
-  accountId: Yup.number()
-    .typeError('Must be a number')
-    .required('Is Required'),
   event: Yup.string().required('Is required'),
   measure: Yup.string().required('Is required')
 });
@@ -34,13 +31,6 @@ class StepOne extends Component {
                   value={values.title}
                   onChange={e => setFieldValue('title', e.target.value)}
                   invalid={errors.title}
-                />
-                <TextField
-                  label="Account ID"
-                  style={{ marginBottom: '16px' }}
-                  value={values.accountId}
-                  onChange={e => setFieldValue('accountId', e.target.value)}
-                  invalid={errors.accountId}
                 />
                 <p>Funnel</p>
                 <div className="funnel-fields">
