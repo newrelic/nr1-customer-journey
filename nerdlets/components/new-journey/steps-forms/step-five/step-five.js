@@ -3,14 +3,30 @@ import { TextField } from 'nr1';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import StepForm from '../step-form';
+import Dropdown from '../../dropdown';
 
-const BOUND = {
-  HIGHER_VIOLATION: 'higherViolation',
-  LOWER_VIOLATION: 'lowerViolation',
-  HIGHER_TARGET: 'higherTarget',
-  LOWER_TARGET: 'lowerTarget',
-  PERCENTAGE: 'percentage'
-};
+const BOUND = [
+  {
+    label: 'Higher Violation',
+    value: 'higherViolation'
+  },
+  {
+    label: 'Lower Violation',
+    value: 'lowerViolation'
+  },
+  {
+    label: 'Higher Target',
+    value: 'higherTarget'
+  },
+  {
+    label: 'Lower Target',
+    value: 'lowerTarget'
+  },
+  {
+    label: 'Percentage',
+    value: 'percentage'
+  }
+];
 
 const initialValues = {
   label: '',
@@ -35,6 +51,7 @@ class StepFour extends Component {
       <StepForm title="KPIs">
         <div style={{ width: '50%' }}>
           <Formik
+            validateOnChange
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={values => {
@@ -71,6 +88,14 @@ class StepFour extends Component {
                   onChange={e => setFieldValue('bound', e.target.value)}
                   invalid={errors.bound}
                 />
+                <Dropdown
+                  label="Bound"
+                  items={BOUND}
+                  onChange={value => setFieldValue('bound', value)}
+                  value={values.bound}
+                  errorMessage={errors.bound}
+                />
+
                 <TextField
                   label="Description"
                   style={{ marginBottom: '16px' }}

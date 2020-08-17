@@ -22,7 +22,7 @@ export default class Wrapper extends React.PureComponent {
     this.state = {
       selectedJourney: journeyConfig[0].id,
       isFormOpen: false,
-      currentStep: 0
+      currentStep: 4
     };
 
     this.setJourney = this.setJourney.bind(this);
