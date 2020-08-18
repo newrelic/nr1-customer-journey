@@ -1,21 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { TextField, Button } from 'nr1';
+import { TextField } from 'nr1';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import StepForm from '../step-form';
 import StepsPilot from '../../steps-pilot';
 
-const initialValues = { title: '', accountId: '', event: '', measure: '' };
-
 const validationSchema = Yup.object().shape({
   title: Yup.string().required('Is required'),
-  event: Yup.string().required('Is required'),
-  measure: Yup.string().required('Is required')
+  funnel: Yup.object().shape({
+    event: Yup.string().required('Is required'),
+    measure: Yup.string().required('Is required')
+  })
 });
+
 export default class StepOne extends Component {
   render() {
-    const { currentStep, handlePrevClick, handleNextClick } = this.props;
+    const {
+      currentStep,
+      handlePrevClick,
+      handleNextClick,
+      initialValues
+    } = this.props;
 
     return (
       <StepForm title="Basic Info">
@@ -42,16 +48,20 @@ export default class StepOne extends Component {
                   <TextField
                     label="Funnel event"
                     style={{ marginBottom: '16px' }}
-                    value={values.event}
-                    onChange={e => setFieldValue('event', e.target.value)}
-                    invalid={errors.event}
+                    value={values.funnel.event}
+                    onChange={e =>
+                      setFieldValue('funnel.event', e.target.value)
+                    }
+                    invalid={errors.funnel?.event}
                   />
                   <TextField
                     label="Funnel measure"
                     style={{ marginBottom: '16px' }}
-                    value={values.measure}
-                    onChange={e => setFieldValue('measure', e.target.value)}
-                    invalid={errors.measure}
+                    value={values.funnel.measure}
+                    onChange={e =>
+                      setFieldValue('funnel.measure', e.target.value)
+                    }
+                    invalid={errors.funnel?.measure}
                   />
                 </div>
                 <StepsPilot
@@ -71,5 +81,6 @@ export default class StepOne extends Component {
 StepOne.propTypes = {
   currentStep: PropTypes.number.isRequired,
   handlePrevClick: PropTypes.func.isRequired,
-  handleNextClick: PropTypes.func.isRequired
+  handleNextClick: PropTypes.func.isRequired,
+  initialValues: PropTypes.object.isRequired
 };
