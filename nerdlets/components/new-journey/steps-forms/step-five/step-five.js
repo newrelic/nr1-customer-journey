@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import StepForm from '../step-form';
 import Dropdown from '../../dropdown';
 import StepsPilot from '../../steps-pilot';
+import Tabs from '../tabs';
 
 const BOUND = [
   {
@@ -30,26 +31,42 @@ const BOUND = [
   }
 ];
 
-const initialValues = {
-  label: '',
-  ref: '',
-  value: '',
-  bound: '',
-  description: ''
-};
-
 const validationSchema = Yup.object().shape({
-  label: Yup.string().required('Is required'),
-  ref: Yup.string().required('Is required'),
-  value: Yup.number()
-    .typeError('Must be a number')
-    .required('Is required'),
-  bound: Yup.string().required('Is required'),
-  description: Yup.string()
+  kpis: Yup.array().of(
+    Yup.object().shape({
+      label: Yup.string().required('Is required'),
+      ref: Yup.string().required('Is required'),
+      value: Yup.number()
+        .typeError('Must be a number')
+        .required('Is required'),
+      bound: Yup.string().required('Is required'),
+      description: Yup.string()
+    })
+  )
 });
+
 export default class StepFive extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currentIndex: 0
+    };
+  }
+
+  handleTabChange = index => {
+    this.setState({ currentIndex: index });
+  };
+
   render() {
-    const { currentStep, handlePrevClick, handleNextClick } = this.props;
+    const {
+      currentStep,
+      handlePrevClick,
+      handleNextClick,
+      initialValues
+    } = this.props;
+    const { currentIndex } = this.state;
+
     return (
       <StepForm title="KPIs">
         <div style={{ width: '50%' }}>
@@ -62,49 +79,82 @@ export default class StepFive extends Component {
             }}
           >
             {({ values, errors, setFieldValue, handleSubmit }) => (
-              <form onSubmit={handleSubmit}>
-                <TextField
-                  label="Label"
-                  style={{ marginBottom: '16px' }}
-                  value={values.label}
-                  onChange={e => setFieldValue('label', e.target.value)}
-                  invalid={errors.label}
+              <>
+                <Tabs
+                  errorIndexes={errors.kpis?.map(
+                    (error, index) => error && index
+                  )}
+                  currentIndex={currentIndex}
+                  items={values.kpis}
+                  handleOnTabChange={this.handleTabChange}
                 />
-                <TextField
-                  label="Ref"
-                  style={{ marginBottom: '16px' }}
-                  value={values.ref}
-                  onChange={e => setFieldValue('ref', e.target.value)}
-                  invalid={errors.ref}
-                />
-                <TextField
-                  label="Value"
-                  style={{ marginBottom: '16px' }}
-                  value={values.value}
-                  onChange={e => setFieldValue('value', e.target.value)}
-                  invalid={errors.value}
-                />
-                <Dropdown
-                  label="Bound"
-                  items={BOUND}
-                  onChange={value => setFieldValue('bound', value)}
-                  value={values.bound}
-                  errorMessage={errors.bound}
-                />
+                <form onSubmit={handleSubmit}>
+                  <TextField
+                    label="Label"
+                    style={{ marginBottom: '16px' }}
+                    value={values.kpis[currentIndex].label}
+                    onChange={e =>
+                      setFieldValue(
+                        `kpis[${currentIndex}].label`,
+                        e.target.value
+                      )
+                    }
+                    invalid={errors.kpis && errors.kpis[currentIndex]?.label}
+                  />
+                  <TextField
+                    label="Ref"
+                    style={{ marginBottom: '16px' }}
+                    value={values.kpis[currentIndex].ref}
+                    onChange={e =>
+                      setFieldValue(`kpis[${currentIndex}].ref`, e.target.value)
+                    }
+                    invalid={errors.kpis && errors.kpis[currentIndex]?.ref}
+                  />
+                  <TextField
+                    label="Value"
+                    style={{ marginBottom: '16px' }}
+                    value={values.kpis[currentIndex].value}
+                    onChange={e =>
+                      setFieldValue(
+                        `kpis[${currentIndex}].value`,
+                        e.target.value
+                      )
+                    }
+                    invalid={errors.kpis && errors.kpis[currentIndex]?.value}
+                  />
+                  <Dropdown
+                    label="Bound"
+                    items={BOUND}
+                    onChange={value =>
+                      setFieldValue(`kpis[${currentIndex}].bound`, value)
+                    }
+                    value={values.kpis[currentIndex].bound}
+                    errorMessage={
+                      errors.kpis && errors.kpis[currentIndex]?.bound
+                    }
+                  />
 
-                <TextField
-                  label="Description"
-                  style={{ marginBottom: '16px' }}
-                  value={values.description}
-                  onChange={e => setFieldValue('description', e.target.value)}
-                  invalid={errors.description}
-                />
-                <StepsPilot
-                  currentStep={currentStep}
-                  onPrevClick={handlePrevClick}
-                  onNextClick={handleSubmit}
-                />
-              </form>
+                  <TextField
+                    label="Description"
+                    style={{ marginBottom: '16px' }}
+                    value={values.kpis[currentIndex].description}
+                    onChange={e =>
+                      setFieldValue(
+                        `kpis[${currentIndex}].description`,
+                        e.target.value
+                      )
+                    }
+                    invalid={
+                      errors.kpis && errors.kpis[currentIndex]?.description
+                    }
+                  />
+                  <StepsPilot
+                    currentStep={currentStep}
+                    onPrevClick={handlePrevClick}
+                    onNextClick={handleSubmit}
+                  />
+                </form>
+              </>
             )}
           </Formik>
         </div>
@@ -116,5 +166,6 @@ export default class StepFive extends Component {
 StepFive.propTypes = {
   currentStep: PropTypes.number.isRequired,
   handlePrevClick: PropTypes.func.isRequired,
-  handleNextClick: PropTypes.func.isRequired
+  handleNextClick: PropTypes.func.isRequired,
+  initialValues: PropTypes.object.isRequired
 };

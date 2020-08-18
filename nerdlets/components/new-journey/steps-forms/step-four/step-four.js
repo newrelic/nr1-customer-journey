@@ -70,7 +70,7 @@ export default class StepFour extends Component {
                     value={values.series[currentIndex].label}
                     onChange={e =>
                       setFieldValue(
-                        `stats[${currentIndex}].label`,
+                        `series[${currentIndex}].label`,
                         e.target.value
                       )
                     }
@@ -82,7 +82,7 @@ export default class StepFour extends Component {
                     value={values.series[currentIndex].nrqlWhere}
                     onChange={e =>
                       setFieldValue(
-                        `stats[${currentIndex}].nrqlWhere`,
+                        `series[${currentIndex}].nrqlWhere`,
                         e.target.value
                       )
                     }
@@ -95,16 +95,18 @@ export default class StepFour extends Component {
                     <TextField
                       label="JavaScriptError"
                       style={{ marginBottom: '16px' }}
-                      value={values.series[currentIndex].JavaScriptError}
+                      value={
+                        values.series[currentIndex].altNrql?.JavaScriptError
+                      }
                       onChange={e =>
                         setFieldValue(
-                          `stats[${currentIndex}].JavaScriptError`,
+                          `series[${currentIndex}].altNrql.JavaScriptError`,
                           e.target.value
                         )
                       }
                       invalid={
                         errors.steps &&
-                        errors.steps[currentIndex]?.JavaScriptError
+                        errors.steps[currentIndex]?.altNrql?.JavaScriptError
                       }
                     />
                   </div>

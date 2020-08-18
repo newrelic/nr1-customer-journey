@@ -40,6 +40,20 @@ const validationSchema = Yup.object().shape({
   )
 });
 
+const STAT_OBJECT_TEMPLATE = {
+  label: 'New stat',
+  ref: '',
+  type: '',
+  value: {
+    nrql: '',
+    eventName: '',
+    display: '',
+    calculation: {
+      rate: ['', '']
+    }
+  }
+};
+
 export default class StepTwo extends Component {
   constructor(props) {
     super(props);
@@ -69,6 +83,7 @@ export default class StepTwo extends Component {
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
+            validateOnChange={false}
             onSubmit={values => {
               console.log('StepTwo -> render -> values', values);
               handleNextClick();
@@ -83,149 +98,163 @@ export default class StepTwo extends Component {
                   currentIndex={currentIndex}
                   items={values.stats}
                   handleOnTabChange={this.handleTabChange}
+                  handleOnAdd={() => {
+                    const stats = values.stats;
+                    stats.push(STAT_OBJECT_TEMPLATE);
+                    setFieldValue('values.stats', stats);
+                    this.setState({ currentIndex: stats.length - 1 });
+                  }}
                 />
-                <form onSubmit={handleSubmit}>
-                  <>
-                    <TextField
-                      label="Label"
-                      style={{ marginBottom: '16px' }}
-                      value={values.stats[currentIndex].label}
-                      onChange={e =>
-                        setFieldValue(
-                          `stats[${currentIndex}].label`,
-                          e.target.value
-                        )
-                      }
-                      invalid={
-                        errors.stats && errors.stats[currentIndex]?.label
-                      }
-                    />
-                    <TextField
-                      label="Ref"
-                      style={{ marginBottom: '16px' }}
-                      value={values.stats[currentIndex].ref}
-                      onChange={e =>
-                        setFieldValue(
-                          `stats[${currentIndex}].ref`,
-                          e.target.value
-                        )
-                      }
-                      invalid={errors.stats && errors.stats[currentIndex]?.ref}
-                    />
-                    <TextField
-                      label="Type"
-                      style={{ marginBottom: '16px' }}
-                      value={values.stats[currentIndex].type}
-                      onChange={e =>
-                        setFieldValue(
-                          `stats[${currentIndex}].type`,
-                          e.target.value
-                        )
-                      }
-                      invalid={errors.stats && errors.stats[currentIndex]?.type}
-                    />
-
-                    <p>Value</p>
-                    <div className="value-fields">
+                {values.stats.length > 0 && (
+                  <form onSubmit={handleSubmit}>
+                    <>
                       <TextField
-                        label="nrql"
-                        style={{
-                          marginBottom: '16px'
-                        }}
-                        value={values.stats[currentIndex].value?.nrql}
+                        label="Label"
+                        style={{ marginBottom: '16px' }}
+                        value={values.stats[currentIndex]?.label}
                         onChange={e =>
                           setFieldValue(
-                            `stats[${currentIndex}].value.nrql`,
+                            `stats[${currentIndex}].label`,
                             e.target.value
                           )
                         }
                         invalid={
-                          errors.stats &&
-                          errors.stats[currentIndex]?.value?.nrql
+                          errors.stats && errors.stats[currentIndex]?.label
                         }
                       />
                       <TextField
-                        label="event name"
+                        label="Ref"
                         style={{ marginBottom: '16px' }}
-                        value={values.stats[currentIndex].value?.eventName}
+                        value={values.stats[currentIndex]?.ref}
                         onChange={e =>
                           setFieldValue(
-                            `stats[${currentIndex}].value.eventName`,
+                            `stats[${currentIndex}].ref`,
                             e.target.value
                           )
                         }
                         invalid={
-                          errors.stats &&
-                          errors.stats[currentIndex]?.value?.eventName
+                          errors.stats && errors.stats[currentIndex]?.ref
                         }
                       />
                       <TextField
-                        label="display"
+                        label="Type"
                         style={{ marginBottom: '16px' }}
-                        value={values.stats[currentIndex].value?.display}
+                        value={values.stats[currentIndex]?.type}
                         onChange={e =>
                           setFieldValue(
-                            `stats[${currentIndex}].value.display`,
+                            `stats[${currentIndex}].type`,
                             e.target.value
                           )
                         }
                         invalid={
-                          errors.stats &&
-                          errors.stats[currentIndex]?.value?.display
+                          errors.stats && errors.stats[currentIndex]?.type
                         }
                       />
 
-                      <p>Calculation</p>
-                      <TextField
-                        label="rate 1"
-                        style={{
-                          marginTop: '16px',
-                          marginLeft: '20px'
-                        }}
-                        value={
-                          values.stats[currentIndex].value?.calculation?.rate[0]
-                        }
-                        onChange={e =>
-                          setFieldValue(
-                            `stats[${currentIndex}].value.calculation.rate[0]`,
-                            e.target.value
-                          )
-                        }
-                        invalid={
-                          errors.stats &&
-                          errors.stats[currentIndex]?.value?.calculation
-                            ?.rate[0]
-                        }
-                      />
-                      <TextField
-                        label="rate 2"
-                        style={{
-                          marginTop: '16px',
-                          marginLeft: '20px'
-                        }}
-                        value={
-                          values.stats[currentIndex].value?.calculation?.rate[1]
-                        }
-                        onChange={e =>
-                          setFieldValue(
-                            `stats[${currentIndex}].value.calculation.rate[0]`,
-                            e.target.value
-                          )
-                        }
-                        invalid={
-                          errors.stats &&
-                          errors.stats[currentIndex]?.value?.calculation
-                            ?.rate[1]
-                        }
-                      />
-                    </div>
-                  </>
-                  <StepsPilot
-                    currentStep={currentStep}
-                    onPrevClick={handlePrevClick}
-                    onNextClick={handleSubmit}
-                  />
-                </form>
+                      <p>Value</p>
+                      <div className="value-fields">
+                        <TextField
+                          label="nrql"
+                          style={{
+                            marginBottom: '16px'
+                          }}
+                          value={values.stats[currentIndex]?.value?.nrql}
+                          onChange={e =>
+                            setFieldValue(
+                              `stats[${currentIndex}].value.nrql`,
+                              e.target.value
+                            )
+                          }
+                          invalid={
+                            errors.stats &&
+                            errors.stats[currentIndex]?.value?.nrql
+                          }
+                        />
+                        <TextField
+                          label="event name"
+                          style={{ marginBottom: '16px' }}
+                          value={values.stats[currentIndex]?.value?.eventName}
+                          onChange={e =>
+                            setFieldValue(
+                              `stats[${currentIndex}].value.eventName`,
+                              e.target.value
+                            )
+                          }
+                          invalid={
+                            errors.stats &&
+                            errors.stats[currentIndex]?.value?.eventName
+                          }
+                        />
+                        <TextField
+                          label="display"
+                          style={{ marginBottom: '16px' }}
+                          value={values.stats[currentIndex]?.value?.display}
+                          onChange={e =>
+                            setFieldValue(
+                              `stats[${currentIndex}].value.display`,
+                              e.target.value
+                            )
+                          }
+                          invalid={
+                            errors.stats &&
+                            errors.stats[currentIndex]?.value?.display
+                          }
+                        />
+
+                        <p>Calculation</p>
+                        <TextField
+                          label="rate 1"
+                          style={{
+                            marginTop: '16px',
+                            marginLeft: '20px'
+                          }}
+                          value={
+                            values.stats[currentIndex]?.value?.calculation
+                              ?.rate[0]
+                          }
+                          onChange={e =>
+                            setFieldValue(
+                              `stats[${currentIndex}].value.calculation.rate[0]`,
+                              e.target.value
+                            )
+                          }
+                          invalid={
+                            errors.stats &&
+                            errors.stats[currentIndex]?.value?.calculation
+                              ?.rate[0]
+                          }
+                        />
+                        <TextField
+                          label="rate 2"
+                          style={{
+                            marginTop: '16px',
+                            marginLeft: '20px'
+                          }}
+                          value={
+                            values.stats[currentIndex]?.value?.calculation
+                              ?.rate[1]
+                          }
+                          onChange={e =>
+                            setFieldValue(
+                              `stats[${currentIndex}].value.calculation.rate[0]`,
+                              e.target.value
+                            )
+                          }
+                          invalid={
+                            errors.stats &&
+                            errors.stats[currentIndex]?.value?.calculation
+                              ?.rate[1]
+                          }
+                        />
+                      </div>
+                    </>
+                    <StepsPilot
+                      currentStep={currentStep}
+                      onPrevClick={handlePrevClick}
+                      onNextClick={handleSubmit}
+                    />
+                  </form>
+                )}
               </>
             )}
           </Formik>

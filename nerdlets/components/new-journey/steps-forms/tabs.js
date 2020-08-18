@@ -4,7 +4,13 @@ import { Button } from 'nr1';
 
 export default class Tabs extends Component {
   render() {
-    const { items, currentIndex, handleOnTabChange, errorIndexes } = this.props;
+    const {
+      items,
+      currentIndex,
+      handleOnTabChange,
+      handleOnAdd,
+      errorIndexes
+    } = this.props;
 
     return (
       <div className="tabs-container">
@@ -39,6 +45,7 @@ export default class Tabs extends Component {
           </div>
         ))}
         <Button
+          onClick={handleOnAdd}
           type={Button.TYPE.PLAIN_NEUTRAL}
           iconType={Button.ICON_TYPE.DOCUMENTS__DOCUMENTS__FILE__A_ADD}
           sizeType={Button.SIZE_TYPE.SMALL}
@@ -53,5 +60,6 @@ Tabs.propTypes = {
   errorIndexes: PropTypes.array,
   items: PropTypes.array,
   currentIndex: PropTypes.number,
-  handleOnTabChange: PropTypes.func
+  handleOnTabChange: PropTypes.func,
+  handleOnAdd: PropTypes.func
 };

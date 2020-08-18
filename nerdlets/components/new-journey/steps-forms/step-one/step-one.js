@@ -29,6 +29,7 @@ export default class StepOne extends Component {
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
+            validateOnChange={false}
             onSubmit={values => {
               console.log('StepOne -> render -> values', values);
               handleNextClick();
