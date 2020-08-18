@@ -1,25 +1,30 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'nr1';
 
 export default class Tabs extends Component {
   render() {
-    const { items, currentIndex, handleOnTabChange } = this.props;
+    const { items, currentIndex, handleOnTabChange, errorIndexes } = this.props;
 
     return (
       <div className="tabs-container">
         {items.map(({ label }, index) => (
-          <div className="button" key={index}>
+          <div
+            className={`button ${
+              errorIndexes?.includes(index) ? 'button--error' : ''
+            }`}
+            key={index}
+          >
             <Button
-              // onClick={() => this.setState({ currentIndex: index })}
               onClick={() => handleOnTabChange(index)}
               sizeType={Button.SIZE_TYPE.SMALL}
               type={
                 currentIndex === index
-                  ? Button.TYPE.PLAIN
+                  ? Button.TYPE.NORMAL
                   : Button.TYPE.PLAIN_NEUTRAL
               }
               spacingType={[
-                Button.SPACING_TYPE.OMIT,
+                Button.SPACING_TYPE.SMALL,
                 Button.SPACING_TYPE.SMALL
               ]}
             >
@@ -43,3 +48,10 @@ export default class Tabs extends Component {
     );
   }
 }
+
+Tabs.propTypes = {
+  errorIndexes: PropTypes.array,
+  items: PropTypes.array,
+  currentIndex: PropTypes.number,
+  handleOnTabChange: PropTypes.func
+};

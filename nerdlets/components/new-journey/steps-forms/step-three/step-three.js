@@ -5,22 +5,43 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import StepForm from '../step-form';
 import StepsPilot from '../../steps-pilot';
-
-const initialValues = {
-  label: '',
-  nrqlWhere: '',
-  JavaScriptError: ''
-};
+import Tabs from '../tabs';
 
 const validationSchema = Yup.object().shape({
-  label: Yup.string().required('Is required'),
-  nrqlWhere: Yup.string().required('Is required'),
-  JavaScriptError: Yup.string()
+  steps: Yup.array().of(
+    Yup.object().shape({
+      label: Yup.string().required('Is required'),
+      nrqlWhere: Yup.string().required('Is required'),
+      altNrql: Yup.object().shape({
+        JavaScriptError: Yup.string()
+      })
+    })
+  )
 });
 
 export default class StepThree extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currentIndex: 0
+    };
+  }
+
+  handleTabChange = index => {
+    this.setState({ currentIndex: index });
+  };
+
   render() {
-    const { currentStep, handlePrevClick, handleNextClick } = this.props;
+    const {
+      currentStep,
+      handlePrevClick,
+      handleNextClick,
+      initialValues
+    } = this.props;
+
+    const { currentIndex } = this.state;
+
     return (
       <StepForm title="Steps">
         <div style={{ width: '50%' }}>
@@ -33,39 +54,64 @@ export default class StepThree extends Component {
             }}
           >
             {({ values, errors, setFieldValue, handleSubmit }) => (
-              <form onSubmit={handleSubmit}>
-                <TextField
-                  label="Label"
-                  style={{ marginBottom: '16px' }}
-                  value={values.label}
-                  onChange={e => setFieldValue('label', e.target.value)}
-                  invalid={errors.label}
+              <>
+                <Tabs
+                  errorIndexes={errors.steps?.map(
+                    (error, index) => error && index
+                  )}
+                  currentIndex={currentIndex}
+                  items={values.steps}
+                  handleOnTabChange={this.handleTabChange}
                 />
-                <TextField
-                  label="NRQL Where"
-                  style={{ marginBottom: '16px' }}
-                  value={values.nrqlWhere}
-                  onChange={e => setFieldValue('nrqlWhere', e.target.value)}
-                  invalid={errors.nrqlWhere}
-                />
-                <p>AltNrql</p>
-                <div className="altnrql-fields">
+                <form onSubmit={handleSubmit}>
                   <TextField
-                    label="JavaScriptError"
+                    label="Label"
                     style={{ marginBottom: '16px' }}
-                    value={values.JavaScriptError}
+                    value={values.steps[currentIndex].label}
                     onChange={e =>
-                      setFieldValue('JavaScriptError', e.target.value)
+                      setFieldValue(
+                        `stats[${currentIndex}].label`,
+                        e.target.value
+                      )
                     }
-                    invalid={errors.JavaScriptError}
+                    invalid={errors.steps && errors.steps[currentIndex]?.label}
                   />
-                </div>
-                <StepsPilot
-                  currentStep={currentStep}
-                  onPrevClick={handlePrevClick}
-                  onNextClick={handleSubmit}
-                />
-              </form>
+                  <TextField
+                    label="NRQL Where"
+                    style={{ marginBottom: '16px' }}
+                    value={values.steps[currentIndex].nrqlWhere}
+                    onChange={e =>
+                      setFieldValue(
+                        `stats[${currentIndex}].nrqlWhere`,
+                        e.target.value
+                      )
+                    }
+                    invalid={
+                      errors.steps && errors.steps[currentIndex]?.nrqlWhere
+                    }
+                  />
+                  <p>AltNrql</p>
+                  <div className="altnrql-fields">
+                    <TextField
+                      label="JavaScriptError"
+                      style={{ marginBottom: '16px' }}
+                      value={values.steps[currentIndex].JavaScriptError}
+                      onChange={e =>
+                        setFieldValue(
+                          `stats[${currentIndex}].JavaScriptError`,
+                          e.target.value
+                        )
+                      }
+                      invalid={errors.JavaScriptError}
+                    />
+                  </div>
+                  <StepsPilot
+                    currentStep={currentStep}
+                    onPrevClick={handlePrevClick}
+                    onNextClick={handleSubmit}
+                  />
+                </form>
+              </>
             )}
           </Formik>
         </div>
@@ -77,5 +123,6 @@ export default class StepThree extends Component {
 StepThree.propTypes = {
   currentStep: PropTypes.number.isRequired,
   handlePrevClick: PropTypes.func.isRequired,
-  handleNextClick: PropTypes.func.isRequired
+  handleNextClick: PropTypes.func.isRequired,
+  initialValues: PropTypes.object.isRequired
 };

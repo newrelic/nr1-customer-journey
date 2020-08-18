@@ -45,6 +45,13 @@ body {
       }
     }
 
+    &--error {
+      > button {
+        color: red;
+      }
+
+    }
+
     &__delete {
       display: flex;
       justify-content: center;

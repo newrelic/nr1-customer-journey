@@ -86,6 +86,32 @@ export default class NewJourney extends Component {
               JavaScriptError:
                 " requestUri = '/' or requestUri = '/index.html' "
             }
+          },
+          {
+            id: 1,
+            label: 'Plans',
+            nrqlWhere:
+              "pageUrl like 'http://webportal.telco.nrdemo.com/browse/plans%'",
+            altNrql: {
+              JavaScriptError: " requestUri like '/browse/plans%' "
+            }
+          },
+          {
+            id: 2,
+            label: 'Cart',
+            nrqlWhere:
+              "pageUrl = 'http://webportal.telco.nrdemo.com/shoppingcart'",
+            altNrql: {
+              JavaScriptError: " requestUri like '/shoppingcart%' "
+            }
+          },
+          {
+            id: 3,
+            label: 'Checkout',
+            nrqlWhere: "pageUrl = 'http://webportal.telco.nrdemo.com/checkout'",
+            altNrql: {
+              JavaScriptError: " requestUri like '/checkout%' "
+            }
           }
         ],
         series: [
@@ -95,6 +121,20 @@ export default class NewJourney extends Component {
             nrqlWhere: "appName = 'WebPortal'",
             altNrql: {
               JavaScriptError: " appName = 'WebPortal' "
+            }
+          },
+          {
+            id: 1,
+            label: 'Columbus',
+            nrqlWhere: "appName = 'WebPortal' and city = 'Columbus' "
+          },
+          {
+            id: 2,
+            label: 'Internet Explorer',
+            nrqlWhere: " appName = 'WebPortal' and userAgentName = 'IE' ",
+            altNrql: {
+              JavaScriptError:
+                " appName = 'WebPortal' and userAgentName = 'IE' "
             }
           }
         ],
@@ -106,6 +146,21 @@ export default class NewJourney extends Component {
             bound: 'higherViolation',
             description:
               'If the error rate is higher that 3%, mark that as a notable.'
+          },
+          {
+            label: 'Page views',
+            ref: 'clickCount',
+            value: 5.0,
+            bound: 'percentage',
+            description:
+              'If the percentage change is plus or minus 10%, flag that.'
+          },
+          {
+            label: 'Page Load Avg.',
+            ref: 'averageDuration',
+            value: 1,
+            bound: 'lowerTarget',
+            description: "We're targeting sub-second load times."
           }
         ]
       }
