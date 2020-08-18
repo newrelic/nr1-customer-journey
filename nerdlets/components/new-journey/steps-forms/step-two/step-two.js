@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Tabs, TabsItem, TextField, Button } from 'nr1';
+import { TextField, Button } from 'nr1';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import StepForm from '../step-form';
 import StepsPilot from '../../steps-pilot';
+import Tabs from '../tabs';
 
 const STATS_TYPE = {
   DECIMAL: 'decimal',
@@ -48,6 +49,10 @@ export default class StepTwo extends Component {
     };
   }
 
+  handleTabChange = index => {
+    this.setState({ currentIndex: index });
+  };
+
   render() {
     const {
       currentStep,
@@ -71,7 +76,12 @@ export default class StepTwo extends Component {
           >
             {({ values, errors, setFieldValue, handleSubmit }) => (
               <>
-                {values.stats.map((stat, index) => (
+                <Tabs
+                  currentIndex={currentIndex}
+                  items={values.stats}
+                  handleOnTabChange={this.handleTabChange}
+                />
+                {/* {values.stats.map((stat, index) => (
                   <div className="button" key={index}>
                     <Button
                       onClick={() => this.setState({ currentIndex: index })}
@@ -91,16 +101,7 @@ export default class StepTwo extends Component {
                       <span>&times;</span>
                     </p>
                   </div>
-                ))}
-                <Button
-                  type={Button.TYPE.NORMAL}
-                  iconType={Button.ICON_TYPE.DOCUMENTS__DOCUMENTS__FILE__A_ADD}
-                  sizeType={Button.SIZE_TYPE.SMALL}
-                  spacingType={[
-                    Button.SPACING_TYPE.OMIT,
-                    Button.SPACING_TYPE.SMALL
-                  ]}
-                />
+                ))} */}
                 <form onSubmit={handleSubmit}>
                   {console.log('StepTwo -> render -> errors', errors)}
                   <>
