@@ -24,6 +24,45 @@ body {
 	font-size: 12px;
 }
 
+.button {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+
+	&:hover {
+		.button__delete {
+			width: 16px;
+			border: 1px solid red;
+			> span {
+				display: block;
+			}
+		}
+	}
+
+	&__delete {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: 1px solid transparent;
+		border-radius: 50%;
+		color: red;
+		width: 0;
+		height: 16px;
+		font-size: 12px;
+		transition: .2s;
+
+		> span {
+			display: none;
+		}
+
+		&:hover {
+			background: red;
+			color: white;
+			cursor: pointer;
+		}
+	}
+}
+
 .visualizationContainer {
     display: flex;
     flex-direction: column;

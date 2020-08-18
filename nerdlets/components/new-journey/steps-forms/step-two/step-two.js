@@ -72,18 +72,25 @@ export default class StepTwo extends Component {
             {({ values, errors, setFieldValue, handleSubmit }) => (
               <>
                 {values.stats.map((stat, index) => (
-                  <Button
-                    onClick={() => this.setState({ currentIndex: index })}
-                    key={index}
-                    sizeType={Button.SIZE_TYPE.SMALL}
-                    type={Button.TYPE.NORMAL}
-                    spacingType={[
-                      Button.SPACING_TYPE.OMIT,
-                      Button.SPACING_TYPE.SMALL
-                    ]}
-                  >
-                    {stat.label}
-                  </Button>
+                  <div className="button" key={index}>
+                    <Button
+                      onClick={() => this.setState({ currentIndex: index })}
+                      sizeType={Button.SIZE_TYPE.SMALL}
+                      type={Button.TYPE.NORMAL}
+                      spacingType={[
+                        Button.SPACING_TYPE.OMIT,
+                        Button.SPACING_TYPE.SMALL
+                      ]}
+                    >
+                      {stat.label}
+                    </Button>
+                    <p
+                      className="button__delete"
+                      onClick={() => console.log('delete stats')}
+                    >
+                      <span>&times;</span>
+                    </p>
+                  </div>
                 ))}
                 <Button
                   type={Button.TYPE.NORMAL}
