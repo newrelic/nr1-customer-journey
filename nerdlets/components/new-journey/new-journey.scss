@@ -26,11 +26,8 @@
 
   .steps-pilot {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-
-    > button {
-      margin-right: 10px;
-    }
+    margin-top: 25px;
   }
 }

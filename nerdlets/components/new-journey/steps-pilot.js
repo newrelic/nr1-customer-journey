@@ -13,11 +13,11 @@ const StepsPilot = ({ currentStep, onPrevClick, onNextClick }) => {
         Prev
       </Button>
       <Button
-        type={Button.TYPE.NORMAL}
+        type={Button.TYPE.PRIMARY}
         onClick={onNextClick}
-        disabled={currentStep === 4}
+        // disabled={currentStep === 4}
       >
-        Next
+        {currentStep === 4 ? 'Save' : 'Next'}
       </Button>
     </div>
   );

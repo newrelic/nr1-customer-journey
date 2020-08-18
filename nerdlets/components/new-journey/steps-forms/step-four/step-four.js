@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { TextField } from 'nr1';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import StepForm from '../step-form';
+import StepsPilot from '../../steps-pilot';
 
 const initialValues = {
   label: '',
@@ -15,8 +17,10 @@ const validationSchema = Yup.object().shape({
   nrqlWhere: Yup.string().required('Is required'),
   JavaScriptError: Yup.string()
 });
-class StepFour extends Component {
+
+export default class StepFour extends Component {
   render() {
+    const { currentStep, handlePrevClick, handleNextClick } = this.props;
     return (
       <StepForm title="Series">
         <div style={{ width: '50%' }}>
@@ -25,6 +29,7 @@ class StepFour extends Component {
             validationSchema={validationSchema}
             onSubmit={values => {
               console.log('StepFour -> render -> values', values);
+              handleNextClick();
             }}
           >
             {({ values, errors, setFieldValue, handleSubmit }) => (
@@ -55,6 +60,11 @@ class StepFour extends Component {
                     invalid={errors.JavaScriptError}
                   />
                 </div>
+                <StepsPilot
+                  currentStep={currentStep}
+                  onPrevClick={handlePrevClick}
+                  onNextClick={handleSubmit}
+                />
               </form>
             )}
           </Formik>
@@ -64,4 +74,8 @@ class StepFour extends Component {
   }
 }
 
-export default StepFour;
+StepFour.propTypes = {
+  currentStep: PropTypes.number.isRequired,
+  handlePrevClick: PropTypes.func.isRequired,
+  handleNextClick: PropTypes.func.isRequired
+};

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { TextField } from 'nr1';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import StepForm from '../step-form';
+import StepsPilot from '../../steps-pilot';
 
 const STATS_TYPE = {
   DECIMAL: 'decimal',
@@ -36,8 +38,9 @@ const validationSchema = Yup.object().shape({
   rate: Yup.string().required('Is required')
 });
 
-class StepTwo extends Component {
+export default class StepTwo extends Component {
   render() {
+    const { currentStep, handlePrevClick, handleNextClick } = this.props;
     return (
       <StepForm title="Stats">
         <div style={{ width: '50%' }}>
@@ -46,6 +49,7 @@ class StepTwo extends Component {
             validationSchema={validationSchema}
             onSubmit={values => {
               console.log('StepTwo -> render -> values', values);
+              handleNextClick();
             }}
           >
             {({ values, errors, setFieldValue, handleSubmit }) => (
@@ -109,6 +113,11 @@ class StepTwo extends Component {
                     invalid={errors.rate}
                   />
                 </div>
+                <StepsPilot
+                  currentStep={currentStep}
+                  onPrevClick={handlePrevClick}
+                  onNextClick={handleSubmit}
+                />
               </form>
             )}
           </Formik>
@@ -118,4 +127,8 @@ class StepTwo extends Component {
   }
 }
 
-export default StepTwo;
+StepTwo.propTypes = {
+  currentStep: PropTypes.number.isRequired,
+  handlePrevClick: PropTypes.func.isRequired,
+  handleNextClick: PropTypes.func.isRequired
+};

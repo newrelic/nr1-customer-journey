@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { TextField } from 'nr1';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import StepForm from '../step-form';
 import Dropdown from '../../dropdown';
+import StepsPilot from '../../steps-pilot';
 
 const BOUND = [
   {
@@ -45,8 +47,9 @@ const validationSchema = Yup.object().shape({
   bound: Yup.string().required('Is required'),
   description: Yup.string()
 });
-class StepFour extends Component {
+export default class StepFive extends Component {
   render() {
+    const { currentStep, handlePrevClick, handleNextClick } = this.props;
     return (
       <StepForm title="KPIs">
         <div style={{ width: '50%' }}>
@@ -55,6 +58,7 @@ class StepFour extends Component {
             validationSchema={validationSchema}
             onSubmit={values => {
               console.log('StepFive -> render -> values', values);
+              handleNextClick();
             }}
           >
             {({ values, errors, setFieldValue, handleSubmit }) => (
@@ -95,6 +99,11 @@ class StepFour extends Component {
                   onChange={e => setFieldValue('description', e.target.value)}
                   invalid={errors.description}
                 />
+                <StepsPilot
+                  currentStep={currentStep}
+                  onPrevClick={handlePrevClick}
+                  onNextClick={handleSubmit}
+                />
               </form>
             )}
           </Formik>
@@ -104,4 +113,8 @@ class StepFour extends Component {
   }
 }
 
-export default StepFour;
+StepFive.propTypes = {
+  currentStep: PropTypes.number.isRequired,
+  handlePrevClick: PropTypes.func.isRequired,
+  handleNextClick: PropTypes.func.isRequired
+};

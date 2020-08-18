@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import ActiveSteps from './active-steps';
 import StepsPilot from './steps-pilot';
 
@@ -43,20 +42,35 @@ export default class NewJourney extends Component {
   };
 
   renderSteps = () => {
-    switch (this.state.currentStep) {
-      case 0:
-        return <StepOne />;
-      case 1:
-        return <StepTwo />;
-      case 2:
-        return <StepThree />;
-      case 3:
-        return <StepFour />;
-      case 4:
-        return <StepFive />;
+    const { currentStep } = this.state;
 
+    let Component = null;
+    switch (currentStep) {
+      case 0:
+        Component = StepOne;
+        break;
+      case 1:
+        Component = StepTwo;
+        break;
+      case 2:
+        Component = StepThree;
+        break;
+      case 3:
+        Component = StepFour;
+        break;
+      case 4:
+        Component = StepFive;
+        break;
       default:
     }
+
+    return (
+      <Component
+        currentStep={currentStep}
+        handlePrevClick={this.handlePrevClick}
+        handleNextClick={this.handleNextClick}
+      />
+    );
   };
 
   render() {
@@ -66,11 +80,6 @@ export default class NewJourney extends Component {
         <h3>Create New Journey</h3>
         <ActiveSteps currentStep={currentStep} />
         {this.renderSteps()}
-        <StepsPilot
-          currentStep={currentStep}
-          onPrevClick={this.handlePrevClick}
-          onNextClick={this.handleNextClick}
-        />
       </div>
     );
   }
