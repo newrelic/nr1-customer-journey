@@ -29,13 +29,13 @@ The `journeyConfig` is an array of objects that contain the following. See the [
 | stats[].id | numeric or uuid | true | Unique identifier |
 | stats[].ref | string | true | Think of this like the variable name for use through the application in things like the calculations feature. As such, it need to be unique within a given journey. |
 | stats[].label | string | true | Label/name of the measure. |
-| steps[].type | [percentile, decimal, integer] | true | This defines how the stat will be processed and displayed. Decimals are rounded to 2 decimal pts. Integers are formatted into thousands. Percentile receive specific rules in the processing as well as custom display |
-| steps[].value | JS Object | true | The object that contains the processing rules for a given Stat. It may be based on a NRQL query or a calculation based on other Stat objects. |
-| steps[].value.nrql | string | false | Full NRQL statement to calculate a single value. |
-| steps[].value.eventName | string | false | If this measure/stat is based on a different NRDB event then the one defined in funnel.event, this is where we declare that. This information is used to append the needed WHERE clauses from the `series` and `steps` to this stat. |
-| steps[].value.display | [integer, seconds, percentage] | true | How should the output be formatted. |
-| steps[].value.calculation | JS Object | false | If this Stat is a calculation - the mathematical result of two other stat values - this is where the rules for that calculation will be defined. |
-| steps[].value.calculation.rate | JS Array of 2 strings referencing other `stats[].ref` values for a calculation. | true | `rate` implies that the first `ref` value in the array will be devided by the second `ref` value in the array. |
+| stats[].type | [percentile, decimal, integer] | true | This defines how the stat will be processed and displayed. Decimals are rounded to 2 decimal pts. Integers are formatted into thousands. Percentile receive specific rules in the processing as well as custom display |
+| stats[].value | JS Object | true | The object that contains the processing rules for a given Stat. It may be based on a NRQL query or a calculation based on other Stat objects. |
+| stats[].value.nrql | string | false | Full NRQL statement to calculate a single value. |
+| stats[].value.eventName | string | false | If this measure/stat is based on a different NRDB event then the one defined in funnel.event, this is where we declare that. This information is used to append the needed WHERE clauses from the `series` and `steps` to this stat. |
+| stats[].value.display | [integer, seconds, percentage] | true | How should the output be formatted. |
+| stats[].value.calculation | JS Object | false | If this Stat is a calculation - the mathematical result of two other stat values - this is where the rules for that calculation will be defined. |
+| stats[].value.calculation.rate | JS Array of 2 strings referencing other `stats[].ref` values for a calculation. | true | `rate` implies that the first `ref` value in the array will be devided by the second `ref` value in the array. |
 
 ## About kpis
 
