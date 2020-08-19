@@ -75,19 +75,15 @@ export default class StatCell extends React.Component {
                   const altStepNrql =
                     requiresAltNrql &&
                     step.altNrql &&
-                    Object.keys(step.altNrql).find(
-                      k => k === stat.value.eventName
-                    )
-                      ? step.altNrql[stat.value.eventName]
+                    step.altNrql.key === stat.value.eventName
+                      ? step.altNrql.key
                       : null;
 
                   const altColumnNrql =
                     requiresAltNrql &&
                     column.altNrql &&
-                    Object.keys(column.altNrql).find(
-                      k => k === stat.value.eventName
-                    )
-                      ? column.altNrql[stat.value.eventName]
+                    column.altNrql.key === stat.value.eventName
+                      ? column.altNrql.key
                       : null;
 
                   if (stat.value.nrql) {

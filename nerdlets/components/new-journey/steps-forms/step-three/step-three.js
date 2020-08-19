@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import StepForm from '../step-form';
 import StepsPilot from '../../steps-pilot';
 import Tabs from '../tabs';
+import Dropdown from '../../dropdown';
 
 const validationSchema = Yup.object().shape({
   steps: Yup.array().of(
@@ -13,7 +14,8 @@ const validationSchema = Yup.object().shape({
       label: Yup.string().required('Is required'),
       nrqlWhere: Yup.string().required('Is required'),
       altNrql: Yup.object().shape({
-        JavaScriptError: Yup.string()
+        key: Yup.string(),
+        value: Yup.string()
       })
     })
   )
@@ -23,7 +25,8 @@ const STEP_OBJECT_TEMPLATE = {
   label: 'New step',
   nrqlWhere: '',
   altNrql: {
-    JavaScriptError: ''
+    key: '',
+    value: ''
   }
 };
 
@@ -58,8 +61,7 @@ export default class StepThree extends Component {
             validationSchema={validationSchema}
             validateOnChange={false}
             onSubmit={values => {
-              console.log('StepThree -> render -> values', values);
-              handleNextClick(values);
+              handleNextClick({ steps: values.steps });
             }}
           >
             {({ values, errors, setFieldValue, handleSubmit }) => (
@@ -112,29 +114,39 @@ export default class StepThree extends Component {
                       />
                       <fieldset className="fieldset">
                         <legend className="fieldset__legend">AltNRQL</legend>
-                        <TextField
-                          label="JavaScriptError"
-                          className="text-field"
-                          value={
-                            values.steps[currentIndex].altNrql?.JavaScriptError
+                        <Dropdown
+                          label="Key"
+                          items={values.stats
+                            .filter(({ value: { eventName } }) => eventName)
+                            .map(({ value: { eventName } }) => ({
+                              label: eventName,
+                              value: eventName
+                            }))}
+                          onChange={value =>
+                            setFieldValue(
+                              `steps[${currentIndex}].altNrql.key`,
+                              value
+                            )
                           }
-                          invalid={
-                            errors.steps && errors.steps[currentIndex]?.label
+                          value={values.steps[currentIndex].altNrql?.key}
+                          errorMessage={
+                            errors.steps &&
+                            errors.steps[currentIndex].altNrql?.key
                           }
                         />
                         <TextField
-                          label="NRQL Where"
+                          label="Value"
                           style={{ marginBottom: '16px' }}
-                          value={values.steps[currentIndex].nrqlWhere}
+                          value={values.steps[currentIndex].altNrql?.value}
                           onChange={e =>
                             setFieldValue(
-                              `steps[${currentIndex}].nrqlWhere`,
+                              `steps[${currentIndex}].altNrql.value`,
                               e.target.value
                             )
                           }
                           invalid={
                             errors.steps &&
-                            errors.steps[currentIndex]?.nrqlWhere
+                            errors.steps[currentIndex]?.altNrql?.value
                           }
                         />
                       </fieldset>
@@ -142,7 +154,7 @@ export default class StepThree extends Component {
                   )}
                   <StepsPilot
                     currentStep={currentStep}
-                    onPrevClick={handlePrevClick}
+                    onPrevClick={() => handlePrevClick({ steps: values.steps })}
                     onNextClick={handleSubmit}
                   />
                 </form>

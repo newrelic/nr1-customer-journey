@@ -46,7 +46,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const KPI_OBJECT_TEMPLATE = {
-  label: '',
+  label: 'New KPI',
   ref: '',
   value: '',
   bound: '',
@@ -83,8 +83,7 @@ export default class StepFive extends Component {
             validationSchema={validationSchema}
             validateOnChange={false}
             onSubmit={values => {
-              console.log('StepFive -> render -> values', values);
-              handleNextClick(values);
+              handleNextClick({ kpis: values.kpis });
             }}
           >
             {({ values, errors, setFieldValue, handleSubmit }) => (
@@ -135,7 +134,7 @@ export default class StepFive extends Component {
                       <TextField
                         label="Value"
                         className="text-field"
-                        value={values.kpis[currentIndex].value}
+                        value={values.kpis[currentIndex]?.value}
                         onChange={e =>
                           setFieldValue(
                             `kpis[${currentIndex}].value`,
@@ -152,7 +151,7 @@ export default class StepFive extends Component {
                         onChange={value =>
                           setFieldValue(`kpis[${currentIndex}].bound`, value)
                         }
-                        value={values.kpis[currentIndex].bound}
+                        value={values.kpis[currentIndex]?.bound}
                         errorMessage={
                           errors.kpis && errors.kpis[currentIndex]?.bound
                         }
@@ -161,7 +160,7 @@ export default class StepFive extends Component {
                       <TextField
                         label="Description"
                         className="text-field"
-                        value={values.kpis[currentIndex].description}
+                        value={values.kpis[currentIndex]?.description}
                         onChange={e =>
                           setFieldValue(
                             `kpis[${currentIndex}].description`,
@@ -176,7 +175,7 @@ export default class StepFive extends Component {
                   )}
                   <StepsPilot
                     currentStep={currentStep}
-                    onPrevClick={handlePrevClick}
+                    onPrevClick={() => handlePrevClick({ kpis: values.kpis })}
                     onNextClick={handleSubmit}
                   />
                 </form>

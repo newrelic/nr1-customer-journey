@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import StepForm from '../step-form';
 import StepsPilot from '../../steps-pilot';
 import Tabs from '../tabs';
+import Dropdown from '../../dropdown';
 
 const validationSchema = Yup.object().shape({
   series: Yup.array().of(
@@ -58,8 +59,7 @@ export default class StepFour extends Component {
             validationSchema={validationSchema}
             validateOnChange={false}
             onSubmit={values => {
-              console.log('StepFour -> render -> values', values);
-              handleNextClick(values);
+              handleNextClick({ series: values.series });
             }}
           >
             {({ values, errors, setFieldValue, handleSubmit }) => (
@@ -112,29 +112,39 @@ export default class StepFour extends Component {
                       />
                       <fieldset className="fieldset">
                         <legend className="fieldset__legend">AltNRQL</legend>
-                        <TextField
-                          label="JavaScriptError"
-                          className="text-field"
-                          value={
-                            values.series[currentIndex].altNrql?.JavaScriptError
+                        <Dropdown
+                          label="Key"
+                          items={values.stats
+                            .filter(({ value: { eventName } }) => eventName)
+                            .map(({ value: { eventName } }) => ({
+                              label: eventName,
+                              value: eventName
+                            }))}
+                          onChange={value =>
+                            setFieldValue(
+                              `series[${currentIndex}].altNrql.key`,
+                              value
+                            )
                           }
-                          invalid={
-                            errors.series && errors.series[currentIndex]?.label
+                          value={values.series[currentIndex].altNrql?.key}
+                          errorMessage={
+                            errors.series &&
+                            errors.series[currentIndex].altNrql?.key
                           }
                         />
                         <TextField
                           label="NRQL Where"
                           style={{ marginBottom: '16px' }}
-                          value={values.series[currentIndex].nrqlWhere}
+                          value={values.series[currentIndex].altNrql?.value}
                           onChange={e =>
                             setFieldValue(
-                              `series[${currentIndex}].nrqlWhere`,
+                              `series[${currentIndex}].altNrql.value`,
                               e.target.value
                             )
                           }
                           invalid={
                             errors.series &&
-                            errors.series[currentIndex]?.nrqlWhere
+                            errors.series[currentIndex]?.altNrql.value
                           }
                         />
                       </fieldset>
@@ -142,7 +152,9 @@ export default class StepFour extends Component {
                   )}
                   <StepsPilot
                     currentStep={currentStep}
-                    onPrevClick={handlePrevClick}
+                    onPrevClick={() =>
+                      handlePrevClick({ series: values.series })
+                    }
                     onNextClick={handleSubmit}
                   />
                 </form>

@@ -86,8 +86,7 @@ export default class StepTwo extends Component {
             validationSchema={validationSchema}
             validateOnChange={false}
             onSubmit={values => {
-              console.log('StepTwo -> render -> values', values);
-              handleNextClick(values);
+              handleNextClick({ stats: values.stats });
             }}
           >
             {({ values, errors, setFieldValue, handleSubmit }) => (
@@ -200,39 +199,49 @@ export default class StepTwo extends Component {
                           <legend className="fieldset__legend">
                             Calculation
                           </legend>
-                          <TextField
-                            label="rate 1"
-                            className="text-field"
+                          <Dropdown
+                            label="Nominator"
+                            items={values.stats
+                              .filter(stat => stat.ref)
+                              .map(({ label, ref }) => ({
+                                value: ref,
+                                label: label
+                              }))}
+                            onChange={value =>
+                              setFieldValue(
+                                `stats[${currentIndex}].value.calculation.rate[0]`,
+                                value
+                              )
+                            }
                             value={
                               values.stats[currentIndex]?.value?.calculation
                                 ?.rate[0]
                             }
-                            onChange={e =>
-                              setFieldValue(
-                                `stats[${currentIndex}].value.calculation.rate[0]`,
-                                e.target.value
-                              )
-                            }
-                            invalid={
+                            errorMessage={
                               errors.stats &&
                               errors.stats[currentIndex]?.value?.calculation
                                 ?.rate[0]
                             }
                           />
-                          <TextField
-                            label="rate 2"
-                            className="text-field"
+                          <Dropdown
+                            label="Denominator"
+                            items={values.stats
+                              .filter(stat => stat.ref)
+                              .map(({ label, ref }) => ({
+                                value: ref,
+                                label: label
+                              }))}
+                            onChange={value =>
+                              setFieldValue(
+                                `stats[${currentIndex}].value.calculation.rate[1]`,
+                                value
+                              )
+                            }
                             value={
                               values.stats[currentIndex]?.value?.calculation
                                 ?.rate[1]
                             }
-                            onChange={e =>
-                              setFieldValue(
-                                `stats[${currentIndex}].value.calculation.rate[0]`,
-                                e.target.value
-                              )
-                            }
-                            invalid={
+                            errorMessage={
                               errors.stats &&
                               errors.stats[currentIndex]?.value?.calculation
                                 ?.rate[1]
@@ -244,7 +253,7 @@ export default class StepTwo extends Component {
                   )}
                   <StepsPilot
                     currentStep={currentStep}
-                    onPrevClick={() => handlePrevClick(values)}
+                    onPrevClick={() => handlePrevClick({ stats: values.stats })}
                     onNextClick={handleSubmit}
                   />
                 </form>

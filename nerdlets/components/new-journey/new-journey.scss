@@ -1,7 +1,7 @@
 .new-journey {
   background: white;
   padding: 8px 12px;
-  
+
   &__heading {
     text-align: center;
     margin: 24px 0 48px 0;
@@ -32,11 +32,6 @@
 
       span {
         padding-left: 5px;
-      }
-
-      &:first-of-type {
-        background: #007e8a;
-        background: #d7f2f3;
       }
 
       &:before {
@@ -77,7 +72,7 @@
         &:before {
           background: #007e8a;
         }
-  
+
         &:after {
           background: #007e8a;
         }
@@ -93,7 +88,7 @@
         &:before {
           background: #007e8a;
         }
-  
+
         &:after {
           background: #007e8a;
         }
