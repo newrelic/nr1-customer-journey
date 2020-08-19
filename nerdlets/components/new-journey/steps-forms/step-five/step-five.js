@@ -107,7 +107,7 @@ export default class StepFive extends Component {
                   <form onSubmit={handleSubmit}>
                     <TextField
                       label="Label"
-                      style={{ marginBottom: '16px' }}
+                      className="text-field"
                       value={values.kpis[currentIndex].label}
                       onChange={e =>
                         setFieldValue(
@@ -119,7 +119,7 @@ export default class StepFive extends Component {
                     />
                     <TextField
                       label="Ref"
-                      style={{ marginBottom: '16px' }}
+                      className="text-field"
                       value={values.kpis[currentIndex].ref}
                       onChange={e =>
                         setFieldValue(
@@ -131,7 +131,7 @@ export default class StepFive extends Component {
                     />
                     <TextField
                       label="Value"
-                      style={{ marginBottom: '16px' }}
+                      className="text-field"
                       value={values.kpis[currentIndex].value}
                       onChange={e =>
                         setFieldValue(
@@ -155,7 +155,7 @@ export default class StepFive extends Component {
 
                     <TextField
                       label="Description"
-                      style={{ marginBottom: '16px' }}
+                      className="text-field"
                       value={values.kpis[currentIndex].description}
                       onChange={e =>
                         setFieldValue(

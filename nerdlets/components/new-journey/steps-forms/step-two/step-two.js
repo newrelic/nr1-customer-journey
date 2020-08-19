@@ -110,7 +110,7 @@ export default class StepTwo extends Component {
                     <>
                       <TextField
                         label="Label"
-                        style={{ marginBottom: '16px' }}
+                        className="text-field"
                         value={values.stats[currentIndex]?.label}
                         onChange={e =>
                           setFieldValue(
@@ -124,7 +124,7 @@ export default class StepTwo extends Component {
                       />
                       <TextField
                         label="Ref"
-                        style={{ marginBottom: '16px' }}
+                        className="text-field"
                         value={values.stats[currentIndex]?.ref}
                         onChange={e =>
                           setFieldValue(
@@ -138,7 +138,7 @@ export default class StepTwo extends Component {
                       />
                       <TextField
                         label="Type"
-                        style={{ marginBottom: '16px' }}
+                        className="text-field"
                         value={values.stats[currentIndex]?.type}
                         onChange={e =>
                           setFieldValue(
@@ -154,9 +154,7 @@ export default class StepTwo extends Component {
                         <legend className="fieldset__legend">Value</legend>
                         <TextField
                           label="nrql"
-                          style={{
-                            marginBottom: '16px'
-                          }}
+                          className="text-field"
                           value={values.stats[currentIndex]?.value?.nrql}
                           onChange={e =>
                             setFieldValue(
@@ -171,7 +169,7 @@ export default class StepTwo extends Component {
                         />
                         <TextField
                           label="event name"
-                          style={{ marginBottom: '16px' }}
+                          className="text-field"
                           value={values.stats[currentIndex]?.value?.eventName}
                           onChange={e =>
                             setFieldValue(
@@ -186,7 +184,7 @@ export default class StepTwo extends Component {
                         />
                         <TextField
                           label="display"
-                          style={{ marginBottom: '16px' }}
+                          className="text-field"
                           value={values.stats[currentIndex]?.value?.display}
                           onChange={e =>
                             setFieldValue(
@@ -205,6 +203,7 @@ export default class StepTwo extends Component {
                           </legend>
                           <TextField
                             label="rate 1"
+                            className="text-field"
                             value={
                               values.stats[currentIndex]?.value?.calculation
                                 ?.rate[0]
@@ -223,9 +222,7 @@ export default class StepTwo extends Component {
                           />
                           <TextField
                             label="rate 2"
-                            style={{
-                              marginTop: '16px'
-                            }}
+                            className="text-field"
                             value={
                               values.stats[currentIndex]?.value?.calculation
                                 ?.rate[1]

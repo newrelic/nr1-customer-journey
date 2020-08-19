@@ -82,7 +82,7 @@ export default class StepFour extends Component {
                   <form onSubmit={handleSubmit}>
                     <TextField
                       label="Label"
-                      style={{ marginBottom: '16px' }}
+                      className="text-field"
                       value={values.series[currentIndex].label}
                       onChange={e =>
                         setFieldValue(
@@ -96,7 +96,7 @@ export default class StepFour extends Component {
                     />
                     <TextField
                       label="NRQL Where"
-                      style={{ marginBottom: '16px' }}
+                      className="text-field"
                       value={values.series[currentIndex].nrqlWhere}
                       onChange={e =>
                         setFieldValue(
@@ -112,7 +112,7 @@ export default class StepFour extends Component {
                     <div className="altnrql-fields">
                       <TextField
                         label="JavaScriptError"
-                        style={{ marginBottom: '16px' }}
+                        className="text-field"
                         value={
                           values.series[currentIndex].altNrql?.JavaScriptError
                         }
