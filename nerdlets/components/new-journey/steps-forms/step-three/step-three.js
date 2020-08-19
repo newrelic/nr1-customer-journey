@@ -108,8 +108,8 @@ export default class StepThree extends Component {
                         errors.steps && errors.steps[currentIndex]?.nrqlWhere
                       }
                     />
-                    <p>AltNrql</p>
-                    <div className="altnrql-fields">
+                    <fieldset className="fieldset">
+                      <legend className="fieldset__legend">AltNRQL</legend>
                       <TextField
                         label="JavaScriptError"
                         className="text-field"
@@ -127,7 +127,7 @@ export default class StepThree extends Component {
                           errors.steps[currentIndex]?.altNrql?.JavaScriptError
                         }
                       />
-                    </div>
+                    </fieldset>
                     <StepsPilot
                       currentStep={currentStep}
                       onPrevClick={handlePrevClick}
