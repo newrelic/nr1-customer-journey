@@ -138,13 +138,13 @@ export default class StepFour extends Component {
                           }
                         />
                       </fieldset>
-                      <StepsPilot
-                        currentStep={currentStep}
-                        onPrevClick={handlePrevClick}
-                        onNextClick={handleSubmit}
-                      />
                     </>
                   )}
+                  <StepsPilot
+                    currentStep={currentStep}
+                    onPrevClick={handlePrevClick}
+                    onNextClick={handleSubmit}
+                  />
                 </form>
               </>
             )}

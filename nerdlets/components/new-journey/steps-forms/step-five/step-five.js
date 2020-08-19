@@ -172,13 +172,13 @@ export default class StepFive extends Component {
                           errors.kpis && errors.kpis[currentIndex]?.description
                         }
                       />
-                      <StepsPilot
-                        currentStep={currentStep}
-                        onPrevClick={handlePrevClick}
-                        onNextClick={handleSubmit}
-                      />
                     </>
                   )}
+                  <StepsPilot
+                    currentStep={currentStep}
+                    onPrevClick={handlePrevClick}
+                    onNextClick={handleSubmit}
+                  />
                 </form>
               </>
             )}
