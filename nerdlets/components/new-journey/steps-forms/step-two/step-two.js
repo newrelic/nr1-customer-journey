@@ -86,7 +86,7 @@ export default class StepTwo extends Component {
             validateOnChange={false}
             onSubmit={values => {
               console.log('StepTwo -> render -> values', values);
-              handleNextClick();
+              handleNextClick(values);
             }}
           >
             {({ values, errors, setFieldValue, handleSubmit }) => (
@@ -105,8 +105,9 @@ export default class StepTwo extends Component {
                     this.setState({ currentIndex: stats.length - 1 });
                   }}
                 />
-                {values.stats.length > 0 && (
-                  <form onSubmit={handleSubmit}>
+
+                <form onSubmit={handleSubmit}>
+                  {values.stats.length > 0 && (
                     <>
                       <TextField
                         label="Label"
@@ -242,13 +243,13 @@ export default class StepTwo extends Component {
                         </fieldset>
                       </fieldset>
                     </>
-                    <StepsPilot
-                      currentStep={currentStep}
-                      onPrevClick={handlePrevClick}
-                      onNextClick={handleSubmit}
-                    />
-                  </form>
-                )}
+                  )}
+                  <StepsPilot
+                    currentStep={currentStep}
+                    onPrevClick={() => handlePrevClick(values)}
+                    onNextClick={handleSubmit}
+                  />
+                </form>
               </>
             )}
           </Formik>
