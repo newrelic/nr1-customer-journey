@@ -59,7 +59,7 @@ export default class StepThree extends Component {
             validateOnChange={false}
             onSubmit={values => {
               console.log('StepThree -> render -> values', values);
-              handleNextClick();
+              handleNextClick(values);
             }}
           >
             {({ values, errors, setFieldValue, handleSubmit }) => (
@@ -78,63 +78,66 @@ export default class StepThree extends Component {
                     this.setState({ currentIndex: steps.length - 1 });
                   }}
                 />
-                {values.steps.length > 0 && (
-                  <form onSubmit={handleSubmit}>
-                    <TextField
-                      label="Label"
-                      style={{ marginBottom: '16px' }}
-                      value={values.steps[currentIndex].label}
-                      onChange={e =>
-                        setFieldValue(
-                          `steps[${currentIndex}].label`,
-                          e.target.value
-                        )
-                      }
-                      invalid={
-                        errors.steps && errors.steps[currentIndex]?.label
-                      }
-                    />
-                    <TextField
-                      label="NRQL Where"
-                      style={{ marginBottom: '16px' }}
-                      value={values.steps[currentIndex].nrqlWhere}
-                      onChange={e =>
-                        setFieldValue(
-                          `steps[${currentIndex}].nrqlWhere`,
-                          e.target.value
-                        )
-                      }
-                      invalid={
-                        errors.steps && errors.steps[currentIndex]?.nrqlWhere
-                      }
-                    />
-                    <p>AltNrql</p>
-                    <div className="altnrql-fields">
+
+                <form onSubmit={handleSubmit}>
+                  {values.steps.length > 0 && (
+                    <>
                       <TextField
-                        label="JavaScriptError"
+                        label="Label"
                         style={{ marginBottom: '16px' }}
-                        value={
-                          values.steps[currentIndex].altNrql?.JavaScriptError
-                        }
+                        value={values.steps[currentIndex].label}
                         onChange={e =>
                           setFieldValue(
-                            `steps[${currentIndex}].altNrql?.JavaScriptError`,
+                            `steps[${currentIndex}].label`,
                             e.target.value
                           )
                         }
                         invalid={
-                          errors.steps &&
-                          errors.steps[currentIndex]?.altNrql?.JavaScriptError
+                          errors.steps && errors.steps[currentIndex]?.label
                         }
                       />
-                    </div>
-                    <StepsPilot
-                      currentStep={currentStep}
-                      onPrevClick={handlePrevClick}
-                      onNextClick={handleSubmit}
-                    />
-                  </form>
-                )}
+                      <TextField
+                        label="NRQL Where"
+                        style={{ marginBottom: '16px' }}
+                        value={values.steps[currentIndex].nrqlWhere}
+                        onChange={e =>
+                          setFieldValue(
+                            `steps[${currentIndex}].nrqlWhere`,
+                            e.target.value
+                          )
+                        }
+                        invalid={
+                          errors.steps && errors.steps[currentIndex]?.nrqlWhere
+                        }
+                      />
+                      <p>AltNrql</p>
+                      <div className="altnrql-fields">
+                        <TextField
+                          label="JavaScriptError"
+                          style={{ marginBottom: '16px' }}
+                          value={
+                            values.steps[currentIndex].altNrql?.JavaScriptError
+                          }
+                          onChange={e =>
+                            setFieldValue(
+                              `steps[${currentIndex}].altNrql?.JavaScriptError`,
+                              e.target.value
+                            )
+                          }
+                          invalid={
+                            errors.steps &&
+                            errors.steps[currentIndex]?.altNrql?.JavaScriptError
+                          }
+                        />
+                      </div>
+                    </>
+                  )}
+                  <StepsPilot
+                    currentStep={currentStep}
+                    onPrevClick={() => handlePrevClick(values)}
+                    onNextClick={handleSubmit}
+                  />
+                </form>
               </>
             )}
           </Formik>

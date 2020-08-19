@@ -31,8 +31,7 @@ export default class StepOne extends Component {
             validationSchema={validationSchema}
             validateOnChange={false}
             onSubmit={values => {
-              console.log('StepOne -> render -> values', values);
-              handleNextClick();
+              handleNextClick(values);
             }}
           >
             {({ values, errors, setFieldValue, handleSubmit }) => (
