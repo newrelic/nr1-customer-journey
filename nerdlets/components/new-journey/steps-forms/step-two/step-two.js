@@ -6,18 +6,19 @@ import * as Yup from 'yup';
 import StepForm from '../step-form';
 import StepsPilot from '../../steps-pilot';
 import Tabs from '../tabs';
+import Dropdown from '../../dropdown';
 
-const STATS_TYPE = {
-  DECIMAL: 'decimal',
-  INTEGER: 'integer',
-  PERCENTILE: 'percentile'
-};
+const STATS_TYPE = [
+  { label: 'Decimal', value: 'decimal' },
+  { label: 'Integer', value: 'integer' },
+  { label: 'Percentile', value: 'percentile' }
+];
 
-const STATS_VALUE_DISPLAY = {
-  INTEGER: 'integer',
-  PERCENTAGE: 'percentage',
-  SECONDS: 'seconds'
-};
+const STATS_VALUE_DISPLAY = [
+  { label: 'Integer', value: 'integer' },
+  { label: 'Percentage', value: 'percentage' },
+  { label: 'Seconds', value: 'seconds' }
+];
 
 const validationSchema = Yup.object().shape({
   stats: Yup.array().of(
@@ -137,17 +138,14 @@ export default class StepTwo extends Component {
                           errors.stats && errors.stats[currentIndex]?.ref
                         }
                       />
-                      <TextField
+                      <Dropdown
                         label="Type"
-                        style={{ marginBottom: '16px' }}
-                        value={values.stats[currentIndex]?.type}
-                        onChange={e =>
-                          setFieldValue(
-                            `stats[${currentIndex}].type`,
-                            e.target.value
-                          )
+                        items={STATS_TYPE}
+                        onChange={value =>
+                          setFieldValue(`stats[${currentIndex}].type`, value)
                         }
-                        invalid={
+                        value={values.stats[currentIndex]?.type}
+                        errorMessage={
                           errors.stats && errors.stats[currentIndex]?.type
                         }
                       />
@@ -185,17 +183,17 @@ export default class StepTwo extends Component {
                             errors.stats[currentIndex]?.value?.eventName
                           }
                         />
-                        <TextField
-                          label="display"
-                          style={{ marginBottom: '16px' }}
-                          value={values.stats[currentIndex]?.value?.display}
-                          onChange={e =>
+                        <Dropdown
+                          label="Display"
+                          items={STATS_VALUE_DISPLAY}
+                          onChange={value =>
                             setFieldValue(
                               `stats[${currentIndex}].value.display`,
-                              e.target.value
+                              value
                             )
                           }
-                          invalid={
+                          value={values.stats[currentIndex]?.value?.display}
+                          errorMessage={
                             errors.stats &&
                             errors.stats[currentIndex]?.value?.display
                           }
