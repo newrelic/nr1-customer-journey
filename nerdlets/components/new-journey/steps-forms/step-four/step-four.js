@@ -78,13 +78,12 @@ export default class StepFour extends Component {
                     this.setState({ currentIndex: series.length - 1 });
                   }}
                 />
-
                 <form onSubmit={handleSubmit}>
                   {values.series.length > 0 && (
                     <>
                       <TextField
                         label="Label"
-                        style={{ marginBottom: '16px' }}
+                        className="text-field"
                         value={values.series[currentIndex].label}
                         onChange={e =>
                           setFieldValue(
@@ -98,7 +97,7 @@ export default class StepFour extends Component {
                       />
                       <TextField
                         label="NRQL Where"
-                        style={{ marginBottom: '16px' }}
+                        className="text-field"
                         value={values.series[currentIndex].nrqlWhere}
                         onChange={e =>
                           setFieldValue(
@@ -111,32 +110,39 @@ export default class StepFour extends Component {
                           errors.series[currentIndex]?.nrqlWhere
                         }
                       />
-                      <p>AltNrql</p>
-                      <div className="altnrql-fields">
+                      <fieldset className="fieldset">
+                        <legend className="fieldset__legend">AltNRQL</legend>
                         <TextField
                           label="JavaScriptError"
-                          style={{ marginBottom: '16px' }}
+                          className="text-field"
                           value={
                             values.series[currentIndex].altNrql?.JavaScriptError
                           }
+                          invalid={
+                            errors.series && errors.series[currentIndex]?.label
+                          }
+                        />
+                        <TextField
+                          label="NRQL Where"
+                          style={{ marginBottom: '16px' }}
+                          value={values.series[currentIndex].nrqlWhere}
                           onChange={e =>
                             setFieldValue(
-                              `series[${currentIndex}].altNrql.JavaScriptError`,
+                              `series[${currentIndex}].nrqlWhere`,
                               e.target.value
                             )
                           }
                           invalid={
                             errors.series &&
-                            errors.series[currentIndex]?.altNrql
-                              ?.JavaScriptError
+                            errors.series[currentIndex]?.nrqlWhere
                           }
                         />
-                      </div>
+                      </fieldset>
                     </>
                   )}
                   <StepsPilot
                     currentStep={currentStep}
-                    onPrevClick={() => handlePrevClick(values)}
+                    onPrevClick={handlePrevClick}
                     onNextClick={handleSubmit}
                   />
                 </form>

@@ -84,7 +84,7 @@ export default class StepThree extends Component {
                     <>
                       <TextField
                         label="Label"
-                        style={{ marginBottom: '16px' }}
+                        className="text-field"
                         value={values.steps[currentIndex].label}
                         onChange={e =>
                           setFieldValue(
@@ -98,7 +98,7 @@ export default class StepThree extends Component {
                       />
                       <TextField
                         label="NRQL Where"
-                        style={{ marginBottom: '16px' }}
+                        className="text-field"
                         value={values.steps[currentIndex].nrqlWhere}
                         onChange={e =>
                           setFieldValue(
@@ -110,31 +110,39 @@ export default class StepThree extends Component {
                           errors.steps && errors.steps[currentIndex]?.nrqlWhere
                         }
                       />
-                      <p>AltNrql</p>
-                      <div className="altnrql-fields">
+                      <fieldset className="fieldset">
+                        <legend className="fieldset__legend">AltNRQL</legend>
                         <TextField
                           label="JavaScriptError"
-                          style={{ marginBottom: '16px' }}
+                          className="text-field"
                           value={
                             values.steps[currentIndex].altNrql?.JavaScriptError
                           }
+                          invalid={
+                            errors.steps && errors.steps[currentIndex]?.label
+                          }
+                        />
+                        <TextField
+                          label="NRQL Where"
+                          style={{ marginBottom: '16px' }}
+                          value={values.steps[currentIndex].nrqlWhere}
                           onChange={e =>
                             setFieldValue(
-                              `steps[${currentIndex}].altNrql?.JavaScriptError`,
+                              `steps[${currentIndex}].nrqlWhere`,
                               e.target.value
                             )
                           }
                           invalid={
                             errors.steps &&
-                            errors.steps[currentIndex]?.altNrql?.JavaScriptError
+                            errors.steps[currentIndex]?.nrqlWhere
                           }
                         />
-                      </div>
+                      </fieldset>
                     </>
                   )}
                   <StepsPilot
                     currentStep={currentStep}
-                    onPrevClick={() => handlePrevClick(values)}
+                    onPrevClick={handlePrevClick}
                     onNextClick={handleSubmit}
                   />
                 </form>

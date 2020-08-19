@@ -33,9 +33,13 @@ const ActiveSteps = ({ currentStep }) => {
           activeStepStyle = `${activeStepStyle} active-step--active`;
         }
 
+        if (id < currentStep) {
+          activeStepStyle = `${activeStepStyle} active-step--success`;
+        }
+
         return (
           <p key={name} className={activeStepStyle}>
-            {name}
+            <span style={{ zIndex: 1000, position: 'relative' }}>{name}</span>
           </p>
         );
       })}

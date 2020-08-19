@@ -38,7 +38,7 @@ export default class StepOne extends Component {
               <form onSubmit={handleSubmit}>
                 <TextField
                   label="Title"
-                  style={{ marginBottom: '16px' }}
+                  className="text-field"
                   value={values.title}
                   onChange={e => setFieldValue('title', e.target.value)}
                   invalid={errors.title}
@@ -47,7 +47,7 @@ export default class StepOne extends Component {
                   <legend className="fieldset__legend">Funnel</legend>
                   <TextField
                     label="Funnel event"
-                    style={{ marginBottom: '16px' }}
+                    className="text-field"
                     value={values.funnel.event}
                     onChange={e =>
                       setFieldValue('funnel.event', e.target.value)
@@ -56,7 +56,7 @@ export default class StepOne extends Component {
                   />
                   <TextField
                     label="Funnel measure"
-                    style={{ marginBottom: '16px' }}
+                    className="text-field"
                     value={values.funnel.measure}
                     onChange={e =>
                       setFieldValue('funnel.measure', e.target.value)

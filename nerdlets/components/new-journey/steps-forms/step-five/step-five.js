@@ -103,13 +103,12 @@ export default class StepFive extends Component {
                     this.setState({ currentIndex: kpis.length - 1 });
                   }}
                 />
-
                 <form onSubmit={handleSubmit}>
                   {values.kpis.length > 0 && (
                     <>
                       <TextField
                         label="Label"
-                        style={{ marginBottom: '16px' }}
+                        className="text-field"
                         value={values.kpis[currentIndex].label}
                         onChange={e =>
                           setFieldValue(
@@ -123,7 +122,7 @@ export default class StepFive extends Component {
                       />
                       <TextField
                         label="Ref"
-                        style={{ marginBottom: '16px' }}
+                        className="text-field"
                         value={values.kpis[currentIndex].ref}
                         onChange={e =>
                           setFieldValue(
@@ -135,7 +134,7 @@ export default class StepFive extends Component {
                       />
                       <TextField
                         label="Value"
-                        style={{ marginBottom: '16px' }}
+                        className="text-field"
                         value={values.kpis[currentIndex].value}
                         onChange={e =>
                           setFieldValue(
@@ -161,7 +160,7 @@ export default class StepFive extends Component {
 
                       <TextField
                         label="Description"
-                        style={{ marginBottom: '16px' }}
+                        className="text-field"
                         value={values.kpis[currentIndex].description}
                         onChange={e =>
                           setFieldValue(
@@ -177,7 +176,7 @@ export default class StepFive extends Component {
                   )}
                   <StepsPilot
                     currentStep={currentStep}
-                    onPrevClick={() => handlePrevClick(values)}
+                    onPrevClick={handlePrevClick}
                     onNextClick={handleSubmit}
                   />
                 </form>
