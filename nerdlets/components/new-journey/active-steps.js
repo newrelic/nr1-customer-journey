@@ -4,23 +4,23 @@ import PropTypes from 'prop-types';
 const STEPS = [
   {
     id: 0,
-    name: 'Step 1'
+    name: 'Basic Info'
   },
   {
     id: 1,
-    name: 'Step 2'
+    name: 'Stats'
   },
   {
     id: 2,
-    name: 'Step 3'
+    name: 'Steps'
   },
   {
     id: 3,
-    name: 'Step 4'
+    name: 'Series'
   },
   {
     id: 4,
-    name: 'Step 5'
+    name: 'Kpis'
   }
 ];
 

@@ -43,8 +43,8 @@ export default class StepOne extends Component {
                   onChange={e => setFieldValue('title', e.target.value)}
                   invalid={errors.title}
                 />
-                <p>Funnel</p>
-                <div className="funnel-fields">
+                <fieldset className="fieldset">
+                  <legend className="fieldset__legend">Funnel</legend>
                   <TextField
                     label="Funnel event"
                     style={{ marginBottom: '16px' }}
@@ -63,7 +63,7 @@ export default class StepOne extends Component {
                     }
                     invalid={errors.funnel?.measure}
                   />
-                </div>
+                </fieldset>
                 <StepsPilot
                   currentStep={currentStep}
                   onPrevClick={handlePrevClick}

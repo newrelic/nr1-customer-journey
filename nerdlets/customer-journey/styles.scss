@@ -8,11 +8,15 @@ body {
     background-color: #F7F7F8;
 }
 
-.funnel-fields,
-.value-fields,
-.altnrql-fields {
-  padding-top: 20px;
-  padding-left: 20px;
+.fieldset {
+	padding: 15px 20px;
+	border: 1px solid #e3e4e4;
+	
+	&__legend {
+		padding: 0 10px;
+		text-transform: uppercase;
+	}
+
 }
 
 .disabled-option {
