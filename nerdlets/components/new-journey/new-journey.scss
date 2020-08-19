@@ -1,24 +1,41 @@
 .new-journey {
   background: white;
   padding: 8px 12px;
+  &__heading {
+    text-align: center;
+    margin: 24px 0 48px 0;
+  }
 
   .active-steps-container {
+    position: relative;
     display: flex;
     justify-content: center;
     margin: 20px 0;
 
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: -35px;
+      width: 100vw;
+      height: 1px;
+      background: #e3e4e4;
+    }
+
     .active-step {
       padding: 8px 12px;
       margin-right: 20px;
-      background: #edeeee;
-      font-size: 16px;
+      font-size: 12px;
+      border-radius: 4px;
+      background: #d7f2f3;
+      color: #005054;
 
       &:last-of-type{
         margin-right: 0;
       }
 
       &--active {
-        background: aliceblue;
+        background: #007e8a;
+        color: #ffffff; 
       }
     }
   }

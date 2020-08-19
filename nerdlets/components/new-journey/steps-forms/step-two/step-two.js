@@ -150,9 +150,8 @@ export default class StepTwo extends Component {
                           errors.stats && errors.stats[currentIndex]?.type
                         }
                       />
-
-                      <p>Value</p>
-                      <div className="value-fields">
+                      <fieldset className="fieldset">
+                        <legend className="fieldset__legend">Value</legend>
                         <TextField
                           label="nrql"
                           style={{
@@ -200,53 +199,51 @@ export default class StepTwo extends Component {
                             errors.stats[currentIndex]?.value?.display
                           }
                         />
-
-                        <p>Calculation</p>
-                        <TextField
-                          label="rate 1"
-                          style={{
-                            marginTop: '16px',
-                            marginLeft: '20px'
-                          }}
-                          value={
-                            values.stats[currentIndex]?.value?.calculation
-                              ?.rate[0]
-                          }
-                          onChange={e =>
-                            setFieldValue(
-                              `stats[${currentIndex}].value.calculation.rate[0]`,
-                              e.target.value
-                            )
-                          }
-                          invalid={
-                            errors.stats &&
-                            errors.stats[currentIndex]?.value?.calculation
-                              ?.rate[0]
-                          }
-                        />
-                        <TextField
-                          label="rate 2"
-                          style={{
-                            marginTop: '16px',
-                            marginLeft: '20px'
-                          }}
-                          value={
-                            values.stats[currentIndex]?.value?.calculation
-                              ?.rate[1]
-                          }
-                          onChange={e =>
-                            setFieldValue(
-                              `stats[${currentIndex}].value.calculation.rate[0]`,
-                              e.target.value
-                            )
-                          }
-                          invalid={
-                            errors.stats &&
-                            errors.stats[currentIndex]?.value?.calculation
-                              ?.rate[1]
-                          }
-                        />
-                      </div>
+                        <fieldset className="fieldset">
+                          <legend className="fieldset__legend">
+                            Calculation
+                          </legend>
+                          <TextField
+                            label="rate 1"
+                            value={
+                              values.stats[currentIndex]?.value?.calculation
+                                ?.rate[0]
+                            }
+                            onChange={e =>
+                              setFieldValue(
+                                `stats[${currentIndex}].value.calculation.rate[0]`,
+                                e.target.value
+                              )
+                            }
+                            invalid={
+                              errors.stats &&
+                              errors.stats[currentIndex]?.value?.calculation
+                                ?.rate[0]
+                            }
+                          />
+                          <TextField
+                            label="rate 2"
+                            style={{
+                              marginTop: '16px'
+                            }}
+                            value={
+                              values.stats[currentIndex]?.value?.calculation
+                                ?.rate[1]
+                            }
+                            onChange={e =>
+                              setFieldValue(
+                                `stats[${currentIndex}].value.calculation.rate[0]`,
+                                e.target.value
+                              )
+                            }
+                            invalid={
+                              errors.stats &&
+                              errors.stats[currentIndex]?.value?.calculation
+                                ?.rate[1]
+                            }
+                          />
+                        </fieldset>
+                      </fieldset>
                     </>
                     <StepsPilot
                       currentStep={currentStep}

@@ -245,7 +245,7 @@ export default class NewJourney extends Component {
     const { currentStep } = this.state;
     return (
       <div className="new-journey">
-        <h3>Create New Journey</h3>
+        <h1 className="new-journey__heading">Create New Journey</h1>
         <ActiveSteps currentStep={currentStep} />
         {this.renderSteps()}
       </div>

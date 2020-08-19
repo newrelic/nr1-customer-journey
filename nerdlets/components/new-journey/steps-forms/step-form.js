@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const StepForm = ({ children, title }) => {
   return (
     <div className="step-form">
-      <h4 className="step-form__title">{title}</h4>
+      <h2 className="step-form__title">{title}</h2>
       {children}
     </div>
   );
