@@ -1,12 +1,22 @@
 import React from 'react';
-import { PlatformStateContext, Button } from 'nr1';
+import {
+  PlatformStateContext,
+  AccountStorageMutation,
+  AccountStorageQuery,
+  Button
+} from 'nr1';
 import StatColumn from './StatColumn';
 import { getJourneys } from '../../journeyConfig';
 import JourneyPicker from './JourneyPicker';
 import { FunnelComponent } from 'nr1-funnel-component';
 import NewJourney from '../components/new-journey/new-journey';
+import AccountPicker from '../components/account-picker';
+import { v4 as uuidv4 } from 'uuid';
 
 const journeyConfig = getJourneys();
+
+const CUSTOMER_JOURNEY_CONFIGS = 'CUSTOMER_JOURNEY_CONFIGS';
+// const CUSTOMER_JOURNEY_CONFIGS_ID = 'CUSTOMER_JOURNEY_CONFIGS_V1';
 
 export default class Wrapper extends React.PureComponent {
   constructor(props) {
@@ -14,7 +24,9 @@ export default class Wrapper extends React.PureComponent {
 
     this.state = {
       selectedJourney: journeyConfig[0].id,
-      isFormOpen: false
+      isFormOpen: false,
+      selectedAccountId: undefined,
+      journeys: []
     };
 
     this.setJourney = this.setJourney.bind(this);
@@ -46,14 +58,46 @@ export default class Wrapper extends React.PureComponent {
     }
   }
 
+  handleAccountSelect = async accountId => {
+    this.setState({});
+
+    const { data } = await AccountStorageQuery.query({
+      accountId,
+      collection: CUSTOMER_JOURNEY_CONFIGS
+    });
+    console.log('Wrapper -> data', data);
+
+    this.setState({
+      selectedAccountId: accountId,
+      journeys: data
+    });
+  };
+
   handleFormOpen = () => {
     this.setState(prevState => ({
       isFormOpen: !prevState.isFormOpen
     }));
   };
 
+  handleOnSave = async journey => {
+    const { selectedAccountId } = this.state;
+    journey.accountId = selectedAccountId;
+    if (!journey.id) {
+      journey.id = uuidv4();
+    }
+    console.log('Wrapper -> journey', journey);
+
+    await AccountStorageMutation.mutate({
+      accountId: selectedAccountId,
+      actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+      collection: CUSTOMER_JOURNEY_CONFIGS,
+      documentId: journey.id,
+      document: journey
+    });
+  };
+
   render() {
-    const { selectedJourney, isFormOpen } = this.state;
+    const { selectedJourney, isFormOpen, selectedAccountId } = this.state;
     const journey = selectedJourney
       ? journeyConfig.find(j => j.id === selectedJourney.id)
       : journeyConfig[0];
@@ -61,11 +105,14 @@ export default class Wrapper extends React.PureComponent {
     return (
       <div className="customer-journey">
         <div className="customer-journey__toolbar">
-          <JourneyPicker
-            journeys={journeyConfig}
-            journey={journey}
-            setJourney={this.setJourney}
-          />
+          <div>
+            <AccountPicker accountChangedCallback={this.handleAccountSelect} />
+            <JourneyPicker
+              journeys={journeyConfig}
+              journey={journey}
+              setJourney={this.setJourney}
+            />
+          </div>
           <Button
             onClick={this.handleFormOpen}
             type={Button.TYPE.PRIMARY}
@@ -77,7 +124,10 @@ export default class Wrapper extends React.PureComponent {
         <PlatformStateContext.Consumer>
           {platformUrlState =>
             isFormOpen ? (
-              <NewJourney />
+              <NewJourney
+                handleOnSave={this.handleOnSave}
+                accountId={selectedAccountId}
+              />
             ) : (
               <div className="customerJourneyContent">
                 <div className="visualizationContainer">

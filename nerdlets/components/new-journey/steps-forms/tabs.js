@@ -9,6 +9,7 @@ export default class Tabs extends Component {
       currentIndex,
       handleOnTabChange,
       handleOnAdd,
+      handleOnDelete,
       errorIndexes
     } = this.props;
 
@@ -36,10 +37,7 @@ export default class Tabs extends Component {
             >
               {label}
             </Button>
-            <p
-              className="button__delete"
-              onClick={() => console.log('delete stats')}
-            >
+            <p className="button__delete" onClick={() => handleOnDelete(index)}>
               <span>&times;</span>
             </p>
           </div>

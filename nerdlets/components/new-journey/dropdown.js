@@ -19,12 +19,11 @@ export default class Dropdown extends Component {
     } = this.props;
 
     return (
-      <>
+      <div className={className}>
         <Select
           label={label}
           disabled={disabled}
           value={value}
-          className={className}
           onChange={(_, value) => {
             this.handleOnClick(value);
           }}
@@ -38,9 +37,8 @@ export default class Dropdown extends Component {
             </SelectItem>
           ))}
         </Select>
-
         <p className="error-message">{errorMessage}</p>
-      </>
+      </div>
     );
   }
 }

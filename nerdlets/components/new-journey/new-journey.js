@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ActiveSteps from './active-steps';
 import { StepOne, StepTwo, StepThree, StepFour, StepFive } from './steps-forms';
 
@@ -8,13 +9,13 @@ export default class NewJourney extends Component {
 
     this.state = {
       currentStep: 0,
-      initialValues: {
+      journey: {
+        id: undefined,
         title: undefined,
         funnel: {
           event: undefined,
           measure: undefined
         },
-        accountId: 1606862,
         stats: [],
         steps: [],
         series: [],
@@ -183,7 +184,7 @@ export default class NewJourney extends Component {
   handlePrevClick = journeyConfig => {
     this.setState(prevState => {
       return {
-        initialValues: { ...prevState.initialValues, ...journeyConfig },
+        journey: { ...prevState.journey, ...journeyConfig },
         currentStep:
           prevState.currentStep === 0
             ? prevState.currentStep
@@ -195,7 +196,7 @@ export default class NewJourney extends Component {
   handleNextClick = journeyConfig => {
     this.setState(prevState => {
       return {
-        initialValues: { ...prevState.initialValues, ...journeyConfig },
+        journey: { ...prevState.journey, ...journeyConfig },
         currentStep:
           prevState.currentStep === 4
             ? prevState.currentStep
@@ -204,8 +205,17 @@ export default class NewJourney extends Component {
     });
   };
 
+  handleOnSave = () => {
+    const { journey } = this.state;
+    const { handleOnSave } = this.props;
+
+    if (handleOnSave) {
+      handleOnSave(journey);
+    }
+  };
+
   renderSteps = () => {
-    const { currentStep, initialValues } = this.state;
+    const { currentStep, journey } = this.state;
 
     let Component = null;
     switch (currentStep) {
@@ -229,17 +239,18 @@ export default class NewJourney extends Component {
 
     return (
       <Component
-        initialValues={initialValues}
+        initialValues={journey}
         currentStep={currentStep}
         handlePrevClick={this.handlePrevClick}
         handleNextClick={this.handleNextClick}
+        handleOnSave={this.handleOnSave}
       />
     );
   };
 
   render() {
-    const { currentStep, initialValues } = this.state;
-    console.log('NewJourney -> render -> initialValues', initialValues);
+    const { currentStep, journey } = this.state;
+    console.log('NewJourney -> render -> journey', journey);
     return (
       <div className="new-journey">
         <h1 className="new-journey__heading">Create New Journey</h1>
@@ -250,4 +261,6 @@ export default class NewJourney extends Component {
   }
 }
 
-NewJourney.propTypes = {};
+NewJourney.propTypes = {
+  handleOnSave: PropTypes.func.isRequired
+};

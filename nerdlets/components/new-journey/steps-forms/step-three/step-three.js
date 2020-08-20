@@ -73,6 +73,14 @@ export default class StepThree extends Component {
                   currentIndex={currentIndex}
                   items={values.steps}
                   handleOnTabChange={this.handleTabChange}
+                  handleOnDelete={index => {
+                    const steps = values.steps.splice(index, 1);
+                    setFieldValue('values.steps', steps);
+                    this.setState({
+                      currentIndex:
+                        currentIndex > 0 ? currentIndex - 1 : currentIndex
+                    });
+                  }}
                   handleOnAdd={() => {
                     const steps = values.steps;
                     steps.push(STEP_OBJECT_TEMPLATE);
@@ -116,6 +124,7 @@ export default class StepThree extends Component {
                         <legend className="fieldset__legend">AltNRQL</legend>
                         <Dropdown
                           label="Key"
+                          className="text-field"
                           items={values.stats
                             .filter(({ value: { eventName } }) => eventName)
                             .map(({ value: { eventName } }) => ({

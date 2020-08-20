@@ -71,8 +71,10 @@ export default class StepFive extends Component {
       currentStep,
       handlePrevClick,
       handleNextClick,
+      handleOnSave,
       initialValues
     } = this.props;
+
     const { currentIndex } = this.state;
 
     return (
@@ -84,6 +86,9 @@ export default class StepFive extends Component {
             validateOnChange={false}
             onSubmit={values => {
               handleNextClick({ kpis: values.kpis });
+              if (handleOnSave) {
+                handleOnSave();
+              }
             }}
           >
             {({ values, errors, setFieldValue, handleSubmit }) => (
@@ -95,6 +100,14 @@ export default class StepFive extends Component {
                   currentIndex={currentIndex}
                   items={values.kpis}
                   handleOnTabChange={this.handleTabChange}
+                  handleOnDelete={index => {
+                    const kpis = values.kpis.splice(index, 1);
+                    setFieldValue('values.kpis', kpis);
+                    this.setState({
+                      currentIndex:
+                        currentIndex > 0 ? currentIndex - 1 : currentIndex
+                    });
+                  }}
                   handleOnAdd={() => {
                     const kpis = values.kpis;
                     kpis.push(KPI_OBJECT_TEMPLATE);
@@ -119,15 +132,18 @@ export default class StepFive extends Component {
                           errors.kpis && errors.kpis[currentIndex]?.label
                         }
                       />
-                      <TextField
+                      <Dropdown
                         label="Ref"
                         className="text-field"
+                        items={values.stats
+                          .filter(stat => stat.ref)
+                          .map(({ label, ref }) => ({
+                            value: ref,
+                            label: label
+                          }))}
                         value={values.kpis[currentIndex].ref}
-                        onChange={e =>
-                          setFieldValue(
-                            `kpis[${currentIndex}].ref`,
-                            e.target.value
-                          )
+                        onChange={value =>
+                          setFieldValue(`kpis[${currentIndex}].ref`, value)
                         }
                         invalid={errors.kpis && errors.kpis[currentIndex]?.ref}
                       />
@@ -147,6 +163,7 @@ export default class StepFive extends Component {
                       />
                       <Dropdown
                         label="Bound"
+                        className="text-field"
                         items={BOUND}
                         onChange={value =>
                           setFieldValue(`kpis[${currentIndex}].bound`, value)
@@ -192,5 +209,6 @@ StepFive.propTypes = {
   currentStep: PropTypes.number.isRequired,
   handlePrevClick: PropTypes.func.isRequired,
   handleNextClick: PropTypes.func.isRequired,
-  initialValues: PropTypes.object.isRequired
+  initialValues: PropTypes.object.isRequired,
+  handleOnSave: PropTypes.func.isRequired
 };

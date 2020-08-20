@@ -98,6 +98,14 @@ export default class StepTwo extends Component {
                   currentIndex={currentIndex}
                   items={values.stats}
                   handleOnTabChange={this.handleTabChange}
+                  handleOnDelete={index => {
+                    const stats = values.stats.splice(index, 1);
+                    setFieldValue('values.stats', stats);
+                    this.setState({
+                      currentIndex:
+                        currentIndex > 0 ? currentIndex - 1 : currentIndex
+                    });
+                  }}
                   handleOnAdd={() => {
                     const stats = values.stats;
                     stats.push(STAT_OBJECT_TEMPLATE);
@@ -139,6 +147,7 @@ export default class StepTwo extends Component {
                       />
                       <Dropdown
                         label="Type"
+                        className="text-field"
                         items={STATS_TYPE}
                         onChange={value =>
                           setFieldValue(`stats[${currentIndex}].type`, value)
@@ -182,6 +191,7 @@ export default class StepTwo extends Component {
                         />
                         <Dropdown
                           label="Display"
+                          className="text-field"
                           items={STATS_VALUE_DISPLAY}
                           onChange={value =>
                             setFieldValue(
@@ -201,6 +211,7 @@ export default class StepTwo extends Component {
                           </legend>
                           <Dropdown
                             label="Nominator"
+                            className="text-field"
                             items={values.stats
                               .filter(stat => stat.ref)
                               .map(({ label, ref }) => ({
@@ -225,6 +236,7 @@ export default class StepTwo extends Component {
                           />
                           <Dropdown
                             label="Denominator"
+                            className="text-field"
                             items={values.stats
                               .filter(stat => stat.ref)
                               .map(({ label, ref }) => ({

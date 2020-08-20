@@ -71,6 +71,14 @@ export default class StepFour extends Component {
                   currentIndex={currentIndex}
                   items={values.series}
                   handleOnTabChange={this.handleTabChange}
+                  handleOnDelete={index => {
+                    const series = values.series.splice(index, 1);
+                    setFieldValue('values.series', series);
+                    this.setState({
+                      currentIndex:
+                        currentIndex > 0 ? currentIndex - 1 : currentIndex
+                    });
+                  }}
                   handleOnAdd={() => {
                     const series = values.series;
                     series.push(SERIES_OBJECT_TEMPLATE);
@@ -114,6 +122,7 @@ export default class StepFour extends Component {
                         <legend className="fieldset__legend">AltNRQL</legend>
                         <Dropdown
                           label="Key"
+                          className="text-field"
                           items={values.stats
                             .filter(({ value: { eventName } }) => eventName)
                             .map(({ value: { eventName } }) => ({
@@ -133,7 +142,7 @@ export default class StepFour extends Component {
                           }
                         />
                         <TextField
-                          label="NRQL Where"
+                          label="Value"
                           style={{ marginBottom: '16px' }}
                           value={values.series[currentIndex].altNrql?.value}
                           onChange={e =>
