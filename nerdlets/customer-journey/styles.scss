@@ -15,7 +15,7 @@ body {
 .fieldset {
 	padding: 15px 20px;
 	border: 1px solid #e3e4e4;
-	
+
 	&__legend {
 		padding: 0 10px;
 		text-transform: uppercase;
@@ -32,6 +32,40 @@ body {
 	font-size: 12px;
 }
 
+.main-container {
+  display: flex;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.left-sidebar {
+  min-width: 250px;
+  background-color: white;
+
+  &__heading {
+    margin: 20px;
+  }
+
+  &__list {
+    list-style: none;
+  }
+
+  .list__item {
+    padding: 20px;
+    border-top: 1px solid #EDEEEE;
+
+    &--active {
+      background-color: #F1FBFC;
+      color: #00484E;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: #F1FBFC;
+      color: #00484E;
+    }
+  }
+}
 
 .tabs-container {
   margin: 10px 0 25px;
@@ -140,6 +174,7 @@ body {
 .customer-journey {
     height: 100%;
     background-color: #f7f7f8;
+    overflow: hidden;
 
     &__toolbar {
         display: flex;

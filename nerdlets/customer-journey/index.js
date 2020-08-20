@@ -3,7 +3,8 @@ import {
   PlatformStateContext,
   AccountStorageMutation,
   AccountStorageQuery,
-  Button
+  Button,
+  HeadingText
 } from 'nr1';
 import StatColumn from './StatColumn';
 import { getJourneys } from '../../journeyConfig';
@@ -26,7 +27,8 @@ export default class Wrapper extends React.PureComponent {
       selectedJourney: journeyConfig[0].id,
       isFormOpen: false,
       selectedAccountId: undefined,
-      journeys: []
+      journeys: [],
+      currentJourney: undefined
     };
 
     this.setJourney = this.setJourney.bind(this);
@@ -69,7 +71,8 @@ export default class Wrapper extends React.PureComponent {
 
     this.setState({
       selectedAccountId: accountId,
-      journeys: data
+      journeys: data,
+      currentJourney: data.length > 0 ? data[0].id : undefined
     });
   };
 
@@ -85,7 +88,6 @@ export default class Wrapper extends React.PureComponent {
     if (!journey.id) {
       journey.id = uuidv4();
     }
-    console.log('Wrapper -> journey', journey);
 
     await AccountStorageMutation.mutate({
       accountId: selectedAccountId,
@@ -96,8 +98,23 @@ export default class Wrapper extends React.PureComponent {
     });
   };
 
+  handleJourneyChange = selectedJourney => {
+    this.setState({
+      currentJourney: selectedJourney
+    });
+  };
+
   render() {
-    const { selectedJourney, isFormOpen, selectedAccountId } = this.state;
+    const {
+      selectedJourney,
+      isFormOpen,
+      selectedAccountId,
+      journeys,
+      currentJourney
+    } = this.state;
+
+    console.log('render -> currentJourney', currentJourney);
+
     const journey = selectedJourney
       ? journeyConfig.find(j => j.id === selectedJourney.id)
       : journeyConfig[0];
@@ -121,40 +138,65 @@ export default class Wrapper extends React.PureComponent {
             Add new Journey
           </Button>
         </div>
-        <PlatformStateContext.Consumer>
-          {platformUrlState =>
-            isFormOpen ? (
-              <NewJourney
-                handleOnSave={this.handleOnSave}
-                accountId={selectedAccountId}
-              />
-            ) : (
-              <div className="customerJourneyContent">
-                <div className="visualizationContainer">
-                  <h3 className="columnHeader">Click Rate</h3>
-                  <div
-                    className={`statCell visualizationCell ${this.renderStepsClass()}`}
-                  >
-                    <FunnelComponent
-                      launcherUrlState={platformUrlState}
-                      {...journey}
-                    />
+        <div className="main-container">
+          <div className="left-sidebar">
+            <HeadingText
+              className="left-sidebar__heading"
+              type={HeadingText.TYPE.HEADING_3}
+            >
+              JOURNEYS
+            </HeadingText>
+            <ul className="left-sidebar__list">
+              {journeys.map(({ id, document: { title } }) => (
+                <li
+                  className={`list__item ${
+                    currentJourney === id ? 'list__item--active' : ''
+                  }`}
+                  key={id}
+                  onClick={() => this.handleJourneyChange(id)}
+                >
+                  {title}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <PlatformStateContext.Consumer>
+            {platformUrlState =>
+              isFormOpen ? (
+                <NewJourney
+                  handleOnSave={this.handleOnSave}
+                  accountId={selectedAccountId}
+                />
+              ) : (
+                <div>
+                  <div className="customerJourneyContent">
+                    <div className="visualizationContainer">
+                      <h3 className="columnHeader">Click Rate</h3>
+                      <div
+                        className={`statCell visualizationCell ${this.renderStepsClass()}`}
+                      >
+                        <FunnelComponent
+                          launcherUrlState={platformUrlState}
+                          {...journey}
+                        />
+                      </div>
+                    </div>
+                    {journey.series.map((series, i) => {
+                      return (
+                        <StatColumn
+                          key={i}
+                          column={series}
+                          config={journey}
+                          platformUrlState={platformUrlState}
+                        />
+                      );
+                    })}
                   </div>
                 </div>
-                {journey.series.map((series, i) => {
-                  return (
-                    <StatColumn
-                      key={i}
-                      column={series}
-                      config={journey}
-                      platformUrlState={platformUrlState}
-                    />
-                  );
-                })}
-              </div>
-            )
-          }
-        </PlatformStateContext.Consumer>
+              )
+            }
+          </PlatformStateContext.Consumer>
+        </div>
       </div>
     );
   }
