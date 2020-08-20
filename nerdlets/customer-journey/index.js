@@ -60,26 +60,39 @@ export default class Wrapper extends React.PureComponent {
     }
   }
 
-  handleAccountSelect = async accountId => {
-    this.setState({});
-
+  loadData = async () => {
+    const { selectedAccountId } = this.state;
     const { data } = await AccountStorageQuery.query({
-      accountId,
+      accountId: selectedAccountId,
       collection: CUSTOMER_JOURNEY_CONFIGS
     });
-    console.log('Wrapper -> data', data);
 
     this.setState({
-      selectedAccountId: accountId,
       journeys: data,
       currentJourney: data.length > 0 ? data[0].id : undefined
     });
   };
 
+  handleAccountSelect = async accountId => {
+    // await AccountStorageMutation.mutate({
+    //   documentId: 'CUSTOMER_JOURNEY_CONFIGS_V1',
+    //   accountId: 1606862,
+    //   collection: CUSTOMER_JOURNEY_CONFIGS,
+    //   actionType: AccountStorageMutation.ACTION_TYPE.DELETE_DOCUMENT
+    // });
+
+    this.setState(
+      {
+        selectedAccountId: accountId
+      },
+      () => {
+        this.loadData();
+      }
+    );
+  };
+
   handleFormOpen = () => {
-    this.setState(prevState => ({
-      isFormOpen: !prevState.isFormOpen
-    }));
+    this.setState({ isFormOpen: true });
   };
 
   handleOnSave = async journey => {
@@ -96,6 +109,10 @@ export default class Wrapper extends React.PureComponent {
       documentId: journey.id,
       document: journey
     });
+
+    this.setState({ isFormOpen: false, journeyToBeEdited: undefined });
+
+    this.loadData();
   };
 
   handleJourneyChange = selectedJourney => {
@@ -104,39 +121,48 @@ export default class Wrapper extends React.PureComponent {
     });
   };
 
+  handleOnEdit = journey => {
+    this.setState({
+      journeyToBeEdited: journey,
+      isFormOpen: true
+    });
+  };
+
+  handleCancel = () => {
+    this.setState({ isFormOpen: false, journeyToBeEdited: undefined });
+  };
+
   render() {
     const {
-      selectedJourney,
       isFormOpen,
-      selectedAccountId,
       journeys,
-      currentJourney
+      currentJourney,
+      journeyToBeEdited
     } = this.state;
 
-    console.log('render -> currentJourney', currentJourney);
-
-    const journey = selectedJourney
-      ? journeyConfig.find(j => j.id === selectedJourney.id)
-      : journeyConfig[0];
+    const journey = journeys.find(journey => journey.id === currentJourney)
+      ?.document;
 
     return (
       <div className="customer-journey">
         <div className="customer-journey__toolbar">
           <div>
             <AccountPicker accountChangedCallback={this.handleAccountSelect} />
-            <JourneyPicker
+            {/* <JourneyPicker
               journeys={journeyConfig}
               journey={journey}
               setJourney={this.setJourney}
-            />
+            /> */}
           </div>
-          <Button
-            onClick={this.handleFormOpen}
-            type={Button.TYPE.PRIMARY}
-            iconType={Button.ICON_TYPE.DOCUMENTS__DOCUMENTS__NOTES__A_ADD}
-          >
-            Add new Journey
-          </Button>
+          {!isFormOpen && (
+            <Button
+              onClick={this.handleFormOpen}
+              type={Button.TYPE.PRIMARY}
+              iconType={Button.ICON_TYPE.DOCUMENTS__DOCUMENTS__NOTES__A_ADD}
+            >
+              Add new Journey
+            </Button>
+          )}
         </div>
         <div className="main-container">
           <div className="left-sidebar">
@@ -147,7 +173,7 @@ export default class Wrapper extends React.PureComponent {
               JOURNEYS
             </HeadingText>
             <ul className="left-sidebar__list">
-              {journeys.map(({ id, document: { title } }) => (
+              {journeys.map(({ id, document, document: { title } }) => (
                 <li
                   className={`list__item ${
                     currentJourney === id ? 'list__item--active' : ''
@@ -155,7 +181,15 @@ export default class Wrapper extends React.PureComponent {
                   key={id}
                   onClick={() => this.handleJourneyChange(id)}
                 >
-                  {title}
+                  <p>{title}</p>
+                  <Button
+                    className="edit-button"
+                    sizeType={Button.SIZE_TYPE.SMALL}
+                    type={Button.TYPE.NORMAL}
+                    onClick={() => this.handleOnEdit(document)}
+                  >
+                    EDIT
+                  </Button>
                 </li>
               ))}
             </ul>
@@ -164,35 +198,38 @@ export default class Wrapper extends React.PureComponent {
             {platformUrlState =>
               isFormOpen ? (
                 <NewJourney
+                  handleCancel={this.handleCancel}
                   handleOnSave={this.handleOnSave}
-                  accountId={selectedAccountId}
+                  journey={journeyToBeEdited}
                 />
               ) : (
-                <div>
-                  <div className="customerJourneyContent">
-                    <div className="visualizationContainer">
-                      <h3 className="columnHeader">Click Rate</h3>
-                      <div
-                        className={`statCell visualizationCell ${this.renderStepsClass()}`}
-                      >
-                        <FunnelComponent
-                          launcherUrlState={platformUrlState}
-                          {...journey}
-                        />
+                journey && (
+                  <div>
+                    <div className="customerJourneyContent">
+                      <div className="visualizationContainer">
+                        <h3 className="columnHeader">Click Rate</h3>
+                        <div
+                          className={`statCell visualizationCell ${this.renderStepsClass()}`}
+                        >
+                          <FunnelComponent
+                            launcherUrlState={platformUrlState}
+                            {...journey}
+                          />
+                        </div>
                       </div>
+                      {journey.series.map((series, i) => {
+                        return (
+                          <StatColumn
+                            key={i}
+                            column={series}
+                            config={journey}
+                            platformUrlState={platformUrlState}
+                          />
+                        );
+                      })}
                     </div>
-                    {journey.series.map((series, i) => {
-                      return (
-                        <StatColumn
-                          key={i}
-                          column={series}
-                          config={journey}
-                          platformUrlState={platformUrlState}
-                        />
-                      );
-                    })}
                   </div>
-                </div>
+                )
               )
             }
           </PlatformStateContext.Consumer>

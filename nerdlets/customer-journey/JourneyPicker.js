@@ -28,7 +28,7 @@ export default class JourneyPicker extends React.PureComponent {
 
     return (
       <Dropdown
-        title={journey.title}
+        title={journey?.title}
         filterable
         label="Journey"
         onChangeFilter={event => this.setState({ filter: event.target.value })}

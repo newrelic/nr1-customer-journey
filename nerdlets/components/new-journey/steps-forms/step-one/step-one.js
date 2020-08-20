@@ -18,7 +18,7 @@ export default class StepOne extends Component {
   render() {
     const {
       currentStep,
-      handlePrevClick,
+      handleCancel,
       handleNextClick,
       initialValues
     } = this.props;
@@ -66,7 +66,7 @@ export default class StepOne extends Component {
                 </fieldset>
                 <StepsPilot
                   currentStep={currentStep}
-                  onPrevClick={handlePrevClick}
+                  onPrevClick={handleCancel}
                   onNextClick={handleSubmit}
                 />
               </form>
@@ -80,7 +80,7 @@ export default class StepOne extends Component {
 
 StepOne.propTypes = {
   currentStep: PropTypes.number.isRequired,
-  handlePrevClick: PropTypes.func.isRequired,
+  handleCancel: PropTypes.func.isRequired,
   handleNextClick: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired
 };

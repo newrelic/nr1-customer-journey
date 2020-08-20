@@ -7,9 +7,13 @@ export default class NewJourney extends Component {
   constructor(props) {
     super(props);
 
+    const { journey } = props;
+    console.log('NewJourney -> constructor -> journey', journey);
+
     this.state = {
       currentStep: 0,
-      journey: {
+      isEdit: journey && true,
+      journey: journey || {
         id: undefined,
         title: undefined,
         funnel: {
@@ -216,6 +220,7 @@ export default class NewJourney extends Component {
 
   renderSteps = () => {
     const { currentStep, journey } = this.state;
+    const { handleCancel } = this.props;
 
     let Component = null;
     switch (currentStep) {
@@ -241,6 +246,7 @@ export default class NewJourney extends Component {
       <Component
         initialValues={journey}
         currentStep={currentStep}
+        handleCancel={handleCancel}
         handlePrevClick={this.handlePrevClick}
         handleNextClick={this.handleNextClick}
         handleOnSave={this.handleOnSave}
@@ -249,11 +255,13 @@ export default class NewJourney extends Component {
   };
 
   render() {
-    const { currentStep, journey } = this.state;
+    const { currentStep, journey, isEdit } = this.state;
     console.log('NewJourney -> render -> journey', journey);
     return (
       <div className="new-journey">
-        <h1 className="new-journey__heading">Create New Journey</h1>
+        <h1 className="new-journey__heading">
+          {isEdit ? 'Edit Journey' : 'Create New Journey'}
+        </h1>
         <ActiveSteps currentStep={currentStep} />
         {this.renderSteps()}
       </div>
@@ -262,5 +270,6 @@ export default class NewJourney extends Component {
 }
 
 NewJourney.propTypes = {
-  handleOnSave: PropTypes.func.isRequired
+  handleOnSave: PropTypes.func.isRequired,
+  handleCancel: PropTypes.func.isRequired
 };

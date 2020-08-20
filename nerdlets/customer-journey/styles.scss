@@ -41,6 +41,7 @@ body {
 .left-sidebar {
   min-width: 250px;
   background-color: white;
+  border-right: 1px solid #EDEEEE;
 
   &__heading {
     margin: 20px;
@@ -53,6 +54,9 @@ body {
   .list__item {
     padding: 20px;
     border-top: 1px solid #EDEEEE;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     &--active {
       background-color: #F1FBFC;
@@ -63,6 +67,14 @@ body {
       cursor: pointer;
       background-color: #F1FBFC;
       color: #00484E;
+
+      .edit-button {
+        visibility: visible;
+      }
+    }
+
+    .edit-button {
+      visibility: hidden;
     }
   }
 }
