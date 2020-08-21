@@ -68,13 +68,17 @@ body {
       background-color: #F1FBFC;
       color: #00484E;
 
-      .edit-button {
+      .edit-button, .delete-button {
         visibility: visible;
       }
     }
 
-    .edit-button {
+    .edit-button, .delete-button {
       visibility: hidden;
+    }
+
+    .delete-button {
+      margin-left: 10px;
     }
   }
 }
@@ -274,6 +278,24 @@ body {
         display: none;
     }
 
+    &.one-step-visualization {
+      height: 162px;
+
+      .svg-funnel-js__container {
+          transform: scale(1, .27);
+          top: -211px;
+      }
+    }
+
+    &.two-step-visualization {
+      height: 324px;
+
+      .svg-funnel-js__container {
+          transform: scale(1, .55);
+          top: -130px;
+      }
+    }
+
     &.three-step-visualization {
         height: 488px;
 
@@ -428,7 +450,7 @@ body {
 .standardStatCell {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 17px repeat(auto-fill, 48px);
+    grid-template-rows: 17px repeat(2, 48px);
     grid-column-gap: 3%;
     padding: 8px 16px;
     line-height: 17px;

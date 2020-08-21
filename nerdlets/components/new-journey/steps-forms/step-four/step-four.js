@@ -43,6 +43,14 @@ export default class StepFour extends Component {
     this.setState({ currentIndex: index });
   };
 
+  cleanValues = series => {
+    return series.map(seriesItem => {
+      if (!seriesItem.altNrql?.key) delete seriesItem.altNrql;
+
+      return seriesItem;
+    });
+  };
+
   render() {
     const {
       currentStep,

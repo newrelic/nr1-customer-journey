@@ -28,9 +28,7 @@ export default class Dropdown extends Component {
             this.handleOnClick(value);
           }}
         >
-          <SelectItem value="" className="disabled-option">
-            -- Select option --
-          </SelectItem>
+          <SelectItem value=""> </SelectItem>
           {items?.map(({ label, value }, index) => (
             <SelectItem value={value} key={index}>
               {label}

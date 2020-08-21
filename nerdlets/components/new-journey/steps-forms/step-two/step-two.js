@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { TextField, Button } from 'nr1';
+import { TextField } from 'nr1';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import StepForm from '../step-form';
@@ -43,12 +43,12 @@ const validationSchema = Yup.object().shape({
 
 const STAT_OBJECT_TEMPLATE = {
   label: 'New stat',
-  ref: '',
-  type: '',
+  ref: undefined,
+  type: undefined,
   value: {
     nrql: undefined,
     eventName: undefined,
-    display: '',
+    display: undefined,
     calculation: {
       rate: [undefined, undefined]
     }
@@ -66,6 +66,16 @@ export default class StepTwo extends Component {
 
   handleTabChange = index => {
     this.setState({ currentIndex: index });
+  };
+
+  cleanValues = stats => {
+    return stats.map(stat => {
+      if (!stat.value.nrql) delete stat.value.nrql;
+      if (!stat.value.eventName) delete stat.value.eventName;
+      if (!stat.value.calculation?.rate[0]) delete stat.value.calculation;
+
+      return stat;
+    });
   };
 
   render() {
@@ -86,7 +96,8 @@ export default class StepTwo extends Component {
             validationSchema={validationSchema}
             validateOnChange={false}
             onSubmit={values => {
-              handleNextClick({ stats: values.stats });
+              const stats = this.cleanValues(values.stats);
+              handleNextClick({ stats });
             }}
           >
             {({ values, errors, setFieldValue, handleSubmit }) => (

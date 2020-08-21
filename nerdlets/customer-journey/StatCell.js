@@ -109,6 +109,7 @@ export default class StatCell extends React.Component {
             }
           }
         }`;
+
     return (
       <div
         className="standardStatCell"
@@ -118,7 +119,6 @@ export default class StatCell extends React.Component {
         <h5 className="pageTitle">{step.label}</h5>
         <NerdGraphQuery query={q}>
           {({ loading, data, error }) => {
-            // console.debug([loading, error, data, kpis]); //eslint-disable-line
             if (loading) {
               return (
                 <div className="skeletonContainer">

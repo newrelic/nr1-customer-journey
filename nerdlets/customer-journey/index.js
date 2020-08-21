@@ -4,17 +4,14 @@ import {
   AccountStorageMutation,
   AccountStorageQuery,
   Button,
-  HeadingText
+  HeadingText,
+  Modal
 } from 'nr1';
 import StatColumn from './StatColumn';
-import { getJourneys } from '../../journeyConfig';
-import JourneyPicker from './JourneyPicker';
 import { FunnelComponent } from 'nr1-funnel-component';
 import NewJourney from '../components/new-journey/new-journey';
 import AccountPicker from '../components/account-picker';
 import { v4 as uuidv4 } from 'uuid';
-
-const journeyConfig = getJourneys();
 
 const EXAMPLE_JOURNEY = {
   accountId: 1606862,
@@ -173,31 +170,29 @@ const EXAMPLE_JOURNEY = {
 };
 
 const CUSTOMER_JOURNEY_CONFIGS = 'CUSTOMER_JOURNEY_CONFIGS';
-// const CUSTOMER_JOURNEY_CONFIGS_ID = 'CUSTOMER_JOURNEY_CONFIGS_V1';
 
 export default class Wrapper extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-      selectedJourney: journeyConfig[0].id,
       isFormOpen: false,
       selectedAccountId: undefined,
       journeys: [],
-      currentJourney: undefined
+      currentJourney: undefined,
+      isDeleteJourneyActive: false,
+      journeyToBeDeleted: undefined
     };
-
-    this.setJourney = this.setJourney.bind(this);
   }
 
-  setJourney(journey) {
-    this.setState({ selectedJourney: journey });
-  }
+  renderStepsClass(journey) {
+    const numberOfSteps = journey.steps.length;
 
-  renderStepsClass() {
-    const numberOfSteps = journeyConfig[0].steps.length;
-
-    if (numberOfSteps === 3) {
+    if (numberOfSteps === 1) {
+      return 'one-step-visualization';
+    } else if (numberOfSteps === 2) {
+      return 'two-step-visualization';
+    } else if (numberOfSteps === 3) {
       return 'three-step-visualization';
     } else if (numberOfSteps === 5) {
       return 'five-step-visualization';
@@ -222,31 +217,22 @@ export default class Wrapper extends React.PureComponent {
       accountId: selectedAccountId,
       collection: CUSTOMER_JOURNEY_CONFIGS
     });
-    console.log(
-      'Wrapper -> loadData -> data',
-      JSON.stringify(data[0].document)
-    );
 
     this.setState({
-      journeys: data,
-      currentJourney: data.length > 0 ? data[0].id : undefined
+      journeys: data
     });
   };
 
   handleAccountSelect = async accountId => {
-    // await AccountStorageMutation.mutate({
-    //   documentId: 'CUSTOMER_JOURNEY_CONFIGS_V1',
-    //   accountId: 1606862,
-    //   collection: CUSTOMER_JOURNEY_CONFIGS,
-    //   actionType: AccountStorageMutation.ACTION_TYPE.DELETE_DOCUMENT
-    // });
-
     this.setState(
       {
         selectedAccountId: accountId
       },
-      () => {
-        this.loadData();
+      async () => {
+        await this.loadData();
+        this.setState(({ journeys }) => ({
+          currentJourney: journeys.length > 0 ? journeys[0].id : undefined
+        }));
       }
     );
   };
@@ -272,13 +258,20 @@ export default class Wrapper extends React.PureComponent {
 
     this.setState({ isFormOpen: false, journeyToBeEdited: undefined });
 
-    this.loadData();
+    await this.loadData();
   };
 
   handleJourneyChange = selectedJourney => {
-    this.setState({
-      currentJourney: selectedJourney
-    });
+    this.setState(
+      {
+        currentJourney: null
+      },
+      () => {
+        this.setState({
+          currentJourney: selectedJourney
+        });
+      }
+    );
   };
 
   handleOnEdit = journey => {
@@ -292,12 +285,38 @@ export default class Wrapper extends React.PureComponent {
     this.setState({ isFormOpen: false, journeyToBeEdited: undefined });
   };
 
+  handleOnDelete = document => {
+    this.setState({
+      isDeleteJourneyActive: true,
+      journeyToBeDeleted: document
+    });
+  };
+
+  deleteJourney = async () => {
+    const { journeyToBeDeleted } = this.state;
+
+    await AccountStorageMutation.mutate({
+      documentId: journeyToBeDeleted.id,
+      accountId: 1606862,
+      collection: CUSTOMER_JOURNEY_CONFIGS,
+      actionType: AccountStorageMutation.ACTION_TYPE.DELETE_DOCUMENT
+    });
+
+    this.setState({
+      isDeleteJourneyActive: false,
+      journeyToBeDeleted: undefined
+    });
+
+    await this.loadData();
+  };
+
   render() {
     const {
       isFormOpen,
       journeys,
       currentJourney,
-      journeyToBeEdited
+      journeyToBeEdited,
+      isDeleteJourneyActive
     } = this.state;
 
     const journey = journeys.find(journey => journey.id === currentJourney)
@@ -337,18 +356,70 @@ export default class Wrapper extends React.PureComponent {
                   onClick={() => this.handleJourneyChange(id)}
                 >
                   <p>{title}</p>
-                  <Button
-                    className="edit-button"
-                    sizeType={Button.SIZE_TYPE.SMALL}
-                    type={Button.TYPE.NORMAL}
-                    onClick={() => this.handleOnEdit(document)}
-                  >
-                    EDIT
-                  </Button>
+                  <div>
+                    <Button
+                      className="edit-button"
+                      sizeType={Button.SIZE_TYPE.SMALL}
+                      type={Button.TYPE.NORMAL}
+                      onClick={e => {
+                        e.stopPropagation();
+                        this.handleOnEdit(document);
+                      }}
+                    >
+                      EDIT
+                    </Button>
+                    <Button
+                      className="delete-button"
+                      sizeType={Button.SIZE_TYPE.SMALL}
+                      type={Button.TYPE.DESTRUCTIVE}
+                      onClick={e => {
+                        e.stopPropagation();
+                        this.handleOnDelete(document);
+                      }}
+                    >
+                      DELETE
+                    </Button>
+                  </div>
                 </li>
               ))}
             </ul>
           </div>
+          <Modal
+            hidden={!isDeleteJourneyActive}
+            onClose={() => this.setState({ isDeleteJourneyActive: false })}
+          >
+            <HeadingText type={HeadingText.TYPE.HEADING_2}>
+              Are you sure you want to delete this Journey?
+            </HeadingText>
+            <p>
+              This cannot be undone. Please confirm whether or not you want to
+              delete this Journey.
+            </p>
+            <Button
+              spacingType={[
+                Button.SPACING_TYPE.MEDIUM,
+                Button.SPACING_TYPE.OMIT,
+                Button.SPACING_TYPE.MEDIUM
+              ]}
+              type={Button.TYPE.PRIMARY}
+              onClick={() =>
+                this.setState({
+                  isDeleteJourneyActive: false,
+                  journeyToBeDeleted: undefined
+                })
+              }
+            >
+              Cancel
+            </Button>
+            <Button
+              spacingType={[Button.SPACING_TYPE.MEDIUM]}
+              type={Button.TYPE.DESTRUCTIVE}
+              onClick={this.deleteJourney}
+              iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__TRASH}
+            >
+              Delete
+            </Button>
+          </Modal>
           <PlatformStateContext.Consumer>
             {platformUrlState =>
               isFormOpen ? (
@@ -364,22 +435,22 @@ export default class Wrapper extends React.PureComponent {
                       <div className="visualizationContainer">
                         <h3 className="columnHeader">Click Rate</h3>
                         <div
-                          className={`statCell visualizationCell ${this.renderStepsClass()}`}
+                          className={`statCell visualizationCell ${this.renderStepsClass(
+                            journey
+                          )}`}
                         >
                           <FunnelComponent
                             launcherUrlState={platformUrlState}
-                            {...EXAMPLE_JOURNEY}
-                            // {...journey}
+                            {...journey}
                           />
                         </div>
                       </div>
-                      {EXAMPLE_JOURNEY.series.map((series, i) => {
+                      {journey.series.map((series, i) => {
                         return (
                           <StatColumn
                             key={i}
                             column={series}
-                            // config={journey}
-                            config={EXAMPLE_JOURNEY}
+                            config={journey}
                             platformUrlState={platformUrlState}
                           />
                         );

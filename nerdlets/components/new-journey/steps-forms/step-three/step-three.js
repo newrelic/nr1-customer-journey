@@ -44,6 +44,14 @@ export default class StepThree extends Component {
     this.setState({ currentIndex: index });
   };
 
+  cleanValues = steps => {
+    return steps.map(step => {
+      if (!step.altNrql?.key) delete step.altNrql;
+
+      return step;
+    });
+  };
+
   render() {
     const {
       currentStep,
@@ -62,7 +70,8 @@ export default class StepThree extends Component {
             validationSchema={validationSchema}
             validateOnChange={false}
             onSubmit={values => {
-              handleNextClick({ steps: values.steps });
+              const steps = this.cleanValues(values.steps);
+              handleNextClick({ steps });
             }}
           >
             {({ values, errors, setFieldValue, handleSubmit }) => (
