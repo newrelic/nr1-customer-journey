@@ -101,7 +101,8 @@ export default class StepFive extends Component {
                   items={values.kpis}
                   handleOnTabChange={this.handleTabChange}
                   handleOnDelete={index => {
-                    const kpis = values.kpis.splice(index, 1);
+                    const kpis = [...values.kpis];
+                    kpis.splice(index, 1);
                     setFieldValue('values.kpis', kpis);
                     this.setState({
                       currentIndex:

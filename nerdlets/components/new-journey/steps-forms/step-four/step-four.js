@@ -21,10 +21,12 @@ const validationSchema = Yup.object().shape({
 });
 
 const SERIES_OBJECT_TEMPLATE = {
+  id: undefined,
   label: 'New series',
   nrqlWhere: '',
   altNrql: {
-    JavaScriptError: ''
+    key: '',
+    value: ''
   }
 };
 
@@ -72,7 +74,8 @@ export default class StepFour extends Component {
                   items={values.series}
                   handleOnTabChange={this.handleTabChange}
                   handleOnDelete={index => {
-                    const series = values.series.splice(index, 1);
+                    const series = [...values.series];
+                    series.splice(index, 1);
                     setFieldValue('values.series', series);
                     this.setState({
                       currentIndex:
@@ -81,7 +84,10 @@ export default class StepFour extends Component {
                   }}
                   handleOnAdd={() => {
                     const series = values.series;
-                    series.push(SERIES_OBJECT_TEMPLATE);
+                    series.push({
+                      ...SERIES_OBJECT_TEMPLATE,
+                      id: series.length
+                    });
                     setFieldValue('values.series', series);
                     this.setState({ currentIndex: series.length - 1 });
                   }}

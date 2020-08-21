@@ -22,6 +22,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const STEP_OBJECT_TEMPLATE = {
+  id: undefined,
   label: 'New step',
   nrqlWhere: '',
   altNrql: {
@@ -74,7 +75,8 @@ export default class StepThree extends Component {
                   items={values.steps}
                   handleOnTabChange={this.handleTabChange}
                   handleOnDelete={index => {
-                    const steps = values.steps.splice(index, 1);
+                    const steps = [...values.steps];
+                    steps.splice(index, 1);
                     setFieldValue('values.steps', steps);
                     this.setState({
                       currentIndex:
@@ -83,7 +85,7 @@ export default class StepThree extends Component {
                   }}
                   handleOnAdd={() => {
                     const steps = values.steps;
-                    steps.push(STEP_OBJECT_TEMPLATE);
+                    steps.push({ ...STEP_OBJECT_TEMPLATE, id: steps.length });
                     setFieldValue('values.steps', steps);
                     this.setState({ currentIndex: steps.length - 1 });
                   }}

@@ -35,7 +35,7 @@ export default class StatCell extends React.Component {
     navigation.openStackedNerdlet({
       id: 'details',
       urlState: {
-        selectedJourney: config.id,
+        selectedJourney: config,
         selectedColumn: column.id,
         selectedStep: step.id
       }
@@ -76,14 +76,14 @@ export default class StatCell extends React.Component {
                     requiresAltNrql &&
                     step.altNrql &&
                     step.altNrql.key === stat.value.eventName
-                      ? step.altNrql.key
+                      ? step.altNrql.value
                       : null;
 
                   const altColumnNrql =
                     requiresAltNrql &&
                     column.altNrql &&
                     column.altNrql.key === stat.value.eventName
-                      ? column.altNrql.key
+                      ? column.altNrql.value
                       : null;
 
                   if (stat.value.nrql) {

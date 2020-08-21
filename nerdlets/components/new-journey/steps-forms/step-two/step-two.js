@@ -46,11 +46,11 @@ const STAT_OBJECT_TEMPLATE = {
   ref: '',
   type: '',
   value: {
-    nrql: '',
-    eventName: '',
+    nrql: undefined,
+    eventName: undefined,
     display: '',
     calculation: {
-      rate: ['', '']
+      rate: [undefined, undefined]
     }
   }
 };
@@ -99,7 +99,8 @@ export default class StepTwo extends Component {
                   items={values.stats}
                   handleOnTabChange={this.handleTabChange}
                   handleOnDelete={index => {
-                    const stats = values.stats.splice(index, 1);
+                    const stats = [...values.stats];
+                    stats.splice(index, 1);
                     setFieldValue('values.stats', stats);
                     this.setState({
                       currentIndex:
@@ -108,7 +109,7 @@ export default class StepTwo extends Component {
                   }}
                   handleOnAdd={() => {
                     const stats = values.stats;
-                    stats.push(STAT_OBJECT_TEMPLATE);
+                    stats.push({ ...STAT_OBJECT_TEMPLATE, id: stats.length });
                     setFieldValue('values.stats', stats);
                     this.setState({ currentIndex: stats.length - 1 });
                   }}

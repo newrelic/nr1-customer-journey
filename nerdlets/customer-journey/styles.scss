@@ -39,7 +39,7 @@ body {
 }
 
 .left-sidebar {
-  min-width: 250px;
+  min-width: 350px;
   background-color: white;
   border-right: 1px solid #EDEEEE;
 
@@ -186,7 +186,6 @@ body {
 .customer-journey {
     height: 100%;
     background-color: #f7f7f8;
-    overflow: hidden;
 
     &__toolbar {
         display: flex;

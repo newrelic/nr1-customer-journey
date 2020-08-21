@@ -16,6 +16,162 @@ import { v4 as uuidv4 } from 'uuid';
 
 const journeyConfig = getJourneys();
 
+const EXAMPLE_JOURNEY = {
+  accountId: 1606862,
+  funnel: { event: 'PageView', measure: 'session' },
+  id: 'b3a115f1-065b-4743-81bd-1de1c10dd9a4',
+  kpis: [
+    {
+      bound: 'higherViolation',
+      description:
+        'If the error rate is higher that 3%, mark that as a notable.',
+      label: 'Error rate',
+      ref: 'errorRate',
+      value: '3.0'
+    },
+    {
+      label: 'Page views',
+      ref: 'clickCount',
+      value: 5.0,
+      bound: 'percentage',
+      description: 'If the percentage change is plus or minus 10%, flag that.'
+    },
+    {
+      label: 'Page Load Avg.',
+      ref: 'averageDuration',
+      value: 1,
+      bound: 'lowerTarget',
+      description: "We're targeting sub-second load times."
+    }
+  ],
+  series: [
+    {
+      id: 0,
+      altNrql: {
+        key: 'JavaScriptError',
+        value: "appName = 'WebPortal'"
+      },
+      label: 'All Users',
+      nrqlWhere: "appName = 'WebPortal'"
+    },
+    {
+      id: 1,
+      label: 'Columbus',
+      nrqlWhere: "appName = 'WebPortal' and city = 'Columbus'"
+    },
+    {
+      id: 2,
+      altNrql: {
+        key: 'JavaScriptError',
+        value: "appName = 'WebPortal' and userAgentName = 'IE'"
+      },
+      label: 'Internet Explorer',
+      nrqlWhere: "appName = 'WebPortal' and userAgentName = 'IE'"
+    }
+  ],
+  stats: [
+    {
+      label: 'Page views',
+      ref: 'clickCount',
+      type: 'integer',
+      value: {
+        display: 'integer',
+        nrql: "SELECT count(*) FROM PageView WHERE appName = 'WebPortal'"
+      }
+    },
+    {
+      label: 'Sessions',
+      ref: 'sessionCount',
+      type: 'integer',
+      value: {
+        display: 'integer',
+        nrql:
+          "FROM PageView SELECT uniqueCount(session) WHERE appName = 'WebPortal'"
+      }
+    },
+    {
+      label: 'Error count',
+      ref: 'errorCount',
+      type: 'integer',
+      value: {
+        display: 'integer',
+        eventName: 'JavaScriptError',
+        nrql: "SELECT count(*) FROM JavaScriptError WHERE appName = 'WebPortal'"
+      }
+    },
+    {
+      label: 'Error rate',
+      ref: 'errorRate',
+      type: 'decimal',
+      value: {
+        calculation: { rate: ['errorCount', 'clickCount'] },
+        display: 'percentage'
+      }
+    },
+    {
+      label: 'Avg perf',
+      ref: 'averageDuration',
+      type: 'decimal',
+      value: {
+        display: 'seconds',
+        nrql:
+          "FROM PageView SELECT average(duration) WHERE appName = 'WebPortal'"
+      }
+    },
+    {
+      label: '99th perc',
+      ref: 'nnthPercentile',
+      type: 'percentile',
+      value: {
+        display: 'seconds',
+        nrql:
+          "FROM PageView SELECT percentile(duration, 99) WHERE appName = 'WebPortal'"
+      }
+    }
+  ],
+  steps: [
+    {
+      id: 0,
+      altNrql: {
+        key: 'JavaScriptError',
+        value: "requestUri = '/' or requestUri = '/index.html'"
+      },
+      label: 'Homepage',
+      nrqlWhere:
+        "pageUrl = 'http://webportal.telco.nrdemo.com/' OR pageUrl = 'http://webportal.telco.nrdemo.com/index.html'"
+    },
+    {
+      id: 1,
+      altNrql: {
+        key: 'JavaScriptError',
+        value: "requestUri like '/browse/plans%'"
+      },
+      label: 'Plans',
+      nrqlWhere:
+        "pageUrl like 'http://webportal.telco.nrdemo.com/browse/plans%'"
+    },
+    {
+      id: 2,
+      altNrql: {
+        key: 'JavaScriptError',
+        value: "requestUri like '/shoppingcart%'"
+      },
+      label: 'Cart',
+      nrqlWhere: "pageUrl = 'http://webportal.telco.nrdemo.com/shoppingcart'"
+    },
+    {
+      id: 3,
+      altNrql: {
+        key: 'JavaScriptError',
+        value: "requestUri like '/checkout%'"
+      },
+      label: 'Checkout',
+      nrqlWhere: "pageUrl = 'http://webportal.telco.nrdemo.com/checkout'"
+    }
+  ],
+  title: 'Demo Journey 1'
+};
+
 const CUSTOMER_JOURNEY_CONFIGS = 'CUSTOMER_JOURNEY_CONFIGS';
 // const CUSTOMER_JOURNEY_CONFIGS_ID = 'CUSTOMER_JOURNEY_CONFIGS_V1';
 
@@ -66,6 +222,10 @@ export default class Wrapper extends React.PureComponent {
       accountId: selectedAccountId,
       collection: CUSTOMER_JOURNEY_CONFIGS
     });
+    console.log(
+      'Wrapper -> loadData -> data',
+      JSON.stringify(data[0].document)
+    );
 
     this.setState({
       journeys: data,
@@ -148,11 +308,6 @@ export default class Wrapper extends React.PureComponent {
         <div className="customer-journey__toolbar">
           <div>
             <AccountPicker accountChangedCallback={this.handleAccountSelect} />
-            {/* <JourneyPicker
-              journeys={journeyConfig}
-              journey={journey}
-              setJourney={this.setJourney}
-            /> */}
           </div>
           {!isFormOpen && (
             <Button
@@ -213,16 +368,18 @@ export default class Wrapper extends React.PureComponent {
                         >
                           <FunnelComponent
                             launcherUrlState={platformUrlState}
-                            {...journey}
+                            {...EXAMPLE_JOURNEY}
+                            // {...journey}
                           />
                         </div>
                       </div>
-                      {journey.series.map((series, i) => {
+                      {EXAMPLE_JOURNEY.series.map((series, i) => {
                         return (
                           <StatColumn
                             key={i}
                             column={series}
-                            config={journey}
+                            // config={journey}
+                            config={EXAMPLE_JOURNEY}
                             platformUrlState={platformUrlState}
                           />
                         );

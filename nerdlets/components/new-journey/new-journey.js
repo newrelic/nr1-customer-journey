@@ -8,7 +8,6 @@ export default class NewJourney extends Component {
     super(props);
 
     const { journey } = props;
-    console.log('NewJourney -> constructor -> journey', journey);
 
     this.state = {
       currentStep: 0,
@@ -271,5 +270,6 @@ export default class NewJourney extends Component {
 
 NewJourney.propTypes = {
   handleOnSave: PropTypes.func.isRequired,
-  handleCancel: PropTypes.func.isRequired
+  handleCancel: PropTypes.func.isRequired,
+  journey: PropTypes.object
 };
