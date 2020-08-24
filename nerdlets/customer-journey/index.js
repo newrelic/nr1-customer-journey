@@ -299,7 +299,7 @@ export default class Wrapper extends React.PureComponent {
                 />
               ) : (
                 journey && (
-                  <div>
+                  <div className="journey-container">
                     <div className="customerJourneyContent">
                       <div className="visualizationContainer">
                         <h3 className="columnHeader">Click Rate</h3>

@@ -190,15 +190,23 @@ body {
 .customer-journey {
     height: 100%;
     background-color: #f7f7f8;
+    position: relative;
+    display: flex;
+    flex-direction: column;
 
     &__toolbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 20px;
-        background-color: #edeeee;
-        box-shadow: inset 0 1px 0 rgba(0, 0, 0, .05), inset 0 3px 0 rgba(0, 0, 0, .02), inset 0 -1px 0 rgba(0, 0, 0, .025);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #edeeee;
+      box-shadow: inset 0 1px 0 rgba(0, 0, 0, .05), inset 0 3px 0 rgba(0, 0, 0, .02), inset 0 -1px 0 rgba(0, 0, 0, .025);
     }
+}
+
+.journey-container {
+  overflow: auto;
+  display: flex;
 }
 
 .customerJourneyContent {
