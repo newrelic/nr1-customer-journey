@@ -185,6 +185,12 @@ export default class Wrapper extends React.PureComponent {
     const journey = journeys.find(journey => journey.id === currentJourney)
       ?.document;
 
+    let mainContainerStyle = 'main-container';
+
+    if (isFormOpen) {
+      mainContainerStyle = `${mainContainerStyle} main-container--form-open`;
+    }
+
     return (
       <div className="customer-journey">
         <div className="customer-journey__toolbar">
@@ -201,56 +207,58 @@ export default class Wrapper extends React.PureComponent {
             </Button>
           )}
         </div>
-        <div className="main-container">
-          <div className="left-sidebar">
-            <HeadingText
-              className="left-sidebar__heading"
-              type={HeadingText.TYPE.HEADING_3}
-            >
-              JOURNEYS
-            </HeadingText>
-            <ul className="left-sidebar__list">
-              {isProcessing ? (
-                <Spinner />
-              ) : (
-                journeys.map(({ id, document, document: { title } }) => (
-                  <li
-                    className={`list__item ${
-                      currentJourney === id ? 'list__item--active' : ''
-                    }`}
-                    key={id}
-                    onClick={() => this.handleJourneyChange(id)}
-                  >
-                    <p>{title}</p>
-                    <div>
-                      <Button
-                        className="edit-button"
-                        sizeType={Button.SIZE_TYPE.SMALL}
-                        type={Button.TYPE.NORMAL}
-                        onClick={e => {
-                          e.stopPropagation();
-                          this.handleOnEdit(document);
-                        }}
-                      >
-                        EDIT
-                      </Button>
-                      <Button
-                        className="delete-button"
-                        sizeType={Button.SIZE_TYPE.SMALL}
-                        type={Button.TYPE.DESTRUCTIVE}
-                        onClick={e => {
-                          e.stopPropagation();
-                          this.handleOnDelete(document);
-                        }}
-                      >
-                        DELETE
-                      </Button>
-                    </div>
-                  </li>
-                ))
-              )}
-            </ul>
-          </div>
+        <div className={mainContainerStyle}>
+          {isFormOpen ? null : (
+            <div className="left-sidebar">
+              <HeadingText
+                className="left-sidebar__heading"
+                type={HeadingText.TYPE.HEADING_3}
+              >
+                JOURNEYS
+              </HeadingText>
+              <ul className="left-sidebar__list">
+                {isProcessing ? (
+                  <Spinner />
+                ) : (
+                  journeys.map(({ id, document, document: { title } }) => (
+                    <li
+                      className={`list__item ${
+                        currentJourney === id ? 'list__item--active' : ''
+                      }`}
+                      key={id}
+                      onClick={() => this.handleJourneyChange(id)}
+                    >
+                      <p>{title}</p>
+                      <div>
+                        <Button
+                          className="edit-button"
+                          sizeType={Button.SIZE_TYPE.SMALL}
+                          type={Button.TYPE.NORMAL}
+                          onClick={e => {
+                            e.stopPropagation();
+                            this.handleOnEdit(document);
+                          }}
+                        >
+                          EDIT
+                        </Button>
+                        <Button
+                          className="delete-button"
+                          sizeType={Button.SIZE_TYPE.SMALL}
+                          type={Button.TYPE.DESTRUCTIVE}
+                          onClick={e => {
+                            e.stopPropagation();
+                            this.handleOnDelete(document);
+                          }}
+                        >
+                          DELETE
+                        </Button>
+                      </div>
+                    </li>
+                  ))
+                )}
+              </ul>
+            </div>
+          )}
           <Modal
             hidden={!isDeleteJourneyActive}
             onClose={() => this.setState({ isDeleteJourneyActive: false })}
