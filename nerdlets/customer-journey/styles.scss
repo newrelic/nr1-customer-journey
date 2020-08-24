@@ -34,12 +34,17 @@ body {
 
 .main-container {
   display: flex;
-  height: 100%;
+  flex: 1;
+  overflow: auto;
   box-sizing: border-box;
 }
 
 .left-sidebar {
-  min-width: 350px;
+  position: sticky;
+  top: 0;
+  overflow: auto;
+  min-width: 300px;
+  max-width: 400px;
   background-color: white;
   border-right: 1px solid #EDEEEE;
 
@@ -51,36 +56,44 @@ body {
     list-style: none;
   }
 
-  .list__item {
-    padding: 20px;
-    border-top: 1px solid #EDEEEE;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .list {
+    &__item {
+      padding: 20px;
+      border-top: 1px solid #EDEEEE;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-    &--active {
-      background-color: #F1FBFC;
-      color: #00484E;
-    }
+      &--active {
+        background-color: #F1FBFC;
+        color: #00484E;
+      }
 
-    &:hover {
-      cursor: pointer;
-      background-color: #F1FBFC;
-      color: #00484E;
+      &:hover {
+        cursor: pointer;
+        background-color: #F1FBFC;
+        color: #00484E;
+
+        .edit-button, .delete-button {
+          visibility: visible;
+        }
+      }
 
       .edit-button, .delete-button {
-        visibility: visible;
+        visibility: hidden;
+        margin-left: 10px;
       }
     }
 
-    .edit-button, .delete-button {
-      visibility: hidden;
-    }
-
-    .delete-button {
-      margin-left: 10px;
+    &__journey-title {
+      max-width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
+
+
 }
 
 .tabs-container {
@@ -120,7 +133,7 @@ body {
 				}
       }
 		}
-		
+
 		&__name {
 			white-space: nowrap;
 		}
@@ -144,7 +157,7 @@ body {
 			&:after {
 				background: #E56059;
 			}
-			
+
       > .tab__name {
         color: #E56059;
       }
@@ -230,6 +243,7 @@ body {
 
 .customer-journey {
     height: 100%;
+    overflow: hidden;
     background-color: #f7f7f8;
     position: relative;
     display: flex;

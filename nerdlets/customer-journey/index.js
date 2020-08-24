@@ -228,7 +228,7 @@ export default class Wrapper extends React.PureComponent {
                       key={id}
                       onClick={() => this.handleJourneyChange(id)}
                     >
-                      <p>{title}</p>
+                      <p className="list__journey-title">{title}</p>
                       <div>
                         <Button
                           className="edit-button"
