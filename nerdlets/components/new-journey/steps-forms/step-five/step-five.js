@@ -49,10 +49,10 @@ const validationSchema = Yup.object().shape({
 
 const KPI_OBJECT_TEMPLATE = {
   label: 'New KPI',
-  ref: '',
-  value: '',
-  bound: '',
-  description: ''
+  ref: undefined,
+  value: undefined,
+  bound: undefined,
+  description: undefined
 };
 
 export default class StepFive extends Component {
@@ -154,7 +154,9 @@ export default class StepFive extends Component {
                         onChange={value =>
                           setFieldValue(`kpis[${currentIndex}].ref`, value)
                         }
-                        invalid={errors.kpis && errors.kpis[currentIndex]?.ref}
+                        errorMessage={
+                          errors.kpis && errors.kpis[currentIndex]?.ref
+                        }
                       />
                       <TextField
                         label="Value"

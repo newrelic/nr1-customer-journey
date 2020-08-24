@@ -1,6 +1,6 @@
-# Configure the `journeyConfig.js`
+# Journey configuration
 
-The `journeyConfig` is an array of objects that contain the following. See the [`examples`](examples) directory for more... examples.
+The `journey configuration` is an array of objects that contain the following. See the [`examples`](examples) directory for more... examples.
 
 | Name | Valid Values | Required by Parent | Description |
 |---|---|---|---|

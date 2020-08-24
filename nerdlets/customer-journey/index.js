@@ -5,7 +5,8 @@ import {
   AccountStorageQuery,
   Button,
   HeadingText,
-  Modal
+  Modal,
+  Spinner
 } from 'nr1';
 import StatColumn from './StatColumn';
 import { FunnelComponent } from 'nr1-funnel-component';
@@ -181,7 +182,8 @@ export default class Wrapper extends React.PureComponent {
       journeys: [],
       currentJourney: undefined,
       isDeleteJourneyActive: false,
-      journeyToBeDeleted: undefined
+      journeyToBeDeleted: undefined,
+      isProcessing: true
     };
   }
 
@@ -212,6 +214,10 @@ export default class Wrapper extends React.PureComponent {
   }
 
   loadData = async () => {
+    this.setState({
+      isProcessing: true
+    });
+
     const { selectedAccountId } = this.state;
     const { data } = await AccountStorageQuery.query({
       accountId: selectedAccountId,
@@ -219,6 +225,7 @@ export default class Wrapper extends React.PureComponent {
     });
 
     this.setState({
+      isProcessing: false,
       journeys: data
     });
   };
@@ -316,7 +323,8 @@ export default class Wrapper extends React.PureComponent {
       journeys,
       currentJourney,
       journeyToBeEdited,
-      isDeleteJourneyActive
+      isDeleteJourneyActive,
+      isProcessing
     } = this.state;
 
     const journey = journeys.find(journey => journey.id === currentJourney)
@@ -354,41 +362,45 @@ export default class Wrapper extends React.PureComponent {
                 JOURNEYS
               </HeadingText>
               <ul className="left-sidebar__list">
-                {journeys.map(({ id, document, document: { title } }) => (
-                  <li
-                    className={`list__item ${
-                      currentJourney === id ? 'list__item--active' : ''
-                    }`}
-                    key={id}
-                    onClick={() => this.handleJourneyChange(id)}
-                  >
-                    <p>{title}</p>
-                    <div>
-                      <Button
-                        className="edit-button"
-                        sizeType={Button.SIZE_TYPE.SMALL}
-                        type={Button.TYPE.NORMAL}
-                        onClick={e => {
-                          e.stopPropagation();
-                          this.handleOnEdit(document);
-                        }}
-                      >
-                        EDIT
-                      </Button>
-                      <Button
-                        className="delete-button"
-                        sizeType={Button.SIZE_TYPE.SMALL}
-                        type={Button.TYPE.DESTRUCTIVE}
-                        onClick={e => {
-                          e.stopPropagation();
-                          this.handleOnDelete(document);
-                        }}
-                      >
-                        DELETE
-                      </Button>
-                    </div>
-                  </li>
-                ))}
+                {isProcessing ? (
+                  <Spinner />
+                ) : (
+                  journeys.map(({ id, document, document: { title } }) => (
+                    <li
+                      className={`list__item ${
+                        currentJourney === id ? 'list__item--active' : ''
+                      }`}
+                      key={id}
+                      onClick={() => this.handleJourneyChange(id)}
+                    >
+                      <p>{title}</p>
+                      <div>
+                        <Button
+                          className="edit-button"
+                          sizeType={Button.SIZE_TYPE.SMALL}
+                          type={Button.TYPE.NORMAL}
+                          onClick={e => {
+                            e.stopPropagation();
+                            this.handleOnEdit(document);
+                          }}
+                        >
+                          EDIT
+                        </Button>
+                        <Button
+                          className="delete-button"
+                          sizeType={Button.SIZE_TYPE.SMALL}
+                          type={Button.TYPE.DESTRUCTIVE}
+                          onClick={e => {
+                            e.stopPropagation();
+                            this.handleOnDelete(document);
+                          }}
+                        >
+                          DELETE
+                        </Button>
+                      </div>
+                    </li>
+                  ))
+                )}
               </ul>
             </div>
           )}
