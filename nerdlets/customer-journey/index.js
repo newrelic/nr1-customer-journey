@@ -14,162 +14,6 @@ import NewJourney from '../components/new-journey/new-journey';
 import AccountPicker from '../components/account-picker';
 import { v4 as uuidv4 } from 'uuid';
 
-const EXAMPLE_JOURNEY = {
-  accountId: 1606862,
-  funnel: { event: 'PageView', measure: 'session' },
-  id: 'b3a115f1-065b-4743-81bd-1de1c10dd9a4',
-  kpis: [
-    {
-      bound: 'higherViolation',
-      description:
-        'If the error rate is higher that 3%, mark that as a notable.',
-      label: 'Error rate',
-      ref: 'errorRate',
-      value: '3.0'
-    },
-    {
-      label: 'Page views',
-      ref: 'clickCount',
-      value: 5.0,
-      bound: 'percentage',
-      description: 'If the percentage change is plus or minus 10%, flag that.'
-    },
-    {
-      label: 'Page Load Avg.',
-      ref: 'averageDuration',
-      value: 1,
-      bound: 'lowerTarget',
-      description: "We're targeting sub-second load times."
-    }
-  ],
-  series: [
-    {
-      id: 0,
-      altNrql: {
-        key: 'JavaScriptError',
-        value: "appName = 'WebPortal'"
-      },
-      label: 'All Users',
-      nrqlWhere: "appName = 'WebPortal'"
-    },
-    {
-      id: 1,
-      label: 'Columbus',
-      nrqlWhere: "appName = 'WebPortal' and city = 'Columbus'"
-    },
-    {
-      id: 2,
-      altNrql: {
-        key: 'JavaScriptError',
-        value: "appName = 'WebPortal' and userAgentName = 'IE'"
-      },
-      label: 'Internet Explorer',
-      nrqlWhere: "appName = 'WebPortal' and userAgentName = 'IE'"
-    }
-  ],
-  stats: [
-    {
-      label: 'Page views',
-      ref: 'clickCount',
-      type: 'integer',
-      value: {
-        display: 'integer',
-        nrql: "SELECT count(*) FROM PageView WHERE appName = 'WebPortal'"
-      }
-    },
-    {
-      label: 'Sessions',
-      ref: 'sessionCount',
-      type: 'integer',
-      value: {
-        display: 'integer',
-        nrql:
-          "FROM PageView SELECT uniqueCount(session) WHERE appName = 'WebPortal'"
-      }
-    },
-    {
-      label: 'Error count',
-      ref: 'errorCount',
-      type: 'integer',
-      value: {
-        display: 'integer',
-        eventName: 'JavaScriptError',
-        nrql: "SELECT count(*) FROM JavaScriptError WHERE appName = 'WebPortal'"
-      }
-    },
-    {
-      label: 'Error rate',
-      ref: 'errorRate',
-      type: 'decimal',
-      value: {
-        calculation: { rate: ['errorCount', 'clickCount'] },
-        display: 'percentage'
-      }
-    },
-    {
-      label: 'Avg perf',
-      ref: 'averageDuration',
-      type: 'decimal',
-      value: {
-        display: 'seconds',
-        nrql:
-          "FROM PageView SELECT average(duration) WHERE appName = 'WebPortal'"
-      }
-    },
-    {
-      label: '99th perc',
-      ref: 'nnthPercentile',
-      type: 'percentile',
-      value: {
-        display: 'seconds',
-        nrql:
-          "FROM PageView SELECT percentile(duration, 99) WHERE appName = 'WebPortal'"
-      }
-    }
-  ],
-  steps: [
-    {
-      id: 0,
-      altNrql: {
-        key: 'JavaScriptError',
-        value: "requestUri = '/' or requestUri = '/index.html'"
-      },
-      label: 'Homepage',
-      nrqlWhere:
-        "pageUrl = 'http://webportal.telco.nrdemo.com/' OR pageUrl = 'http://webportal.telco.nrdemo.com/index.html'"
-    },
-    {
-      id: 1,
-      altNrql: {
-        key: 'JavaScriptError',
-        value: "requestUri like '/browse/plans%'"
-      },
-      label: 'Plans',
-      nrqlWhere:
-        "pageUrl like 'http://webportal.telco.nrdemo.com/browse/plans%'"
-    },
-    {
-      id: 2,
-      altNrql: {
-        key: 'JavaScriptError',
-        value: "requestUri like '/shoppingcart%'"
-      },
-      label: 'Cart',
-      nrqlWhere: "pageUrl = 'http://webportal.telco.nrdemo.com/shoppingcart'"
-    },
-    {
-      id: 3,
-      altNrql: {
-        key: 'JavaScriptError',
-        value: "requestUri like '/checkout%'"
-      },
-      label: 'Checkout',
-      nrqlWhere: "pageUrl = 'http://webportal.telco.nrdemo.com/checkout'"
-    }
-  ],
-  title: 'Demo Journey 1'
-};
-
 const CUSTOMER_JOURNEY_CONFIGS = 'CUSTOMER_JOURNEY_CONFIGS';
 
 export default class Wrapper extends React.PureComponent {
@@ -183,7 +27,9 @@ export default class Wrapper extends React.PureComponent {
       currentJourney: undefined,
       isDeleteJourneyActive: false,
       journeyToBeDeleted: undefined,
-      isProcessing: true
+      isProcessing: true,
+      isDeleting: false,
+      isSaving: false
     };
   }
 
@@ -249,6 +95,7 @@ export default class Wrapper extends React.PureComponent {
   };
 
   handleOnSave = async journey => {
+    this.setState({ isSaving: true });
     const { selectedAccountId } = this.state;
     journey.accountId = selectedAccountId;
     if (!journey.id) {
@@ -266,6 +113,7 @@ export default class Wrapper extends React.PureComponent {
     this.setState({ isFormOpen: false, journeyToBeEdited: undefined });
 
     await this.loadData();
+    this.setState({ isSaving: false });
   };
 
   handleJourneyChange = selectedJourney => {
@@ -300,6 +148,10 @@ export default class Wrapper extends React.PureComponent {
   };
 
   deleteJourney = async () => {
+    this.setState({
+      isDeleting: true
+    });
+
     const { journeyToBeDeleted } = this.state;
 
     await AccountStorageMutation.mutate({
@@ -311,7 +163,8 @@ export default class Wrapper extends React.PureComponent {
 
     this.setState({
       isDeleteJourneyActive: false,
-      journeyToBeDeleted: undefined
+      journeyToBeDeleted: undefined,
+      isDeleting: false
     });
 
     await this.loadData();
@@ -324,7 +177,9 @@ export default class Wrapper extends React.PureComponent {
       currentJourney,
       journeyToBeEdited,
       isDeleteJourneyActive,
-      isProcessing
+      isProcessing,
+      isDeleting,
+      isSaving
     } = this.state;
 
     const journey = journeys.find(journey => journey.id === currentJourney)
@@ -436,6 +291,7 @@ export default class Wrapper extends React.PureComponent {
               type={Button.TYPE.DESTRUCTIVE}
               onClick={this.deleteJourney}
               iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__TRASH}
+              loading={isDeleting}
             >
               Delete
             </Button>
@@ -444,6 +300,7 @@ export default class Wrapper extends React.PureComponent {
             {platformUrlState =>
               isFormOpen ? (
                 <NewJourney
+                  isSaving={isSaving}
                   handleCancel={this.handleCancel}
                   handleOnSave={this.handleOnSave}
                   journey={journeyToBeEdited}
