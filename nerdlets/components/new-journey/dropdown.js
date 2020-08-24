@@ -35,7 +35,7 @@ export default class Dropdown extends Component {
             </SelectItem>
           ))}
         </Select>
-        <p className="error-message">{errorMessage}</p>
+        <p className="error-message">{!disabled && errorMessage}</p>
       </div>
     );
   }

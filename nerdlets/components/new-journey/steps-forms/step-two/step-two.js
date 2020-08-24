@@ -32,11 +32,10 @@ const validationSchema = Yup.object().shape({
         display: Yup.string().required('Is required'),
         calculation: Yup.object().shape({
           nominator: Yup.string(),
-          denominator: Yup.string()
-          // rate: Yup.array()
-          //   .of(Yup.string())
-          //   .min(2)
-          //   .max(2)
+          denominator: Yup.string().when('nominator', {
+            is: nominator => nominator,
+            then: Yup.string().required('Is required')
+          })
         })
       })
     })
@@ -52,8 +51,8 @@ const STAT_OBJECT_TEMPLATE = {
     eventName: undefined,
     display: undefined,
     calculation: {
-      nominator: undefined,
-      denominator: undefined
+      nominator: '',
+      denominator: ''
     }
   }
 };
@@ -105,8 +104,6 @@ export default class StepTwo extends Component {
           >
             {({ values, errors, setFieldValue, handleSubmit }) => (
               <>
-                {console.log('StepTwo -> render -> values', values)}
-                {console.log('StepTwo -> render -> errors', errors)}
                 <Tabs
                   errorIndexes={errors.stats?.map(
                     (error, index) => error && index
@@ -260,6 +257,10 @@ export default class StepTwo extends Component {
                                 value: ref,
                                 label: label
                               }))}
+                            disabled={
+                              !values.stats[currentIndex]?.value?.calculation
+                                ?.nominator
+                            }
                             onChange={value =>
                               setFieldValue(
                                 `stats[${currentIndex}].value.calculation.denominator`,
@@ -276,6 +277,11 @@ export default class StepTwo extends Component {
                                 ?.denominator
                             }
                           />
+                          {console.log(
+                            'StepTwo -> render -> values.stats[currentIndex]?.value?.calculation?.nominator',
+                            values.stats[currentIndex]?.value?.calculation
+                              ?.nominator
+                          )}
                         </fieldset>
                       </fieldset>
                     </>

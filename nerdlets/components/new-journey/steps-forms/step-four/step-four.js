@@ -14,7 +14,11 @@ const validationSchema = Yup.object().shape({
       label: Yup.string().required('Is required'),
       nrqlWhere: Yup.string().required('Is required'),
       altNrql: Yup.object().shape({
-        JavaScriptError: Yup.string()
+        key: Yup.string(),
+        value: Yup.string().when('key', {
+          is: key => key,
+          then: Yup.string().required('Is required')
+        })
       })
     })
   )
@@ -169,6 +173,7 @@ export default class StepFour extends Component {
                           }
                           onBlur={handleBlur}
                           invalid={
+                            values.series[currentIndex].altNrql?.key &&
                             errors.series &&
                             errors.series[currentIndex]?.altNrql.value
                           }
