@@ -32,17 +32,19 @@ const BOUND = [
 ];
 
 const validationSchema = Yup.object().shape({
-  kpis: Yup.array().of(
-    Yup.object().shape({
-      label: Yup.string().required('Is required'),
-      ref: Yup.string().required('Is required'),
-      value: Yup.number()
-        .typeError('Must be a number')
-        .required('Is required'),
-      bound: Yup.string().required('Is required'),
-      description: Yup.string()
-    })
-  )
+  kpis: Yup.array()
+    .of(
+      Yup.object().shape({
+        label: Yup.string().required('Is required'),
+        ref: Yup.string().required('Is required'),
+        value: Yup.number()
+          .typeError('Must be a number')
+          .required('Is required'),
+        bound: Yup.string().required('Is required'),
+        description: Yup.string()
+      })
+    )
+    .min(1, 'At least one KPI must be defined')
 });
 
 const KPI_OBJECT_TEMPLATE = {
@@ -94,9 +96,14 @@ export default class StepFive extends Component {
             {({ values, errors, setFieldValue, handleSubmit, handleBlur }) => (
               <>
                 <Tabs
-                  errorIndexes={errors.kpis?.map(
-                    (error, index) => error && index
-                  )}
+                  errorMessage={
+                    !Array.isArray(errors.kpis) ? errors.kpis : null
+                  }
+                  errorIndexes={
+                    Array.isArray(errors.kpis)
+                      ? errors.kpis?.map((error, index) => error && index)
+                      : null
+                  }
                   currentIndex={currentIndex}
                   items={values.kpis}
                   handleOnTabChange={this.handleTabChange}

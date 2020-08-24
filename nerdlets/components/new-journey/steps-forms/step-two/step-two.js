@@ -21,25 +21,27 @@ const STATS_VALUE_DISPLAY = [
 ];
 
 const validationSchema = Yup.object().shape({
-  stats: Yup.array().of(
-    Yup.object().shape({
-      label: Yup.string().required('Is required'),
-      ref: Yup.string().required('Is required'),
-      type: Yup.string().required('Is required'),
-      value: Yup.object().shape({
-        nrql: Yup.string(),
-        eventName: Yup.string(),
-        display: Yup.string().required('Is required'),
-        calculation: Yup.object().shape({
-          nominator: Yup.string(),
-          denominator: Yup.string().when('nominator', {
-            is: nominator => nominator,
-            then: Yup.string().required('Is required')
+  stats: Yup.array()
+    .of(
+      Yup.object().shape({
+        label: Yup.string().required('Is required'),
+        ref: Yup.string().required('Is required'),
+        type: Yup.string().required('Is required'),
+        value: Yup.object().shape({
+          nrql: Yup.string(),
+          eventName: Yup.string(),
+          display: Yup.string().required('Is required'),
+          calculation: Yup.object().shape({
+            nominator: Yup.string(),
+            denominator: Yup.string().when('nominator', {
+              is: nominator => nominator,
+              then: Yup.string().required('Is required')
+            })
           })
         })
       })
-    })
-  )
+    )
+    .min(1, 'At least one stat must be defined')
 });
 
 const STAT_OBJECT_TEMPLATE = {
@@ -105,9 +107,14 @@ export default class StepTwo extends Component {
             {({ values, errors, setFieldValue, handleSubmit }) => (
               <>
                 <Tabs
-                  errorIndexes={errors.stats?.map(
-                    (error, index) => error && index
-                  )}
+                  errorMessage={
+                    !Array.isArray(errors.stats) ? errors.stats : null
+                  }
+                  errorIndexes={
+                    Array.isArray(errors.stats)
+                      ? errors.stats?.map((error, index) => error && index)
+                      : null
+                  }
                   currentIndex={currentIndex}
                   items={values.stats}
                   handleOnTabChange={this.handleTabChange}
@@ -277,11 +284,6 @@ export default class StepTwo extends Component {
                                 ?.denominator
                             }
                           />
-                          {console.log(
-                            'StepTwo -> render -> values.stats[currentIndex]?.value?.calculation?.nominator',
-                            values.stats[currentIndex]?.value?.calculation
-                              ?.nominator
-                          )}
                         </fieldset>
                       </fieldset>
                     </>

@@ -10,6 +10,7 @@ export default class Tabs extends Component {
       handleOnTabChange,
       handleOnAdd,
       handleOnDelete,
+      errorMessage,
       errorIndexes
     } = this.props;
 
@@ -49,6 +50,7 @@ export default class Tabs extends Component {
           sizeType={Button.SIZE_TYPE.SMALL}
           spacingType={[Button.SPACING_TYPE.OMIT, Button.SPACING_TYPE.SMALL]}
         />
+        <p className="error-message">{errorMessage}</p>
       </div>
     );
   }
@@ -59,5 +61,7 @@ Tabs.propTypes = {
   items: PropTypes.array,
   currentIndex: PropTypes.number,
   handleOnTabChange: PropTypes.func,
-  handleOnAdd: PropTypes.func
+  handleOnAdd: PropTypes.func,
+  handleOnDelete: PropTypes.func,
+  errorMessage: PropTypes.string
 };

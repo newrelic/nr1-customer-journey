@@ -9,19 +9,21 @@ import Tabs from '../tabs';
 import Dropdown from '../../dropdown';
 
 const validationSchema = Yup.object().shape({
-  series: Yup.array().of(
-    Yup.object().shape({
-      label: Yup.string().required('Is required'),
-      nrqlWhere: Yup.string().required('Is required'),
-      altNrql: Yup.object().shape({
-        key: Yup.string(),
-        value: Yup.string().when('key', {
-          is: key => key,
-          then: Yup.string().required('Is required')
+  series: Yup.array()
+    .of(
+      Yup.object().shape({
+        label: Yup.string().required('Is required'),
+        nrqlWhere: Yup.string().required('Is required'),
+        altNrql: Yup.object().shape({
+          key: Yup.string(),
+          value: Yup.string().when('key', {
+            is: key => key,
+            then: Yup.string().required('Is required')
+          })
         })
       })
-    })
-  )
+    )
+    .min(1, 'At least one series must be defined')
 });
 
 const SERIES_OBJECT_TEMPLATE = {
@@ -79,9 +81,14 @@ export default class StepFour extends Component {
             {({ values, errors, setFieldValue, handleSubmit, handleBlur }) => (
               <>
                 <Tabs
-                  errorIndexes={errors.series?.map(
-                    (error, index) => error && index
-                  )}
+                  errorMessage={
+                    !Array.isArray(errors.series) ? errors.series : null
+                  }
+                  errorIndexes={
+                    Array.isArray(errors.series)
+                      ? errors.series?.map((error, index) => error && index)
+                      : null
+                  }
                   currentIndex={currentIndex}
                   items={values.series}
                   handleOnTabChange={this.handleTabChange}

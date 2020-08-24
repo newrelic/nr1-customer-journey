@@ -9,19 +9,21 @@ import Tabs from '../tabs';
 import Dropdown from '../../dropdown';
 
 const validationSchema = Yup.object().shape({
-  steps: Yup.array().of(
-    Yup.object().shape({
-      label: Yup.string().required('Is required'),
-      nrqlWhere: Yup.string().required('Is required'),
-      altNrql: Yup.object().shape({
-        key: Yup.string(),
-        value: Yup.string().when('key', {
-          is: key => key,
-          then: Yup.string().required('Is required')
+  steps: Yup.array()
+    .of(
+      Yup.object().shape({
+        label: Yup.string().required('Is required'),
+        nrqlWhere: Yup.string().required('Is required'),
+        altNrql: Yup.object().shape({
+          key: Yup.string(),
+          value: Yup.string().when('key', {
+            is: key => key,
+            then: Yup.string().required('Is required')
+          })
         })
       })
-    })
-  )
+    )
+    .min(1, 'At least one step must be defined')
 });
 
 const STEP_OBJECT_TEMPLATE = {
@@ -80,9 +82,14 @@ export default class StepThree extends Component {
             {({ values, errors, setFieldValue, handleSubmit, handleBlur }) => (
               <>
                 <Tabs
-                  errorIndexes={errors.steps?.map(
-                    (error, index) => error && index
-                  )}
+                  errorMessage={
+                    !Array.isArray(errors.steps) ? errors.steps : null
+                  }
+                  errorIndexes={
+                    Array.isArray(errors.steps)
+                      ? errors.steps?.map((error, index) => error && index)
+                      : null
+                  }
                   currentIndex={currentIndex}
                   items={values.steps}
                   handleOnTabChange={this.handleTabChange}
