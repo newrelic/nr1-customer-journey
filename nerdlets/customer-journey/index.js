@@ -183,7 +183,9 @@ export default class Wrapper extends React.PureComponent {
       currentJourney: undefined,
       isDeleteJourneyActive: false,
       journeyToBeDeleted: undefined,
-      isProcessing: true
+      isProcessing: true,
+      isDeleting: false,
+      isSaving: false
     };
   }
 
@@ -249,6 +251,7 @@ export default class Wrapper extends React.PureComponent {
   };
 
   handleOnSave = async journey => {
+    this.setState({ isSaving: true });
     const { selectedAccountId } = this.state;
     journey.accountId = selectedAccountId;
     if (!journey.id) {
@@ -266,6 +269,7 @@ export default class Wrapper extends React.PureComponent {
     this.setState({ isFormOpen: false, journeyToBeEdited: undefined });
 
     await this.loadData();
+    this.setState({ isSaving: false });
   };
 
   handleJourneyChange = selectedJourney => {
@@ -300,6 +304,10 @@ export default class Wrapper extends React.PureComponent {
   };
 
   deleteJourney = async () => {
+    this.setState({
+      isDeleting: true
+    });
+
     const { journeyToBeDeleted } = this.state;
 
     await AccountStorageMutation.mutate({
@@ -311,7 +319,8 @@ export default class Wrapper extends React.PureComponent {
 
     this.setState({
       isDeleteJourneyActive: false,
-      journeyToBeDeleted: undefined
+      journeyToBeDeleted: undefined,
+      isDeleting: false
     });
 
     await this.loadData();
@@ -324,7 +333,9 @@ export default class Wrapper extends React.PureComponent {
       currentJourney,
       journeyToBeEdited,
       isDeleteJourneyActive,
-      isProcessing
+      isProcessing,
+      isDeleting,
+      isSaving
     } = this.state;
 
     const journey = journeys.find(journey => journey.id === currentJourney)
@@ -428,6 +439,7 @@ export default class Wrapper extends React.PureComponent {
               type={Button.TYPE.DESTRUCTIVE}
               onClick={this.deleteJourney}
               iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__TRASH}
+              loading={isDeleting}
             >
               Delete
             </Button>
@@ -436,6 +448,7 @@ export default class Wrapper extends React.PureComponent {
             {platformUrlState =>
               isFormOpen ? (
                 <NewJourney
+                  isSaving={isSaving}
                   handleCancel={this.handleCancel}
                   handleOnSave={this.handleOnSave}
                   journey={journeyToBeEdited}

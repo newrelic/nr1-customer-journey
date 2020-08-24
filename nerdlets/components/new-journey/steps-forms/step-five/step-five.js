@@ -68,13 +68,21 @@ export default class StepFive extends Component {
     this.setState({ currentIndex: index });
   };
 
+  handleSave = values => {
+    const { handleOnSave, handleNextClick } = this.props;
+
+    handleNextClick({ kpis: values.kpis });
+    if (handleOnSave) {
+      handleOnSave();
+    }
+  };
+
   render() {
     const {
       currentStep,
       handlePrevClick,
-      handleNextClick,
-      handleOnSave,
-      initialValues
+      initialValues,
+      isSaving
     } = this.props;
 
     const { currentIndex } = this.state;
@@ -87,10 +95,7 @@ export default class StepFive extends Component {
             validationSchema={validationSchema}
             validateOnChange={false}
             onSubmit={values => {
-              handleNextClick({ kpis: values.kpis });
-              if (handleOnSave) {
-                handleOnSave();
-              }
+              this.handleSave(values);
             }}
           >
             {({ values, errors, setFieldValue, handleSubmit, handleBlur }) => (
@@ -207,6 +212,7 @@ export default class StepFive extends Component {
                     currentStep={currentStep}
                     onPrevClick={() => handlePrevClick({ kpis: values.kpis })}
                     onNextClick={handleSubmit}
+                    isSaving={isSaving}
                   />
                 </form>
               </>
@@ -223,5 +229,6 @@ StepFive.propTypes = {
   handlePrevClick: PropTypes.func.isRequired,
   handleNextClick: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
-  handleOnSave: PropTypes.func.isRequired
+  handleOnSave: PropTypes.func.isRequired,
+  isSaving: PropTypes.bool
 };
