@@ -31,10 +31,12 @@ const validationSchema = Yup.object().shape({
         eventName: Yup.string(),
         display: Yup.string().required('Is required'),
         calculation: Yup.object().shape({
-          rate: Yup.array()
-            .of(Yup.string())
-            .min(2)
-            .max(2)
+          nominator: Yup.string(),
+          denominator: Yup.string()
+          // rate: Yup.array()
+          //   .of(Yup.string())
+          //   .min(2)
+          //   .max(2)
         })
       })
     })
@@ -50,7 +52,8 @@ const STAT_OBJECT_TEMPLATE = {
     eventName: undefined,
     display: undefined,
     calculation: {
-      rate: [undefined, undefined]
+      nominator: undefined,
+      denominator: undefined
     }
   }
 };
@@ -72,7 +75,7 @@ export default class StepTwo extends Component {
     return stats.map(stat => {
       if (!stat.value.nrql) delete stat.value.nrql;
       if (!stat.value.eventName) delete stat.value.eventName;
-      if (!stat.value.calculation?.rate[0]) delete stat.value.calculation;
+      if (!stat.value.calculation?.nominator) delete stat.value.calculation;
 
       return stat;
     });
@@ -102,6 +105,8 @@ export default class StepTwo extends Component {
           >
             {({ values, errors, setFieldValue, handleSubmit }) => (
               <>
+                {console.log('StepTwo -> render -> values', values)}
+                {console.log('StepTwo -> render -> errors', errors)}
                 <Tabs
                   errorIndexes={errors.stats?.map(
                     (error, index) => error && index
@@ -112,7 +117,7 @@ export default class StepTwo extends Component {
                   handleOnDelete={index => {
                     const stats = [...values.stats];
                     stats.splice(index, 1);
-                    setFieldValue('values.stats', stats);
+                    setFieldValue('stats', stats);
                     this.setState({
                       currentIndex:
                         currentIndex > 0 ? currentIndex - 1 : currentIndex
@@ -121,7 +126,7 @@ export default class StepTwo extends Component {
                   handleOnAdd={() => {
                     const stats = values.stats;
                     stats.push({ ...STAT_OBJECT_TEMPLATE, id: stats.length });
-                    setFieldValue('values.stats', stats);
+                    setFieldValue('stats', stats);
                     this.setState({ currentIndex: stats.length - 1 });
                   }}
                 />
@@ -232,18 +237,18 @@ export default class StepTwo extends Component {
                               }))}
                             onChange={value =>
                               setFieldValue(
-                                `stats[${currentIndex}].value.calculation.rate[0]`,
+                                `stats[${currentIndex}].value.calculation.nominator`,
                                 value
                               )
                             }
                             value={
                               values.stats[currentIndex]?.value?.calculation
-                                ?.rate[0]
+                                ?.nominator
                             }
                             errorMessage={
                               errors.stats &&
                               errors.stats[currentIndex]?.value?.calculation
-                                ?.rate[0]
+                                ?.nominator
                             }
                           />
                           <Dropdown
@@ -257,18 +262,18 @@ export default class StepTwo extends Component {
                               }))}
                             onChange={value =>
                               setFieldValue(
-                                `stats[${currentIndex}].value.calculation.rate[1]`,
+                                `stats[${currentIndex}].value.calculation.denominator`,
                                 value
                               )
                             }
                             value={
                               values.stats[currentIndex]?.value?.calculation
-                                ?.rate[1]
+                                ?.denominator
                             }
                             errorMessage={
                               errors.stats &&
                               errors.stats[currentIndex]?.value?.calculation
-                                ?.rate[1]
+                                ?.denominator
                             }
                           />
                         </fieldset>

@@ -34,12 +34,13 @@ export default class StepOne extends Component {
               handleNextClick(values);
             }}
           >
-            {({ values, errors, setFieldValue, handleSubmit }) => (
+            {({ values, errors, setFieldValue, handleSubmit, handleBlur }) => (
               <form onSubmit={handleSubmit}>
                 <TextField
                   label="Title"
                   className="text-field"
                   value={values.title}
+                  onBlur={handleBlur}
                   onChange={e => setFieldValue('title', e.target.value)}
                   invalid={errors.title}
                 />
@@ -49,6 +50,7 @@ export default class StepOne extends Component {
                     label="Funnel event"
                     className="text-field"
                     value={values.funnel.event}
+                    onBlur={handleBlur}
                     onChange={e =>
                       setFieldValue('funnel.event', e.target.value)
                     }
@@ -58,6 +60,7 @@ export default class StepOne extends Component {
                     label="Funnel measure"
                     className="text-field"
                     value={values.funnel.measure}
+                    onBlur={handleBlur}
                     onChange={e =>
                       setFieldValue('funnel.measure', e.target.value)
                     }

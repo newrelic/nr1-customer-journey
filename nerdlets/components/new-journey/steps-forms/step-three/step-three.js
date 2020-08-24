@@ -15,7 +15,10 @@ const validationSchema = Yup.object().shape({
       nrqlWhere: Yup.string().required('Is required'),
       altNrql: Yup.object().shape({
         key: Yup.string(),
-        value: Yup.string()
+        value: Yup.string().when('key', {
+          is: '',
+          otherwise: Yup.string().required('Is required')
+        })
       })
     })
   )
@@ -74,7 +77,7 @@ export default class StepThree extends Component {
               handleNextClick({ steps });
             }}
           >
-            {({ values, errors, setFieldValue, handleSubmit }) => (
+            {({ values, errors, setFieldValue, handleSubmit, handleBlur }) => (
               <>
                 <Tabs
                   errorIndexes={errors.steps?.map(
@@ -86,7 +89,7 @@ export default class StepThree extends Component {
                   handleOnDelete={index => {
                     const steps = [...values.steps];
                     steps.splice(index, 1);
-                    setFieldValue('values.steps', steps);
+                    setFieldValue('steps', steps);
                     this.setState({
                       currentIndex:
                         currentIndex > 0 ? currentIndex - 1 : currentIndex
@@ -95,7 +98,7 @@ export default class StepThree extends Component {
                   handleOnAdd={() => {
                     const steps = values.steps;
                     steps.push({ ...STEP_OBJECT_TEMPLATE, id: steps.length });
-                    setFieldValue('values.steps', steps);
+                    setFieldValue('steps', steps);
                     this.setState({ currentIndex: steps.length - 1 });
                   }}
                 />
@@ -113,6 +116,7 @@ export default class StepThree extends Component {
                             e.target.value
                           )
                         }
+                        onBlur={handleBlur}
                         invalid={
                           errors.steps && errors.steps[currentIndex]?.label
                         }
@@ -127,6 +131,7 @@ export default class StepThree extends Component {
                             e.target.value
                           )
                         }
+                        onBlur={handleBlur}
                         invalid={
                           errors.steps && errors.steps[currentIndex]?.nrqlWhere
                         }
@@ -158,12 +163,14 @@ export default class StepThree extends Component {
                           label="Value"
                           style={{ marginBottom: '16px' }}
                           value={values.steps[currentIndex].altNrql?.value}
+                          disabled={!values.steps[currentIndex].altNrql?.key}
                           onChange={e =>
                             setFieldValue(
                               `steps[${currentIndex}].altNrql.value`,
                               e.target.value
                             )
                           }
+                          onBlur={handleBlur}
                           invalid={
                             errors.steps &&
                             errors.steps[currentIndex]?.altNrql?.value

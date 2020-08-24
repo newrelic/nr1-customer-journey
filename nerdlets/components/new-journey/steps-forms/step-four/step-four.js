@@ -72,7 +72,7 @@ export default class StepFour extends Component {
               handleNextClick({ series: values.series });
             }}
           >
-            {({ values, errors, setFieldValue, handleSubmit }) => (
+            {({ values, errors, setFieldValue, handleSubmit, handleBlur }) => (
               <>
                 <Tabs
                   errorIndexes={errors.series?.map(
@@ -84,7 +84,7 @@ export default class StepFour extends Component {
                   handleOnDelete={index => {
                     const series = [...values.series];
                     series.splice(index, 1);
-                    setFieldValue('values.series', series);
+                    setFieldValue('series', series);
                     this.setState({
                       currentIndex:
                         currentIndex > 0 ? currentIndex - 1 : currentIndex
@@ -96,7 +96,7 @@ export default class StepFour extends Component {
                       ...SERIES_OBJECT_TEMPLATE,
                       id: series.length
                     });
-                    setFieldValue('values.series', series);
+                    setFieldValue('series', series);
                     this.setState({ currentIndex: series.length - 1 });
                   }}
                 />
@@ -113,6 +113,7 @@ export default class StepFour extends Component {
                             e.target.value
                           )
                         }
+                        onBlur={handleBlur}
                         invalid={
                           errors.series && errors.series[currentIndex]?.label
                         }
@@ -127,6 +128,7 @@ export default class StepFour extends Component {
                             e.target.value
                           )
                         }
+                        onBlur={handleBlur}
                         invalid={
                           errors.series &&
                           errors.series[currentIndex]?.nrqlWhere
@@ -165,6 +167,7 @@ export default class StepFour extends Component {
                               e.target.value
                             )
                           }
+                          onBlur={handleBlur}
                           invalid={
                             errors.series &&
                             errors.series[currentIndex]?.altNrql.value

@@ -91,7 +91,7 @@ export default class StepFive extends Component {
               }
             }}
           >
-            {({ values, errors, setFieldValue, handleSubmit }) => (
+            {({ values, errors, setFieldValue, handleSubmit, handleBlur }) => (
               <>
                 <Tabs
                   errorIndexes={errors.kpis?.map(
@@ -103,7 +103,7 @@ export default class StepFive extends Component {
                   handleOnDelete={index => {
                     const kpis = [...values.kpis];
                     kpis.splice(index, 1);
-                    setFieldValue('values.kpis', kpis);
+                    setFieldValue('kpis', kpis);
                     this.setState({
                       currentIndex:
                         currentIndex > 0 ? currentIndex - 1 : currentIndex
@@ -112,7 +112,7 @@ export default class StepFive extends Component {
                   handleOnAdd={() => {
                     const kpis = values.kpis;
                     kpis.push(KPI_OBJECT_TEMPLATE);
-                    setFieldValue('values.kpis', kpis);
+                    setFieldValue('kpis', kpis);
                     this.setState({ currentIndex: kpis.length - 1 });
                   }}
                 />
@@ -129,6 +129,7 @@ export default class StepFive extends Component {
                             e.target.value
                           )
                         }
+                        onBlur={handleBlur}
                         invalid={
                           errors.kpis && errors.kpis[currentIndex]?.label
                         }
@@ -158,6 +159,7 @@ export default class StepFive extends Component {
                             e.target.value
                           )
                         }
+                        onBlur={handleBlur}
                         invalid={
                           errors.kpis && errors.kpis[currentIndex]?.value
                         }
@@ -185,6 +187,7 @@ export default class StepFive extends Component {
                             e.target.value
                           )
                         }
+                        onBlur={handleBlur}
                         invalid={
                           errors.kpis && errors.kpis[currentIndex]?.description
                         }

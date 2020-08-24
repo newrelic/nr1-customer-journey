@@ -166,13 +166,16 @@ export default class StatCell extends React.Component {
                 {stats
                   .filter(s => s.value.calculation)
                   .map((stat, i) => {
-                    const { rate } = stat.value.calculation;
+                    const {
+                      nominator: nominatorField,
+                      denominator: denominatorField
+                    } = stat.value.calculation;
                     const kpi = kpis
                       ? kpis.find(kpi => kpi.ref === stat.ref)
                       : null;
                     // debugger;
-                    const numerator = values[rate[0]];
-                    const denominator = values[rate[1]];
+                    const numerator = values[nominatorField];
+                    const denominator = values[denominatorField];
                     let value = null;
                     if (denominator) {
                       value = numerator / denominator;
