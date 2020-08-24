@@ -46,12 +46,12 @@ const validationSchema = Yup.object().shape({
 
 const STAT_OBJECT_TEMPLATE = {
   label: 'New stat',
-  ref: undefined,
-  type: undefined,
+  ref: '',
+  type: '',
   value: {
-    nrql: undefined,
-    eventName: undefined,
-    display: undefined,
+    nrql: '',
+    eventName: '',
+    display: '',
     calculation: {
       nominator: '',
       denominator: ''

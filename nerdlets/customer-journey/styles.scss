@@ -43,7 +43,7 @@ body {
   position: sticky;
   top: 0;
   overflow: auto;
-  min-width: 300px;
+  min-width: 350px;
   max-width: 400px;
   background-color: white;
   border-right: 1px solid #EDEEEE;
@@ -86,7 +86,7 @@ body {
     }
 
     &__journey-title {
-      max-width: 200px;
+      max-width: 175px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;

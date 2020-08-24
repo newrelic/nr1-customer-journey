@@ -32,27 +32,25 @@ const BOUND = [
 ];
 
 const validationSchema = Yup.object().shape({
-  kpis: Yup.array()
-    .of(
-      Yup.object().shape({
-        label: Yup.string().required('Is required'),
-        ref: Yup.string().required('Is required'),
-        value: Yup.number()
-          .typeError('Must be a number')
-          .required('Is required'),
-        bound: Yup.string().required('Is required'),
-        description: Yup.string()
-      })
-    )
-    .min(1, 'At least one KPI must be defined')
+  kpis: Yup.array().of(
+    Yup.object().shape({
+      label: Yup.string().required('Is required'),
+      ref: Yup.string().required('Is required'),
+      value: Yup.number()
+        .typeError('Must be a number')
+        .required('Is required'),
+      bound: Yup.string().required('Is required'),
+      description: Yup.string()
+    })
+  )
 });
 
 const KPI_OBJECT_TEMPLATE = {
   label: 'New KPI',
-  ref: undefined,
-  value: undefined,
-  bound: undefined,
-  description: undefined
+  ref: '',
+  value: '',
+  bound: '',
+  description: ''
 };
 
 export default class StepFive extends Component {
@@ -101,14 +99,9 @@ export default class StepFive extends Component {
             {({ values, errors, setFieldValue, handleSubmit, handleBlur }) => (
               <>
                 <Tabs
-                  errorMessage={
-                    !Array.isArray(errors.kpis) ? errors.kpis : null
-                  }
-                  errorIndexes={
-                    Array.isArray(errors.kpis)
-                      ? errors.kpis?.map((error, index) => error && index)
-                      : null
-                  }
+                  errorIndexes={errors.kpis?.map(
+                    (error, index) => error && index
+                  )}
                   currentIndex={currentIndex}
                   items={values.kpis}
                   handleOnTabChange={this.handleTabChange}

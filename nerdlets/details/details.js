@@ -17,11 +17,6 @@ export default class Details extends React.Component {
     nerdletUrlState: PropTypes.object.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    // console.debug("Journey Details", props);
-  }
-
   render() {
     const { platformUrlState, nerdletUrlState } = this.props;
     const sinceStatement = timeRangeToNrql(platformUrlState);
@@ -31,10 +26,11 @@ export default class Details extends React.Component {
     const column = journey.series.find(s => s.id === selectedColumn);
     const step = journey.steps.find(s => s.id === selectedStep);
     let { stats, kpis } = journey;
-    // debugger;
+
     stats = stats.filter(s => {
       return s.value.nrql;
     });
+
     if (kpis) {
       kpis = kpis
         .filter(kpi => stats.find(s => s.ref === kpi.ref))

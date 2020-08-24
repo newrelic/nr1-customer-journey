@@ -96,7 +96,9 @@ export default class Wrapper extends React.PureComponent {
 
   handleOnSave = async journey => {
     this.setState({ isSaving: true });
+
     const { selectedAccountId } = this.state;
+
     journey.accountId = selectedAccountId;
     if (!journey.id) {
       journey.id = uuidv4();
@@ -110,10 +112,18 @@ export default class Wrapper extends React.PureComponent {
       document: journey
     });
 
-    this.setState({ isFormOpen: false, journeyToBeEdited: undefined });
+    this.setState({
+      isFormOpen: false,
+      journeyToBeEdited: undefined,
+      currentJourney: null
+    });
 
     await this.loadData();
-    this.setState({ isSaving: false });
+
+    this.setState({
+      isSaving: false,
+      currentJourney: journey.id
+    });
   };
 
   handleJourneyChange = selectedJourney => {
@@ -164,10 +174,16 @@ export default class Wrapper extends React.PureComponent {
     this.setState({
       isDeleteJourneyActive: false,
       journeyToBeDeleted: undefined,
-      isDeleting: false
+      isDeleting: false,
+      currentJourney: undefined
     });
 
     await this.loadData();
+
+    this.setState(prevState => ({
+      currentJourney:
+        prevState.journeys.length > 0 ? prevState.journeys[0].id : undefined
+    }));
   };
 
   render() {
