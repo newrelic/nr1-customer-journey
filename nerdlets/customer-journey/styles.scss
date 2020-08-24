@@ -104,7 +104,7 @@ body {
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 
-  .button {
+  .tab {
 		position: relative;
     display: inline-flex;
     justify-content: center;
@@ -114,7 +114,7 @@ body {
 		cursor: pointer;
 
     &:hover {
-      .button__delete {
+      .tab__delete {
         > span {
 					display: block;
 				}
@@ -141,8 +141,8 @@ body {
 		}
 
     &--error {
-      > button {
-        color: red;
+      > .tab__name {
+        color: #E56059;
       }
     }
 
@@ -152,7 +152,7 @@ body {
       align-items: center;
       border: 1px solid transparent;
       border-radius: 50%;
-      color: red;
+      color: #E56059;
 			margin-left: 5px;
       height: 16px;
       width: 16px;
@@ -164,7 +164,7 @@ body {
 			}
 
       &:hover {
-        background: red;
+        background: #E56059;
         color: white;
         cursor: pointer;
       }

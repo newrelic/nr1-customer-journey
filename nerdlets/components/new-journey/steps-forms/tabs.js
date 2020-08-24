@@ -17,28 +17,22 @@ export default class Tabs extends Component {
     return (
       <div className="tabs-container">
         {items.map(({ label }, index) => {
-          let buttonStyle = 'button';
+          let tabStyle = 'tab';
 
           if (errorIndexes?.includes(index)) {
-            buttonStyle = `${buttonStyle} button--error`;
+            tabStyle = `${tabStyle} tab--error`;
           }
 
           if (currentIndex === index) {
-            buttonStyle = `${buttonStyle} button--active`;
+            tabStyle = `${tabStyle} tab--active`;
           }
 
           return (
-            <div className={buttonStyle} key={index}>
-              <p
-                className="button__name"
-                onClick={() => handleOnTabChange(index)}
-              >
+            <div className={tabStyle} key={index}>
+              <p className="tab__name" onClick={() => handleOnTabChange(index)}>
                 {label}
               </p>
-              <p
-                className="button__delete"
-                onClick={() => handleOnDelete(index)}
-              >
+              <p className="tab__delete" onClick={() => handleOnDelete(index)}>
                 <span>&times;</span>
               </p>
             </div>
