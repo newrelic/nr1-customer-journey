@@ -16,33 +16,34 @@ export default class Tabs extends Component {
 
     return (
       <div className="tabs-container">
-        {items.map(({ label }, index) => (
-          <div
-            className={`button ${
-              errorIndexes?.includes(index) ? 'button--error' : ''
-            }`}
-            key={index}
-          >
-            <Button
-              onClick={() => handleOnTabChange(index)}
-              sizeType={Button.SIZE_TYPE.SMALL}
-              type={
-                currentIndex === index
-                  ? Button.TYPE.NORMAL
-                  : Button.TYPE.PLAIN_NEUTRAL
-              }
-              spacingType={[
-                Button.SPACING_TYPE.SMALL,
-                Button.SPACING_TYPE.SMALL
-              ]}
-            >
-              {label}
-            </Button>
-            <p className="button__delete" onClick={() => handleOnDelete(index)}>
-              <span>&times;</span>
-            </p>
-          </div>
-        ))}
+        {items.map(({ label }, index) => {
+          let buttonStyle = 'button';
+
+          if (errorIndexes?.includes(index)) {
+            buttonStyle = `${buttonStyle} button--error`;
+          }
+
+          if (currentIndex === index) {
+            buttonStyle = `${buttonStyle} button--active`;
+          }
+
+          return (
+            <div className={buttonStyle} key={index}>
+              <p
+                className="button__name"
+                onClick={() => handleOnTabChange(index)}
+              >
+                {label}
+              </p>
+              <p
+                className="button__delete"
+                onClick={() => handleOnDelete(index)}
+              >
+                <span>&times;</span>
+              </p>
+            </div>
+          );
+        })}
         <Button
           onClick={handleOnAdd}
           type={Button.TYPE.PLAIN_NEUTRAL}

@@ -84,24 +84,61 @@ body {
 }
 
 .tabs-container {
+	position: relative;
   margin: 10px 0 25px;
-  border-bottom: 1px solid #edeeee;
-  padding-bottom: 5px;
+	border-bottom: 1px solid #edeeee;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	display: flex;
+	overflow-x: auto;
+	align-items: center;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	-webkit-mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
 
   .button {
+		position: relative;
     display: inline-flex;
     justify-content: center;
-    align-items: center;
+		align-items: flex-end;
+		margin-right: 10px;
+		padding-left: 16px;
+		cursor: pointer;
 
     &:hover {
       .button__delete {
-        border: 1px solid red;
-        margin-left: 0;
         > span {
-          display: block;
-        }
+					display: block;
+				}
       }
-    }
+		}
+		
+		&__name {
+			white-space: nowrap;
+		}
+
+		&--active {
+			color: black;
+
+			&:after {
+				content: '';
+				position: absolute;
+				left: 0;
+				bottom: -8px;
+				right: 0;
+				height: 1px;
+				background: black;
+
+			}
+		}
 
     &--error {
       > button {
@@ -116,15 +153,15 @@ body {
       border: 1px solid transparent;
       border-radius: 50%;
       color: red;
-      margin-left: -16px;
+			margin-left: 5px;
       height: 16px;
       width: 16px;
       font-size: 12px;
-      transition: .2s;
+			transition: .2s;
 
-      > span {
-        display: none;
-      }
+			> span {
+				display: none;
+			}
 
       &:hover {
         background: red;
