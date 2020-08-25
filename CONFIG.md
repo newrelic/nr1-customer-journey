@@ -1,6 +1,6 @@
 # Journey configuration
 
-The `journey configuration` is an array of objects that contain the following. See the [`examples`](examples) directory for more... examples.
+The `journey configuration` is an array of objects that contain the following. See the [`examples`](examples) directory for more... examples of the files. Configuration is stored in `AccountStorage`.
 
 | Name | Valid Values | Required by Parent | Description |
 |---|---|---|---|
@@ -20,11 +20,16 @@ The `journey configuration` is an array of objects that contain the following. S
 | series[].id | numeric or uuid | true | Unique identifier. |
 | series[].label | string | true | Label/name of the series. |
 | series[].nrqlWhere | string | true | NRQL WHERE clause that defines this series / cohort. |
+| series[].altNrql | JS Object | dependent on Stat configuration | A JS Object keyed by the name of an NRDB event. This data allows Stats to be configured (below in the `stats` array) that do not come from the primary  NRDB event. For instance, if you're calculating Error Rate, you might need to consult the `JavaScriptError` event, even though much of the funnel focuses on an event like `PageView`. See the [examples](examples) for further interrogation. |
+| series[].altNrql.key | string | false | Refers to `stats[].value.eventName` which is NRDB event. |
+| series[].altNrql.value | string | false | NRQL fragment used in WHERE clause. |
 | steps | JS Array of Objects | true | The set of rows that comprise the `NRQL` Where clauses of the funnel query. |
 | steps[].id | numeric or uuid | true | Unique identifier. |
 | steps[].label | string | true | Label/name of the step. |
 | steps[].nrqlWhere | string | true | NRQL WHERE clause that defines this step. |
 | steps[].altNrql | JS Object | dependent on Stat configuration | A JS Object keyed by the name of an NRDB event. This data allows Stats to be configured (below in the `stats` array) that do not come from the primary  NRDB event. For instance, if you're calculating Error Rate, you might need to consult the `JavaScriptError` event, even though much of the funnel focuses on an event like `PageView`. See the [examples](examples) for further interrogation. |
+| steps[].altNrql.key | string | false | Refers to `stats[].value.eventName` which is NRDB event. |
+| steps[].altNrql.value | string | false | NRQL fragment used in WHERE clause. |
 | stats | JS Array of Objects | true | The individual measures for a given column (Series) and row (Step). |
 | stats[].id | numeric or uuid | true | Unique identifier |
 | stats[].ref | string | true | Think of this like the variable name for use through the application in things like the calculations feature. As such, it need to be unique within a given journey. |
@@ -34,8 +39,9 @@ The `journey configuration` is an array of objects that contain the following. S
 | stats[].value.nrql | string | false | Full NRQL statement to calculate a single value. |
 | stats[].value.eventName | string | false | If this measure/stat is based on a different NRDB event then the one defined in funnel.event, this is where we declare that. This information is used to append the needed WHERE clauses from the `series` and `steps` to this stat. |
 | stats[].value.display | [integer, seconds, percentage] | true | How should the output be formatted. |
-| stats[].value.calculation | JS Object | false | If this Stat is a calculation - the mathematical result of two other stat values - this is where the rules for that calculation will be defined. |
-| stats[].value.calculation.rate | JS Array of 2 strings referencing other `stats[].ref` values for a calculation. | true | `rate` implies that the first `ref` value in the array will be devided by the second `ref` value in the array. |
+| stats[].value.calculation | JS Object | false | If this Stat is a calculation - the mathematical result of two other stat values - this is where the rules for that calculation will be defined. First `ref (nominator)` value will be divided by the second `ref (denominator)` value. |
+| stats[].value.calculation.nominator | string | false | Refers to `stats[].ref` and is a nominator |
+| stats[].value.calculation.denominator | string | false | Refers to `stats[].ref` and is a denominator |
 
 ## About kpis
 

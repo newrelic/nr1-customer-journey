@@ -37,7 +37,8 @@ const journeyConfig = [
         label: 'All Users',
         nrqlWhere: "appName = 'Alerting UI - Production'",
         altNrql: {
-          JavaScriptError: " appName = 'Alerting UI - Production' "
+          key: 'JavaScriptError',
+          value: " appName = 'Alerting UI - Production' "
         }
       },
       {
@@ -52,7 +53,8 @@ const journeyConfig = [
         nrqlWhere:
           " appName = 'Alerting UI - Production' and userAgentName = 'Firefox' ",
         altNrql: {
-          JavaScriptError:
+          key: 'JavaScriptError',
+          value:
             " appName = 'Alerting UI - Production' and userAgentName = 'Firefox' "
         }
       }
@@ -63,7 +65,8 @@ const journeyConfig = [
         label: 'Accounts',
         nrqlWhere: "pageUrl like 'https://alerts.newrelic.com/accounts/%'",
         altNrql: {
-          JavaScriptError: " requestUri like '/accounts/%' "
+          key: 'JavaScriptError',
+          value: " requestUri like '/accounts/%' "
         }
       },
       {
@@ -72,7 +75,8 @@ const journeyConfig = [
         nrqlWhere:
           "pageUrl like 'https://alerts.newrelic.com/accounts/%/incidents'",
         altNrql: {
-          JavaScriptError: " requestUri like '/accounts/%/incidents' "
+          key: 'JavaScriptError',
+          value: " requestUri like '/accounts/%/incidents' "
         }
       },
       {
@@ -81,7 +85,8 @@ const journeyConfig = [
         nrqlWhere:
           "pageUrl = 'https://alerts.newrelic.com/accounts/1351150/incidents/%'",
         altNrql: {
-          JavaScriptError: " requestUri like '/accounts/%/incidents/%%' "
+          key: 'JavaScriptError',
+          value: " requestUri like '/accounts/%/incidents/%%' "
         }
       }
     ],
@@ -122,7 +127,10 @@ const journeyConfig = [
         ref: 'errorRate',
         type: 'decimal',
         value: {
-          calculation: { rate: ['errorCount', 'clickCount'] },
+          calculation: {
+            nominator: 'errorCount',
+            denominator: 'clickCount'
+          },
           display: 'percentage'
         }
       },

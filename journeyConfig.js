@@ -132,7 +132,10 @@ const journeyConfig = [
         ref: 'errorRate',
         type: 'decimal',
         value: {
-          calculation: { rate: ['errorCount', 'clickCount'] },
+          calculation: {
+            nominator: 'errorCount',
+            denominator: 'clickCount'
+          },
           display: 'percentage'
         }
       },
@@ -268,7 +271,10 @@ const journeyConfig = [
         ref: 'errorRate',
         type: 'decimal',
         value: {
-          calculation: { rate: ['errorCount', 'clickCount'] },
+          calculation: {
+            nominator: 'errorCount',
+            denominator: 'clickCount'
+          },
           display: 'percentage'
         }
       },

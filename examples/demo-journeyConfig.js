@@ -49,7 +49,8 @@ const journeyConfig = [
         nrqlWhere:
           "pageUrl = 'http://webportal.telco.nrdemo.com/' OR pageUrl = 'http://webportal.telco.nrdemo.com/index.html'",
         altNrql: {
-          JavaScriptError: " requestUri = '/' or requestUri = '/index.html' "
+          key: 'JavaScriptError',
+          value: " requestUri = '/' or requestUri = '/index.html' "
         }
       },
       {
@@ -58,7 +59,8 @@ const journeyConfig = [
         nrqlWhere:
           "pageUrl like 'http://webportal.telco.nrdemo.com/browse/plans%'",
         altNrql: {
-          JavaScriptError: " requestUri like '/browse/plans%' "
+          key: 'JavaScriptError',
+          value: " requestUri like '/browse/plans%' "
         }
       },
       {
@@ -66,7 +68,8 @@ const journeyConfig = [
         label: 'Cart',
         nrqlWhere: "pageUrl = 'http://webportal.telco.nrdemo.com/shoppingcart'",
         altNrql: {
-          JavaScriptError: " requestUri like '/shoppingcart%' "
+          key: 'JavaScriptError',
+          value: " requestUri like '/shoppingcart%' "
         }
       },
       {
@@ -74,7 +77,8 @@ const journeyConfig = [
         label: 'Checkout',
         nrqlWhere: "pageUrl = 'http://webportal.telco.nrdemo.com/checkout'",
         altNrql: {
-          JavaScriptError: " requestUri like '/checkout%' "
+          key: 'JavaScriptError',
+          value: " requestUri like '/checkout%' "
         }
       }
     ],
@@ -104,7 +108,10 @@ const journeyConfig = [
         ref: 'errorRate',
         type: 'decimal',
         value: {
-          calculation: { rate: ['errorCount', 'clickCount'] },
+          calculation: {
+            nominator: 'errorCount',
+            denominator: 'clickCount'
+          },
           display: 'percentage'
         }
       },
