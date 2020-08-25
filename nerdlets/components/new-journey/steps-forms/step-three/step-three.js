@@ -8,6 +8,9 @@ import StepsPilot from '../../steps-pilot';
 import Tabs from '../tabs';
 import Dropdown from '../../dropdown';
 
+const stepThreeDescription =
+  'The set of rows that comprise the NRQL Where clauses of the funnel query.';
+
 const validationSchema = Yup.object().shape({
   steps: Yup.array()
     .of(
@@ -68,7 +71,7 @@ export default class StepThree extends Component {
     const { currentIndex } = this.state;
 
     return (
-      <StepForm title="Steps">
+      <StepForm title="Steps" description={stepThreeDescription}>
         <div style={{ width: '50%' }}>
           <Formik
             initialValues={initialValues}
