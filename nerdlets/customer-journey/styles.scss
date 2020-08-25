@@ -96,6 +96,12 @@ body {
 
 }
 
+.tabs {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
 .tabs-container {
 	position: relative;
   margin: 10px 0 25px;
@@ -145,7 +151,7 @@ body {
 				content: '';
 				position: absolute;
 				left: 0;
-				bottom: -8px;
+				bottom: -5px;
 				right: 0;
 				height: 1px;
 				background: black;

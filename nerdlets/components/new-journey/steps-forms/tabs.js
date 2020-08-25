@@ -15,37 +15,48 @@ export default class Tabs extends Component {
     } = this.props;
 
     return (
-      <div className="tabs-container">
-        {items.map(({ label }, index) => {
-          let tabStyle = 'tab';
+      <div className="tabs">
+        <div className="tabs-container">
+          {items.map(({ label }, index) => {
+            let tabStyle = 'tab';
 
-          if (errorIndexes?.includes(index)) {
-            tabStyle = `${tabStyle} tab--error`;
-          }
+            if (errorIndexes?.includes(index)) {
+              tabStyle = `${tabStyle} tab--error`;
+            }
 
-          if (currentIndex === index) {
-            tabStyle = `${tabStyle} tab--active`;
-          }
+            if (currentIndex === index) {
+              tabStyle = `${tabStyle} tab--active`;
+            }
 
-          return (
-            <div className={tabStyle} key={index}>
-              <p className="tab__name" onClick={() => handleOnTabChange(index)}>
-                {label}
-              </p>
-              <p className="tab__delete" onClick={() => handleOnDelete(index)}>
-                <span>&times;</span>
-              </p>
-            </div>
-          );
-        })}
+            return (
+              <div className={tabStyle} key={index}>
+                <p
+                  className="tab__name"
+                  onClick={() => handleOnTabChange(index)}
+                >
+                  {label}
+                </p>
+                <p
+                  className="tab__delete"
+                  onClick={() => handleOnDelete(index)}
+                >
+                  <span>&times;</span>
+                </p>
+              </div>
+            );
+          })}
+          <p className="error-message">{errorMessage}</p>
+        </div>
         <Button
+          style={{ margin: '10px 0 25px 10px', minWidth: '85px' }}
           onClick={handleOnAdd}
           type={Button.TYPE.PLAIN_NEUTRAL}
           iconType={Button.ICON_TYPE.DOCUMENTS__DOCUMENTS__FILE__A_ADD}
           sizeType={Button.SIZE_TYPE.SMALL}
           spacingType={[Button.SPACING_TYPE.OMIT, Button.SPACING_TYPE.SMALL]}
-        />
-        <p className="error-message">{errorMessage}</p>
+        >
+          Add new
+        </Button>
       </div>
     );
   }
