@@ -204,7 +204,9 @@ export default class Wrapper extends React.PureComponent {
 
     let mainContainerStyle = 'main-container';
     let content = null;
-    if (isFormOpen) {
+    if (isProcessing) {
+      content = <Spinner />;
+    } else if (isFormOpen) {
       mainContainerStyle = `${mainContainerStyle} main-container--form-open`;
       content = (
         <NewJourney
