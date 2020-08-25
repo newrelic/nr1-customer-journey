@@ -8,6 +8,9 @@ import Dropdown from '../../dropdown';
 import StepsPilot from '../../steps-pilot';
 import Tabs from '../tabs';
 
+const stepFiveDescription =
+  'List of performance measurements tied to the stats array by the ref value.';
+
 const BOUND = [
   {
     label: 'Higher Violation',
@@ -86,7 +89,7 @@ export default class StepFive extends Component {
     const { currentIndex } = this.state;
 
     return (
-      <StepForm title="KPIs">
+      <StepForm title="KPIs" description={stepFiveDescription}>
         <div style={{ width: '50%' }}>
           <Formik
             initialValues={initialValues}

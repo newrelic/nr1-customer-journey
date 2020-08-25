@@ -8,6 +8,9 @@ import StepsPilot from '../../steps-pilot';
 import Tabs from '../tabs';
 import Dropdown from '../../dropdown';
 
+const stepTwoDescription =
+  'The individual measures for a given column (Series) and row (Step).';
+
 const STATS_TYPE = [
   { label: 'Decimal', value: 'decimal' },
   { label: 'Integer', value: 'integer' },
@@ -93,7 +96,7 @@ export default class StepTwo extends Component {
     const { currentIndex } = this.state;
 
     return (
-      <StepForm title="Stats">
+      <StepForm title="Stats" description={stepTwoDescription}>
         <div style={{ width: '50%' }}>
           <Formik
             initialValues={initialValues}

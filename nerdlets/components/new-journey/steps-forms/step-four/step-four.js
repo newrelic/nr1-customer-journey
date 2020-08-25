@@ -8,6 +8,9 @@ import StepsPilot from '../../steps-pilot';
 import Tabs from '../tabs';
 import Dropdown from '../../dropdown';
 
+const stepFourDescription =
+  'The series of columns (or cohorts) that are to be compared with one another in the rows (steps) of the visualization.';
+
 const validationSchema = Yup.object().shape({
   series: Yup.array()
     .of(
@@ -68,7 +71,7 @@ export default class StepFour extends Component {
     const { currentIndex } = this.state;
 
     return (
-      <StepForm title="Series">
+      <StepForm title="Series" description={stepFourDescription}>
         <div style={{ width: '50%' }}>
           <Formik
             initialValues={initialValues}
