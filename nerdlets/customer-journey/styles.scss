@@ -99,17 +99,17 @@ body {
 
 .tabs {
 	display: flex;
-	justify-content: flex-start;
 	align-items: center;
-	margin-top: 20px;
+  margin-top: 20px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #edeeee;
+  justify-content: space-between;
 }
 
 .tabs-container {
-	position: relative;
-  margin: 10px 0 25px;
-	border-bottom: 1px solid #edeeee;
+  position: relative;
+  padding-bottom: 8px;
 	padding-top: 5px;
-	padding-bottom: 5px;
 	display: flex;
 	overflow-x: auto;
 	align-items: center;
@@ -153,7 +153,7 @@ body {
 				content: '';
 				position: absolute;
 				left: 0;
-				bottom: -5px;
+				bottom: -8px;
 				right: 0;
 				height: 1px;
 				background: black;

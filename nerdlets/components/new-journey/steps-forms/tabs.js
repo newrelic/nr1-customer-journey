@@ -48,7 +48,7 @@ export default class Tabs extends Component {
           <p className="error-message">{errorMessage}</p>
         </div>
         <Button
-          style={{ margin: '10px 0 25px 10px', minWidth: '85px' }}
+          style={{ marginLeft: '25px', minWidth: '85px' }}
           onClick={handleOnAdd}
           type={Button.TYPE.PLAIN_NEUTRAL}
           iconType={Button.ICON_TYPE.DOCUMENTS__DOCUMENTS__FILE__A_ADD}
