@@ -8,6 +8,7 @@ import {
   Modal,
   Spinner
 } from 'nr1';
+import { EmptyState } from '@newrelic/nr1-community';
 import StatColumn from './StatColumn';
 import { FunnelComponent } from 'nr1-funnel-component';
 import NewJourney from '../components/new-journey/new-journey';
@@ -202,9 +203,35 @@ export default class Wrapper extends React.PureComponent {
       ?.document;
 
     let mainContainerStyle = 'main-container';
-
+    let content = null;
     if (isFormOpen) {
       mainContainerStyle = `${mainContainerStyle} main-container--form-open`;
+      content = (
+        <NewJourney
+          isSaving={isSaving}
+          handleCancel={this.handleCancel}
+          handleOnSave={this.handleOnSave}
+          journey={journeyToBeEdited}
+        />
+      );
+    } else if (journeys.length === 0) {
+      content = (
+        <EmptyState
+          buttonText="Add new Journey"
+          buttonOnClick={this.handleFormOpen}
+          heading="No Journeys configured"
+          description="It looks like no Journeys have been defined. To get started,
+          define a Journey using the button below and follow the instructions."
+        />
+      );
+    } else if (!journey) {
+      content = (
+        <EmptyState
+          buttonText=""
+          heading="No Journey selected"
+          description="Select Journey from left panel to get started."
+        />
+      );
     }
 
     return (
@@ -314,43 +341,34 @@ export default class Wrapper extends React.PureComponent {
           </Modal>
           <PlatformStateContext.Consumer>
             {platformUrlState =>
-              isFormOpen ? (
-                <NewJourney
-                  isSaving={isSaving}
-                  handleCancel={this.handleCancel}
-                  handleOnSave={this.handleOnSave}
-                  journey={journeyToBeEdited}
-                />
-              ) : (
-                journey && (
-                  <div className="journey-container">
-                    <div className="customerJourneyContent">
-                      <div className="visualizationContainer">
-                        <h3 className="columnHeader">Click Rate</h3>
-                        <div
-                          className={`statCell visualizationCell ${this.renderStepsClass(
-                            journey
-                          )}`}
-                        >
-                          <FunnelComponent
-                            launcherUrlState={platformUrlState}
-                            {...journey}
-                          />
-                        </div>
+              content || (
+                <div className="journey-container">
+                  <div className="customerJourneyContent">
+                    <div className="visualizationContainer">
+                      <h3 className="columnHeader">Click Rate</h3>
+                      <div
+                        className={`statCell visualizationCell ${this.renderStepsClass(
+                          journey
+                        )}`}
+                      >
+                        <FunnelComponent
+                          launcherUrlState={platformUrlState}
+                          {...journey}
+                        />
                       </div>
-                      {journey.series.map((series, i) => {
-                        return (
-                          <StatColumn
-                            key={i}
-                            column={series}
-                            config={journey}
-                            platformUrlState={platformUrlState}
-                          />
-                        );
-                      })}
                     </div>
+                    {journey.series.map((series, i) => {
+                      return (
+                        <StatColumn
+                          key={i}
+                          column={series}
+                          config={journey}
+                          platformUrlState={platformUrlState}
+                        />
+                      );
+                    })}
                   </div>
-                )
+                </div>
               )
             }
           </PlatformStateContext.Consumer>
