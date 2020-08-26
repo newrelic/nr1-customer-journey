@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DataPoint from './DataPoint';
 import { NerdGraphQuery, navigation } from 'nr1';
-import { get, has } from 'lodash';
+import get from 'lodash.get';
+import has from 'lodash.has';
 import { timeRangeToNrql, NerdGraphError } from '@newrelic/nr1-community';
 
 function getValue(rs) {

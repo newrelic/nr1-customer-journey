@@ -14,13 +14,13 @@
   },
   "dependencies": {
     "@newrelic/nr1-community": "^1.2.0",
-    "babel-runtime": "^6.26.0",
     "formik": "^1.5.8",
-    "lodash": "^4.17.16",
+    "lodash.get": "^4.4.2",
+    "lodash.has": "^4.5.2",
     "nr1-funnel-component": "github:newrelic/nr1-funnel-component",
     "prop-types": "^15.6.2",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
+    "react": "16.6.3",
+    "react-dom": "16.6.3",
     "uuid": "^8.3.0",
     "yup": "^0.29.3"
   },
