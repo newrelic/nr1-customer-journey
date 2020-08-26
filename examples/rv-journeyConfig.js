@@ -120,7 +120,7 @@ const journeyConfig = [
         type: 'decimal',
         value: {
           calculation: {
-            nominator: 'errorCount',
+            numerator: 'errorCount',
             denominator: 'transactionCount'
           },
           display: 'percentage'

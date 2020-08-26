@@ -39,8 +39,8 @@ The `journey configuration` is an array of objects that contain the following. S
 | stats[].value.nrql | string | false | Full NRQL statement to calculate a single value. |
 | stats[].value.eventName | string | false | If this measure/stat is based on a different NRDB event then the one defined in funnel.event, this is where we declare that. This information is used to append the needed WHERE clauses from the `series` and `steps` to this stat. |
 | stats[].value.display | [integer, seconds, percentage] | true | How should the output be formatted. |
-| stats[].value.calculation | JS Object | false | If this Stat is a calculation - the mathematical result of two other stat values - this is where the rules for that calculation will be defined. First `ref (nominator)` value will be divided by the second `ref (denominator)` value. |
-| stats[].value.calculation.nominator | string | false | Refers to `stats[].ref` and is a nominator |
+| stats[].value.calculation | JS Object | false | If this Stat is a calculation - the mathematical result of two other stat values - this is where the rules for that calculation will be defined. First `ref (numerator)` value will be divided by the second `ref (denominator)` value. |
+| stats[].value.calculation.numerator | string | false | Refers to `stats[].ref` and is a numerator |
 | stats[].value.calculation.denominator | string | false | Refers to `stats[].ref` and is a denominator |
 
 ## About kpis

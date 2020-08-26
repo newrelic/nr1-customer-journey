@@ -35,9 +35,9 @@ const validationSchema = Yup.object().shape({
           eventName: Yup.string(),
           display: Yup.string().required('Is required'),
           calculation: Yup.object().shape({
-            nominator: Yup.string(),
-            denominator: Yup.string().when('nominator', {
-              is: nominator => nominator,
+            numerator: Yup.string(),
+            denominator: Yup.string().when('numerator', {
+              is: numerator => numerator,
               then: Yup.string().required('Is required')
             })
           })
@@ -56,7 +56,7 @@ const STAT_OBJECT_TEMPLATE = {
     eventName: '',
     display: '',
     calculation: {
-      nominator: '',
+      numerator: '',
       denominator: ''
     }
   }
@@ -79,7 +79,7 @@ export default class StepTwo extends Component {
     return stats.map(stat => {
       if (!stat.value.nrql) delete stat.value.nrql;
       if (!stat.value.eventName) delete stat.value.eventName;
-      if (!stat.value.calculation?.nominator) delete stat.value.calculation;
+      if (!stat.value.calculation?.numerator) delete stat.value.calculation;
 
       return stat;
     });
@@ -234,7 +234,7 @@ export default class StepTwo extends Component {
                             Calculation
                           </legend>
                           <Dropdown
-                            label="Nominator"
+                            label="numerator"
                             className="text-field"
                             items={values.stats
                               .filter(stat => stat.ref)
@@ -244,22 +244,22 @@ export default class StepTwo extends Component {
                               }))}
                             onChange={value =>
                               setFieldValue(
-                                `stats[${currentIndex}].value.calculation.nominator`,
+                                `stats[${currentIndex}].value.calculation.numerator`,
                                 value
                               )
                             }
                             value={
                               values.stats[currentIndex]?.value?.calculation
-                                ?.nominator
+                                ?.numerator
                             }
                             errorMessage={
                               errors.stats &&
                               errors.stats[currentIndex]?.value?.calculation
-                                ?.nominator
+                                ?.numerator
                             }
                           />
                           <Dropdown
-                            label="Denominator"
+                            label="denominator"
                             className="text-field"
                             items={values.stats
                               .filter(stat => stat.ref)
@@ -269,7 +269,7 @@ export default class StepTwo extends Component {
                               }))}
                             disabled={
                               !values.stats[currentIndex]?.value?.calculation
-                                ?.nominator
+                                ?.numerator
                             }
                             onChange={value =>
                               setFieldValue(
