@@ -26,23 +26,21 @@ export default class StatCell extends React.Component {
     super(props);
     this.state = {};
     this.statCellContainer = React.createRef();
-    this.getComponentHeight = this.getComponentHeight.bind(this);
-    this.openDetails = this.openDetails.bind(this);
   }
 
-  openDetails() {
+  openDetails = () => {
     const { config, column, step } = this.props;
     navigation.openStackedNerdlet({
       id: 'details',
       urlState: {
-        selectedJourney: config.id,
+        selectedJourney: config,
         selectedColumn: column.id,
         selectedStep: step.id
       }
     });
-  }
+  };
 
-  getComponentHeight() {
+  getComponentHeight = () => {
     const elementHeight = this.statCellContainer.current.offsetHeight;
     const verticalMargin =
       parseInt(
@@ -57,62 +55,66 @@ export default class StatCell extends React.Component {
       );
 
     return elementHeight + verticalMargin;
-  }
+  };
 
   render() {
     const { config, stats, step, column, platformUrlState } = this.props;
     const kpis = config.kpis || null;
     const sinceStmt = timeRangeToNrql(platformUrlState);
-    const q = `{
-            actor {
-            account(id: ${config.accountId}) {
-              ${stats
-                .map(stat => {
-                  const requiresAltNrql =
-                    stat.value.eventName &&
-                    stat.value.eventName !== config.funnel.event;
+    const queryBody = `${stats
+      .map(stat => {
+        const requiresAltNrql =
+          stat.value.eventName && stat.value.eventName !== config.funnel.event;
 
-                  const altStepNrql =
-                    requiresAltNrql &&
-                    step.altNrql &&
-                    Object.keys(step.altNrql).find(
-                      k => k === stat.value.eventName
-                    )
-                      ? step.altNrql[stat.value.eventName]
-                      : null;
+        const altStepNrql =
+          requiresAltNrql &&
+          step.altNrql &&
+          step.altNrql.key === stat.value.eventName
+            ? step.altNrql.value
+            : null;
 
-                  const altColumnNrql =
-                    requiresAltNrql &&
-                    column.altNrql &&
-                    Object.keys(column.altNrql).find(
-                      k => k === stat.value.eventName
-                    )
-                      ? column.altNrql[stat.value.eventName]
-                      : null;
+        const altColumnNrql =
+          requiresAltNrql &&
+          column.altNrql &&
+          column.altNrql.key === stat.value.eventName
+            ? column.altNrql.value
+            : null;
 
-                  if (stat.value.nrql) {
-                    if (requiresAltNrql) {
-                      if (altStepNrql && altColumnNrql) {
-                        return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${altColumnNrql}) AND (${altStepNrql}) ${sinceStmt}") {
+        if (stat.value.nrql) {
+          if (requiresAltNrql) {
+            if (altStepNrql && altColumnNrql) {
+              return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${altColumnNrql}) AND (${altStepNrql}) ${sinceStmt}") {
                   results
                 }`;
-                      } else {
-                        // we failed to provide the needed altNrql, so the result is incalculable.
-                        return '';
-                      }
-                    } else {
-                      return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${column.nrqlWhere}) AND (${step.nrqlWhere}) ${sinceStmt}") {
+            } else {
+              // we failed to provide the needed altNrql, so the result is incalculable.
+              return '';
+            }
+          } else {
+            return `${stat.ref}:nrql(query: "${stat.value.nrql} AND (${column.nrqlWhere}) AND (${step.nrqlWhere}) ${sinceStmt}") {
                   results
               }`;
-                    }
-                  } else {
-                    return '';
-                  }
-                })
-                .join('')}
-            }
           }
-        }`;
+        } else {
+          return '';
+        }
+      })
+      .join('')}`;
+
+    if (!queryBody) {
+      return (
+        <p>There was an error with constructing query. Check configuration</p>
+      );
+    }
+
+    const query = `{
+      actor {
+        account(id: ${config.accountId}) {
+          ${queryBody}
+        }
+      }
+    }`;
+
     return (
       <div
         className="standardStatCell"
@@ -120,9 +122,8 @@ export default class StatCell extends React.Component {
         onClick={this.openDetails}
       >
         <h5 className="pageTitle">{step.label}</h5>
-        <NerdGraphQuery query={q}>
+        <NerdGraphQuery query={query}>
           {({ loading, data, error }) => {
-            // console.debug([loading, error, data, kpis]); //eslint-disable-line
             if (loading) {
               return (
                 <div className="skeletonContainer">
@@ -170,13 +171,16 @@ export default class StatCell extends React.Component {
                 {stats
                   .filter(s => s.value.calculation)
                   .map((stat, i) => {
-                    const { rate } = stat.value.calculation;
+                    const {
+                      numerator: numeratorField,
+                      denominator: denominatorField
+                    } = stat.value.calculation;
                     const kpi = kpis
                       ? kpis.find(kpi => kpi.ref === stat.ref)
                       : null;
                     // debugger;
-                    const numerator = values[rate[0]];
-                    const denominator = values[rate[1]];
+                    const numerator = values[numeratorField];
+                    const denominator = values[denominatorField];
                     let value = null;
                     if (denominator) {
                       value = numerator / denominator;

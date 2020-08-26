@@ -43,11 +43,11 @@ This project is distributed under the [Apache 2 license](LICENSE).
 ## What do you need to make this work?
 
 1. Access to [New Relic One](https://newrelic.com/platform).
-2. Configuring the [journeyConfig.js](journeyConfig.js).
+2. Configure Journey with built-in form.
 
-### Configuring this Nerdpack
+### Configuring new Journey
 
-See [CONFIG.md](CONFIG.md) for detailed instructions on the capabilities of each portion of the [journeyConfig.js](journeyConfig.js). Also look at the [examples](examples) directory for inspiration.
+In `nr1-customer-journey` you can use wizard form to configure Journeys which will be saved in `AccountStorage`. See [CONFIG.md](CONFIG.md) for detailed instructions on the capabilities of each portion of the configuration. Also look at the [examples](examples) directory for inspiration.
 
 ## Getting started
 

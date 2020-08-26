@@ -1,9 +1,202 @@
 @import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,400i,600,600i&display=swap');
+@import '../components/new-journey/new-journey.scss';
+@import '../components/new-journey/steps-forms/step-form.scss';
+@import '~@newrelic/nr1-community/dist/index.css';
+
 
 body {
     opacity: .9;
     background-color: #F7F7F8;
 }
+
+.text-field {
+	margin-bottom: 25px;
+}
+
+.fieldset {
+	padding: 15px 20px;
+	border: 1px solid #e3e4e4;
+
+	&__legend {
+		padding: 0 10px;
+		text-transform: uppercase;
+	}
+
+}
+
+.disabled-option {
+	pointer-events: none;
+}
+
+.error-message {
+	color: #E56059;
+	font-size: 12px;
+}
+
+.main-container {
+  display: flex;
+  flex: 1;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.left-sidebar {
+  position: sticky;
+  top: 0;
+  overflow: auto;
+  min-width: 350px;
+  max-width: 400px;
+  background-color: white;
+  border-right: 1px solid #EDEEEE;
+
+  &__heading {
+    margin: 20px;
+  }
+
+  &__list {
+    list-style: none;
+  }
+
+  .list {
+    &__item {
+      padding: 20px;
+      border-top: 1px solid #EDEEEE;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &--active {
+        background-color: #F1FBFC;
+        color: #00484E;
+      }
+
+      &:hover {
+        cursor: pointer;
+        background-color: #F1FBFC;
+        color: #00484E;
+
+        .edit-button, .delete-button {
+          visibility: visible;
+        }
+      }
+
+      .edit-button, .delete-button {
+        visibility: hidden;
+        margin-left: 10px;
+      }
+    }
+
+    &__journey-title {
+      max-width: 175px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+
+}
+
+.tabs {
+	display: flex;
+	align-items: center;
+  margin-top: 20px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #edeeee;
+  justify-content: space-between;
+}
+
+.tabs-container {
+  position: relative;
+  padding-bottom: 8px;
+	padding-top: 5px;
+	display: flex;
+	overflow-x: auto;
+	align-items: center;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	-webkit-mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+
+  .tab {
+		position: relative;
+    display: inline-flex;
+    justify-content: center;
+		align-items: flex-end;
+		margin-right: 10px;
+		padding-left: 16px;
+		cursor: pointer;
+
+    &:hover {
+      .tab__delete {
+        > span {
+					display: block;
+				}
+      }
+		}
+
+		&__name {
+			white-space: nowrap;
+		}
+
+		&--active {
+			color: black;
+
+			&:after {
+				content: '';
+				position: absolute;
+				left: 0;
+				bottom: -8px;
+				right: 0;
+				height: 1px;
+				background: black;
+
+			}
+		}
+
+    &--error {
+			&:after {
+				background: #E56059;
+			}
+
+      > .tab__name {
+        color: #E56059;
+      }
+    }
+
+    &__delete {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid transparent;
+      border-radius: 50%;
+      color: #E56059;
+			margin-left: 5px;
+      height: 16px;
+      width: 16px;
+      font-size: 12px;
+			transition: .2s;
+
+			> span {
+				display: none;
+			}
+
+      &:hover {
+        background: #E56059;
+        color: white;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
 
 .visualizationContainer {
     display: flex;
@@ -56,12 +249,31 @@ body {
     }
 }
 
-.customerJourneyContainer {
+.customer-journey {
     height: 100%;
+    overflow: hidden;
     background-color: #f7f7f8;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    &__toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #edeeee;
+      box-shadow: inset 0 1px 0 rgba(0, 0, 0, .05), inset 0 3px 0 rgba(0, 0, 0, .02), inset 0 -1px 0 rgba(0, 0, 0, .025);
+    }
+}
+
+.journey-container {
+  overflow: auto;
+  display: flex;
 }
 
 .customerJourneyContent {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(auto-fill, 280px);
     grid-gap: .2%;
@@ -137,9 +349,27 @@ body {
         display: none;
     }
 
+    &.one-step-visualization {
+      height: 162px;
+
+      .svg-funnel-js__container {
+          transform: scale(1, .27);
+          top: -211px;
+      }
+    }
+
+    &.two-step-visualization {
+      height: 324px;
+
+      .svg-funnel-js__container {
+          transform: scale(1, .55);
+          top: -130px;
+      }
+    }
+
     &.three-step-visualization {
         height: 488px;
-    
+
         .svg-funnel-js__container {
             transform: scale(1, .85);
             top: -43px;
@@ -148,7 +378,7 @@ body {
 
     &.five-step-visualization {
         height: 808px;
-    
+
         .svg-funnel-js__container {
             transform: scale(1, 1.4);
             top: 116px;
@@ -157,43 +387,43 @@ body {
 
     &.six-step-visualization {
         height: 967px;
-    
+
         .svg-funnel-js__container {
             transform: scale(1, 1.68);
             top: 197px;
         }
     }
-    
+
     &.seven-step-visualization {
         height: 1127px;
-    
+
         .svg-funnel-js__container {
             transform: scale(1, 1.95);
             top: 275px;
         }
     }
-    
+
     &.eight-step-visualization {
         height: 1287px;
-    
+
         .svg-funnel-js__container {
             transform: scale(1, 2.22);
             top: 353px;
         }
     }
-    
+
     &.nine-step-visualization {
         height: 1447px;
-    
+
         .svg-funnel-js__container {
             transform: scale(1, 2.52);
             top: 440px;
         }
     }
-    
+
     &.ten-step-visualization {
         height: 1607px;
-    
+
         .svg-funnel-js__container {
             transform: scale(1, 2.8);
             top: 521px
@@ -291,7 +521,7 @@ body {
 .standardStatCell {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 17px repeat(auto-fill, 48px);
+    grid-template-rows: 17px repeat(2, 48px);
     grid-column-gap: 3%;
     padding: 8px 16px;
     line-height: 17px;
@@ -471,12 +701,6 @@ body {
     width: 40px;
     font-family: 'fira sans';
     letter-spacing: .35px;
-}
-
-.journeySelectFormContainer {
-    padding: 10px 20px;
-    background-color: #edeeee;
-    box-shadow: inset 0 1px 0 rgba(0, 0, 0, .05), inset 0 3px 0 rgba(0, 0, 0, .02), inset 0 -1px 0 rgba(0, 0, 0, .025);
 }
 
 .form-group {

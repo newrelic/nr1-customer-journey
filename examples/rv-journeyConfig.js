@@ -50,27 +50,24 @@ const journeyConfig = [
         label: 'Serviceable True',
         nrqlWhere: "name='WebTransaction/MVC/ServiceCheck/Post/{serviceCheck}'",
         altNrql: {
-          Availability:
+          key: 'Availability',
+          value:
             "ServiceabilityResponseCode NOT IN('2005', '1002', 'NACK022','-1')"
-          // JavaScriptError: " requestUri = '/' or requestUri = '/index.html' "
         }
       },
       {
         id: 1,
         label: 'Addons',
-        nrqlWhere: "name='WebTransaction/MVC/AddOns/Post/{ropeData}'",
-        altNrql: {
-          // JavaScriptError: " requestUri like '/browse/plans%' "
-        }
+        nrqlWhere: "name='WebTransaction/MVC/AddOns/Post/{ropeData}'"
       },
       {
         id: 2,
         label: 'Credit',
         nrqlWhere: "name='WebTransaction/MVC/CreditCheck/Post/{ropeData}'",
         altNrql: {
-          Availability:
+          key: 'Availability',
+          value:
             "CreditResponseCode NOT IN('3021', '1002', '3016', '1001', '3009', '3024', '1084')"
-          // JavaScriptError: " requestUri like '/shoppingcart%' "
         }
       },
       {
@@ -78,9 +75,9 @@ const journeyConfig = [
         label: 'Order Submit',
         nrqlWhere: "name='WebTransaction/MVC/Order/Post/{ropeData}'",
         altNrql: {
-          Availability:
+          key: 'Availability',
+          value:
             "errorMessage NOT IN('Response Description: Order Processing Error: Payment contains invalid information, please verify credit card billing address and account number.','Response Description: Order Processing Error: Payment Declined')"
-          // JavaScriptError: " requestUri like '/checkout%' "
         }
       }
     ],
@@ -122,7 +119,10 @@ const journeyConfig = [
         ref: 'errorRate',
         type: 'decimal',
         value: {
-          calculation: { rate: ['errorCount', 'transactionCount'] },
+          calculation: {
+            numerator: 'errorCount',
+            denominator: 'transactionCount'
+          },
           display: 'percentage'
         }
       }

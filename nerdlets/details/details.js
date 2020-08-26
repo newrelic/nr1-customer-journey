@@ -9,10 +9,7 @@ import {
   HeadingText,
   BlockText
 } from 'nr1';
-import { getJourneys } from '../../journeyConfig';
 import { timeRangeToNrql } from '@newrelic/nr1-community';
-
-const journeyConfig = getJourneys();
 
 export default class Details extends React.Component {
   static propTypes = {
@@ -20,24 +17,20 @@ export default class Details extends React.Component {
     nerdletUrlState: PropTypes.object.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    // console.debug("Journey Details", props);
-  }
-
   render() {
     const { platformUrlState, nerdletUrlState } = this.props;
     const sinceStatement = timeRangeToNrql(platformUrlState);
     const agoStatement = sinceStatement.split('SINCE')[1];
     const { selectedColumn, selectedJourney, selectedStep } = nerdletUrlState;
-    const journey = journeyConfig.find(j => j.id === selectedJourney);
+    const journey = selectedJourney;
     const column = journey.series.find(s => s.id === selectedColumn);
     const step = journey.steps.find(s => s.id === selectedStep);
     let { stats, kpis } = journey;
-    // debugger;
+
     stats = stats.filter(s => {
       return s.value.nrql;
     });
+
     if (kpis) {
       kpis = kpis
         .filter(kpi => stats.find(s => s.ref === kpi.ref))
@@ -94,12 +87,11 @@ export default class Details extends React.Component {
           </GridItem>
           {stats.map((stat, i) => {
             let query = null;
-            if (stat.value.nrql.includes('JavaScriptError')) {
-              query = `${stat.value.nrql} AND (${step.altNrql.JavaScriptError}) AND (${column.nrqlWhere}) TIMESERIES ${sinceStatement} COMPARE WITH ${agoStatement}`;
+            if (stat.value.nrql.eventName === step.altNrql.key) {
+              query = `${stat.value.nrql} AND (${step.altNrql.value}) AND (${column.nrqlWhere}) TIMESERIES ${sinceStatement} COMPARE WITH ${agoStatement}`;
             } else {
               query = `${stat.value.nrql} AND (${step.nrqlWhere}) AND (${column.nrqlWhere}) TIMESERIES ${sinceStatement} COMPARE WITH ${agoStatement}`;
             }
-            // console.log(query);
             return (
               <GridItem key={i} columnSpan={4} className="chartContainer">
                 <HeadingText type="heading-3">{stat.label}</HeadingText>
