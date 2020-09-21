@@ -87,7 +87,7 @@ export default class Details extends React.Component {
           </GridItem>
           {stats.map((stat, i) => {
             let query = null;
-            if (stat.value.nrql.eventName === step.altNrql.key) {
+            if (step.altNrql && (stat.value.eventName === step.altNrql.key)) {
               query = `${stat.value.nrql} AND (${step.altNrql.value}) AND (${column.nrqlWhere}) TIMESERIES ${sinceStatement} COMPARE WITH ${agoStatement}`;
             } else {
               query = `${stat.value.nrql} AND (${step.nrqlWhere}) AND (${column.nrqlWhere}) TIMESERIES ${sinceStatement} COMPARE WITH ${agoStatement}`;
