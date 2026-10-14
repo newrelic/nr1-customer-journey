@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -13,111 +13,89 @@ import {
 const USER_ACCOUNT_COLLECTION = 'user_account_collection_v1';
 const USER_SELECTED_ACCOUNT_ID = 'user_account_id';
 
-export default class AccountPicker extends React.PureComponent {
-  static propTypes = {
-    accountChangedCallback: PropTypes.func,
-    disabled: PropTypes.bool
-  };
+const getLastChosenAccountId = async () => {
+  // TODO: Add error handling
+  const { data } = await UserStorageQuery.query({
+    collection: USER_ACCOUNT_COLLECTION,
+    documentId: USER_SELECTED_ACCOUNT_ID
+  });
+  return data?.account;
+};
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedAccount: { name: '' },
-      accounts: [],
-      filter: ''
-    };
-  }
+const saveLastChosenAccountId = accountId =>
+  UserStorageMutation.mutate({
+    actionType: UserStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
+    collection: USER_ACCOUNT_COLLECTION,
+    document: { account: accountId },
+    documentId: USER_SELECTED_ACCOUNT_ID
+  });
 
-  async componentDidMount() {
-    const accountsResults = await AccountsQuery.query({});
+const AccountPicker = ({ accountChangedCallback, disabled }) => {
+  const [accounts, setAccounts] = useState([]);
+  const [selectedAccount, setSelectedAccount] = useState({ name: '' });
+  const [filter, setFilter] = useState('');
 
-    if (accountsResults.data && accountsResults.data) {
-      const accounts = accountsResults.data;
-
-      let account = await this.getLastChoseAccountId();
-
-      if (account === null) {
-        account = accountsResults.data;
-      }
-
-      if (!account.id) {
-        account = accounts[0];
-      }
-
-      if (account) {
-        this._accountChanged(account, accounts);
-      } else {
-        this.setState({ accounts });
-      }
-    }
-  }
-
-  async getLastChoseAccountId() {
-    const userStorageQuery = {
-      collection: USER_ACCOUNT_COLLECTION,
-      documentId: USER_SELECTED_ACCOUNT_ID
-    };
-    // TODO: Add error handling
-    const queryResults = await UserStorageQuery.query(userStorageQuery);
-    return queryResults.data;
-  }
-
-  async saveOffLastChosenAccountId(accountId) {
-    const userMutation = {
-      actionType: UserStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
-      collection: USER_ACCOUNT_COLLECTION,
-      document: { account: accountId },
-      documentId: USER_SELECTED_ACCOUNT_ID
-    };
-    UserStorageMutation.mutate(userMutation);
-  }
-
-  async _accountChanged(account, accounts) {
-    const accountId = account.id;
-    const { accountChangedCallback } = this.props;
-    this.saveOffLastChosenAccountId(accountId);
+  const selectAccount = async account => {
+    saveLastChosenAccountId(account.id);
     if (accountChangedCallback) {
-      await accountChangedCallback(accountId, this.state.accounts);
+      await accountChangedCallback(account.id);
     }
-    this.setState({ selectedAccount: account, accounts });
-  }
-
-  onAccountChange = async account => {
-    const { accounts } = this.state;
-    await this._accountChanged(account, accounts);
+    setSelectedAccount(account);
   };
 
-  render() {
-    const { accounts, filter, selectedAccount } = this.state;
+  useEffect(() => {
+    const loadAccounts = async () => {
+      const { data } = await AccountsQuery.query({});
+      if (!data) return;
 
-    let filteredAccounts = [...accounts];
-    if (filter && filter.length > 0) {
-      const re = new RegExp(filter, 'i');
-      filteredAccounts = accounts.filter(a => {
-        return a.name.match(re);
-      });
-    }
-    if (this.props.disabled) {
-      return (
-        <TextField disabled label="Account" value={selectedAccount.name} />
-      );
-    }
+      setAccounts(data);
+      const lastChosenAccountId = await getLastChosenAccountId();
+      const account =
+        data.find(({ id }) => id === lastChosenAccountId) || data[0];
+      if (account) {
+        selectAccount(account);
+      }
+    };
+    loadAccounts();
+    // Only runs on mount; the initial selection is made once.
+  }, []);
 
-    return (
-      <Dropdown
-        title={selectedAccount.name}
-        label="Account"
-        search={filter}
-        onSearch={event => {
-          this.setState({ filter: event.target.value });
-        }}
-      >
-        {filteredAccounts.map(a => (
-          <DropdownItem key={a.id} onClick={() => this.onAccountChange(a)}>
-            {a.name}
-          </DropdownItem>
-        ))}
-      </Dropdown>
-    );
+  if (disabled) {
+    return <TextField disabled label="Account" value={selectedAccount.name} />;
   }
-}
+
+  const filteredAccounts = filter
+    ? accounts.filter(({ name }) =>
+        name.toLowerCase().includes(filter.toLowerCase())
+      )
+    : accounts;
+
+  return (
+    <Dropdown
+      title={selectedAccount.name}
+      label="Account"
+      items={filteredAccounts}
+      search={filter}
+      onSearch={event => setFilter(event.target.value)}
+    >
+      {({ item }) => (
+        <DropdownItem
+          key={item.id}
+          onClick={() => {
+            setFilter('');
+            selectAccount(item);
+          }}
+        >
+          {item.name}
+        </DropdownItem>
+      )}
+    </Dropdown>
+  );
+};
+
+AccountPicker.propTypes = {
+  accountChangedCallback: PropTypes.func,
+  disabled: PropTypes.bool
+};
+
+export default AccountPicker;

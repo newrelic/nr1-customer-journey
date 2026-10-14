@@ -5,9 +5,9 @@ The `journey configuration` is an array of objects that contain the following. S
 | Name | Valid Values | Required by Parent | Description |
 |---|---|---|---|
 | id | numeric or uuid | true | Unique identifier for the Journey Config object. |
-| title | string | true | The label that appears in the drop down in the upper left of the Journey Config Nerdlet. |
+| title | string | true | The name shown for the Journey in the Journeys list on the left. |
 | accountId | numeric | true | The New Relic account identifier, used for scoping NRQL queries, etc. |
-| funnel | JS Object | true | Specifies the `event` and `measure` for the NRQL funnel queries that make up the steps (rows) of the FunnelComponent visualization. |
+| funnel | JS Object | true | Specifies the `event` and `measure` for the NRQL funnel queries that make up the steps (rows) of the funnel visualization. |
 | funnel.event | string | true | NRDB event used in the `FROM` portion of the NRQL query of the funnel. |
 | funnel.measure | string | true | The attribute that is the focus of the NRDB funnel query. ex: `session` in `FROM PageView SELECT funnel(session, <WHERE clause>, <WHERE clause 2>)` |
 | kpis | JS Array of Objects | false | List of performance measurements tied to the `stats` array by the `ref` value. |

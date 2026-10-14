@@ -1,5 +1,8 @@
 name: Pull Request
 
+permissions:
+  contents: read
+
 on:
   pull_request:
     branches:
@@ -15,16 +18,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: 10.x
+          node-version: 16.x
 
       - name: Cache node_modules
         id: cache-node-modules
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         env:
           cache-name: node-modules
         with:
@@ -47,18 +50,22 @@ jobs:
     name: eslint
     needs: checkout-and-build-pr
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: 10.x
+          node-version: 16.x
 
       - name: Cache node_modules
         id: cache-node-modules
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         env:
           cache-name: node-modules
         with:
@@ -95,16 +102,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: 10.x
+          node-version: 16.x
 
       - name: Cache node_modules
         id: cache-node-modules
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         env:
           cache-name: node-modules
         with:
@@ -125,10 +132,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Validate Open Source Files
-        uses: newrelic/validate-nerdpack-action@v1.0.2
+        uses: newrelic/validate-nerdpack-action@v1
 
       - name: Install NR1 CLI
         run: |

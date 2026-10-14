@@ -1,116 +1,72 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ActiveSteps from './active-steps';
 import { StepOne, StepTwo, StepThree, StepFour, StepFive } from './steps-forms';
 
-export default class NewJourney extends Component {
-  constructor(props) {
-    super(props);
+const STEP_COMPONENTS = [StepOne, StepTwo, StepThree, StepFour, StepFive];
+const LAST_STEP = STEP_COMPONENTS.length - 1;
 
-    const { journey } = props;
+const EMPTY_JOURNEY = {
+  id: undefined,
+  title: undefined,
+  funnel: {
+    event: undefined,
+    measure: undefined
+  },
+  stats: [],
+  steps: [],
+  series: [],
+  kpis: []
+};
 
-    this.state = {
-      currentStep: 0,
-      isEdit: journey && true,
-      journey: journey || {
-        id: undefined,
-        title: undefined,
-        funnel: {
-          event: undefined,
-          measure: undefined
-        },
-        stats: [],
-        steps: [],
-        series: [],
-        kpis: []
-      }
-    };
-  }
+const NewJourney = ({
+  journey: initialJourney,
+  handleOnSave,
+  handleCancel,
+  isSaving
+}) => {
+  const isEdit = !!initialJourney;
+  const [currentStep, setCurrentStep] = useState(0);
+  const [journey, setJourney] = useState(initialJourney || EMPTY_JOURNEY);
 
-  handlePrevClick = journeyConfig => {
-    this.setState(prevState => {
-      return {
-        journey: { ...prevState.journey, ...journeyConfig },
-        currentStep:
-          prevState.currentStep === 0
-            ? prevState.currentStep
-            : prevState.currentStep - 1
-      };
-    });
+  const handlePrevClick = journeyConfig => {
+    setJourney(prev => ({ ...prev, ...journeyConfig }));
+    setCurrentStep(step => Math.max(step - 1, 0));
   };
 
-  handleNextClick = journeyConfig => {
-    this.setState(prevState => {
-      return {
-        journey: { ...prevState.journey, ...journeyConfig },
-        currentStep:
-          prevState.currentStep === 4
-            ? prevState.currentStep
-            : prevState.currentStep + 1
-      };
-    });
+  const handleNextClick = journeyConfig => {
+    setJourney(prev => ({ ...prev, ...journeyConfig }));
+    setCurrentStep(step => Math.min(step + 1, LAST_STEP));
   };
 
-  handleOnSave = () => {
-    const { journey } = this.state;
-    const { handleOnSave } = this.props;
-
+  // The last step passes in its own values, since the merge from
+  // handleNextClick hasn't been applied to `journey` yet.
+  const handleSave = journeyConfig => {
     if (handleOnSave) {
-      handleOnSave(journey);
+      handleOnSave({ ...journey, ...journeyConfig });
     }
   };
 
-  renderSteps = () => {
-    const { currentStep, journey } = this.state;
-    const { handleCancel, isSaving } = this.props;
+  const StepComponent = STEP_COMPONENTS[currentStep];
 
-    let Component = null;
-    switch (currentStep) {
-      case 0:
-        Component = StepOne;
-        break;
-      case 1:
-        Component = StepTwo;
-        break;
-      case 2:
-        Component = StepThree;
-        break;
-      case 3:
-        Component = StepFour;
-        break;
-      case 4:
-        Component = StepFive;
-        break;
-      default:
-    }
-
-    return (
-      <Component
+  return (
+    <div className="new-journey">
+      <h1 className="new-journey__heading">
+        {isEdit ? 'Edit Journey' : 'Create New Journey'}
+      </h1>
+      <ActiveSteps currentStep={currentStep} />
+      <StepComponent
         initialValues={journey}
         currentStep={currentStep}
         handleCancel={handleCancel}
-        handlePrevClick={this.handlePrevClick}
-        handleNextClick={this.handleNextClick}
-        handleOnSave={this.handleOnSave}
+        handlePrevClick={handlePrevClick}
+        handleNextClick={handleNextClick}
+        handleOnSave={handleSave}
         isSaving={isSaving}
       />
-    );
-  };
-
-  render() {
-    const { currentStep, isEdit } = this.state;
-
-    return (
-      <div className="new-journey">
-        <h1 className="new-journey__heading">
-          {isEdit ? 'Edit Journey' : 'Create New Journey'}
-        </h1>
-        <ActiveSteps currentStep={currentStep} />
-        {this.renderSteps()}
-      </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 NewJourney.propTypes = {
   handleOnSave: PropTypes.func.isRequired,
@@ -118,3 +74,5 @@ NewJourney.propTypes = {
   journey: PropTypes.object,
   isSaving: PropTypes.bool
 };
+
+export default NewJourney;

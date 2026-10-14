@@ -18,7 +18,7 @@ The application does this through a few visualizations.
 
 ### Multi-series Funnel
 
-It leverages a [`nr1-funnel-component`](https://github.com/newrelic/nr1-funnel-component). This visualization combines a 3rd party funnel library with the NR1 `NerdGraphQuery` component to execute three New Relic `NRQL` queries in the same GraphQL request and align the results into one data set that is delivered to the funnel visualization.
+The funnel is drawn by a component built into this Nerdpack (`nerdlets/components/funnel`), with no third-party charting library. It runs one New Relic `NRQL` funnel query per Series, batched into a single NerdGraph request using the NR1 `NerdGraphQuery` component, and draws each Series as a band in a vertical funnel, with one row per Step. Hover over a Step to see each Series' share of it.
 
 ### Data panels
 
@@ -34,7 +34,7 @@ For any `Journey`, `Series`, and `Step`, there's a Nerdlet that will display the
 
 ## Usage
 
-Currently, the application is driven by a relatively complex JSON config file. The documentation for that configuration file is available [here](CONFIG.md).
+Journeys are created and edited in the app, using the built-in wizard (**Add new Journey**), and are saved in `AccountStorage`. Each field in the wizard is described in [CONFIG.md](CONFIG.md).
 
 ## Open Source License
 
@@ -77,7 +77,7 @@ Open a command prompt in the nerdpack's directory and run the following commands
 ```bash
 # If you need to create a new uuid for the account to which you're deploying this Nerdpack, use the following
 # nr1 nerdpack:uuid -g [--profile=your_profile_name]
-# to see a list of APIkeys / profiles available in your development environment, run nr1 credentials:list
+# to see a list of APIkeys / profiles available in your development environment, run nr1 profiles:list
 nr1 nerdpack:publish [--profile=your_profile_name]
 nr1 nerdpack:deploy [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
 nr1 nerdpack:subscribe [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]

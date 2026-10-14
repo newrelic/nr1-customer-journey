@@ -2,34 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import StatCell from './StatCell';
 
-export default class StatColumn extends React.Component {
-  static propTypes = {
-    config: PropTypes.object.isRequired,
-    platformUrlState: PropTypes.object.isRequired,
-    column: PropTypes.object.isRequired
-  };
+const StatColumn = ({ config, column, platformUrlState }) => (
+  <div className="standardStatColumn">
+    <h3 className="columnHeader">{column.label}</h3>
+    {config.steps.map((step, i) => (
+      <StatCell
+        key={i}
+        stats={config.stats}
+        step={step}
+        column={column}
+        config={config}
+        platformUrlState={platformUrlState}
+      />
+    ))}
+  </div>
+);
 
-  constructor(props) {
-    super(props);
-  }
+StatColumn.propTypes = {
+  config: PropTypes.object.isRequired,
+  platformUrlState: PropTypes.object.isRequired,
+  column: PropTypes.object.isRequired
+};
 
-  render() {
-    const { config, column } = this.props;
-
-    return (
-      <div className="standardStatColumn">
-        <h3 className="columnHeader">{column.label}</h3>
-        {config.steps.map((step, i) => {
-          return (
-            <StatCell
-              key={i}
-              stats={config.stats}
-              step={step}
-              {...this.props}
-            />
-          );
-        })}
-      </div>
-    );
-  }
-}
+export default StatColumn;

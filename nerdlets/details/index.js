@@ -1,22 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Details from './details';
 import { PlatformStateContext, NerdletStateContext } from 'nr1';
 
-export default class Wrapper extends React.PureComponent {
-  render() {
-    return (
-      <PlatformStateContext.Consumer>
-        {platformUrlState => (
-          <NerdletStateContext.Consumer>
-            {nerdletUrlState => (
-              <Details
-                platformUrlState={platformUrlState}
-                nerdletUrlState={nerdletUrlState}
-              />
-            )}
-          </NerdletStateContext.Consumer>
-        )}
-      </PlatformStateContext.Consumer>
-    );
-  }
-}
+const DetailsNerdlet = () => {
+  const platformUrlState = useContext(PlatformStateContext);
+  const nerdletUrlState = useContext(NerdletStateContext);
+
+  return (
+    <Details
+      platformUrlState={platformUrlState}
+      nerdletUrlState={nerdletUrlState}
+    />
+  );
+};
+
+export default DetailsNerdlet;

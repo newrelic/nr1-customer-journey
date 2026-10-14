@@ -2,23 +2,22 @@ name: NR1 Library Deprecation Checks
 
 on: [push, workflow_dispatch]
 
+permissions:
+  contents: read
+
 jobs:
   nr1_lib_deprecations:
     name: Run NR1 Library Deprecation Checks
     runs-on: ubuntu-latest
+    # Only check the default branch
+    if: github.ref_name == github.event.repository.default_branch
+    permissions:
+      contents: read
+      issues: write
     steps:
-      - name: Test Default Branch
-        id: default-branch
-        uses: actions/github-script@v2
-        with:
-          script: |
-            const data = await github.repos.get(context.repo)
-            return data.data && data.data.default_branch === context.ref.split('/').slice(-1)[0]
       - name: Checkout Self
-        if: ${{ steps.default-branch.outputs.result == 'true' }}
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Run Repolinter
-        if: ${{ steps.default-branch.outputs.result == 'true' }}
         uses: newrelic/repolinter-action@v1
         with:
           output_name: 'NR1 library deprecation issues'
