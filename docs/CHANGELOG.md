@@ -1,3 +1,51 @@
+# [0.5.0](https://github.com/newrelic/nr1-customer-journey/compare/v0.4.1...v0.5.0) (2026-10-14)
+
+
+### Bug Fixes
+
+* active step class ([0d877e7](https://github.com/newrelic/nr1-customer-journey/commit/0d877e7955f1a4294e3f88cb86f063f2f0eb6a96))
+* babel runtime added to dependecies ([3909eef](https://github.com/newrelic/nr1-customer-journey/commit/3909eefd6f8542c7e4beeb2ee866b817b46c73d8))
+* config md ([ea6e268](https://github.com/newrelic/nr1-customer-journey/commit/ea6e26824021353efc994d24585dc4b839148aea))
+* conflicts resolved ([e1b097f](https://github.com/newrelic/nr1-customer-journey/commit/e1b097fd497be7e432e4c08ae1110de492176dfb))
+* escape backslashes in funnel step labels ([790a0fc](https://github.com/newrelic/nr1-customer-journey/commit/790a0fc254a69f759b7a7975e9bbfa4e7db48f56))
+* eslint fixes ([1cb63df](https://github.com/newrelic/nr1-customer-journey/commit/1cb63df5d9cefd63c5f239a1bfecb53ad8a0a24e))
+* missing icon file ([b16c316](https://github.com/newrelic/nr1-customer-journey/commit/b16c316927a7b6b53786b18a07cf6cf2b6df72c7))
+* removed accountId from step 1 ([c4cc8db](https://github.com/newrelic/nr1-customer-journey/commit/c4cc8db94f663b13179ff96057bacfe5de7d9324))
+* step 5 bound as dropdown ([91ad658](https://github.com/newrelic/nr1-customer-journey/commit/91ad658ef725c3232c470592312f8bd1facc2d1c))
+* tab container fixed ([3ae1b70](https://github.com/newrelic/nr1-customer-journey/commit/3ae1b70429a960bfea87492cb0e84facad1dee5a))
+* unnecessary code deleted ([8e7063c](https://github.com/newrelic/nr1-customer-journey/commit/8e7063c9c1fd80c7b54dedc28039754ed854aca0))
+* wrong configuration handled ([43d9231](https://github.com/newrelic/nr1-customer-journey/commit/43d9231e85aebe3abc99fef07f944ffe2b94ae6f))
+
+
+### Features
+
+* adding new kpis ([dee2ec5](https://github.com/newrelic/nr1-customer-journey/commit/dee2ec5053af204b5fa8262912769519da7b1b23))
+* all validations added ([e46a234](https://github.com/newrelic/nr1-customer-journey/commit/e46a2343ca9957ae4f8387fe1f4c31e34b40054e))
+* array handled on step 2 ([451afe8](https://github.com/newrelic/nr1-customer-journey/commit/451afe8712662048aa3a475011d24c5ea373d154))
+* change logic behind altNrql ([3496da7](https://github.com/newrelic/nr1-customer-journey/commit/3496da7e511885ff6bb6abb667036b3baeff4ed4))
+* conditional validations added ([a680435](https://github.com/newrelic/nr1-customer-journey/commit/a68043504ca2d55bb8d16527bddbcae5e2433349))
+* custom tabs created ([376ac95](https://github.com/newrelic/nr1-customer-journey/commit/376ac95b6c23b1501262aa25bf6f42112fb14674))
+* deleting handled ([bc2efe1](https://github.com/newrelic/nr1-customer-journey/commit/bc2efe150175c0037bfd2d84ce5e691690530b00))
+* dropdowns added to step two stats ([ada5919](https://github.com/newrelic/nr1-customer-journey/commit/ada5919daeb3cdfbc2ef4fd4e2e9739bca51fa67))
+* editing journeys added ([9d3d302](https://github.com/newrelic/nr1-customer-journey/commit/9d3d30239cdb27e8e5d912273c8d3e1c5757c1dc))
+* empty options in form, deleting configs ([a18bab3](https://github.com/newrelic/nr1-customer-journey/commit/a18bab3e6ad30c99c9774f8a0f9b0892ae1dbe32))
+* empty state added ([3348e37](https://github.com/newrelic/nr1-customer-journey/commit/3348e37d197007ed331410f38eb4e22a4ed809aa))
+* long journey names handled ([c2fd9d0](https://github.com/newrelic/nr1-customer-journey/commit/c2fd9d0404ec633db33940df8427e3e56f9bb64a))
+* new journey refactored ([e54eec3](https://github.com/newrelic/nr1-customer-journey/commit/e54eec3b9b8d5e906882e33218564d649af13adc))
+* rate refactored, onBlur added ([e59fb9f](https://github.com/newrelic/nr1-customer-journey/commit/e59fb9fe999a50c6f34c769e687fbbd481f053b3))
+* readme and configs updated ([ca8b83a](https://github.com/newrelic/nr1-customer-journey/commit/ca8b83ad4d074a657f7cdd9396cccfa84985829f))
+* references added to form ([7d2a4aa](https://github.com/newrelic/nr1-customer-journey/commit/7d2a4aa10c17967b1a51df50690b495fd3e5b16c))
+* responsiveness part one ([8f470df](https://github.com/newrelic/nr1-customer-journey/commit/8f470df7d0c71f95659d108e3bb0846404428131))
+* save changes on next and prev ([242f3e4](https://github.com/newrelic/nr1-customer-journey/commit/242f3e4632ec508f9679131eac78db868b77abd4))
+* saving and loading journeys added ([fa196b9](https://github.com/newrelic/nr1-customer-journey/commit/fa196b9265fc07c455b757e8be0965dc7fd7c756))
+* series and steps flow implemented ([cf99aed](https://github.com/newrelic/nr1-customer-journey/commit/cf99aedeb9bef0ff3d993a5aa33ca7851f35579f))
+* sidebar with list of journeys ([5bce251](https://github.com/newrelic/nr1-customer-journey/commit/5bce25139ebce7492fe9fd9072b7d809c8195b0a))
+* spinner loaders added ([96db927](https://github.com/newrelic/nr1-customer-journey/commit/96db92753c137c6eb4e711b8f3cd14da60f427d0))
+* spinner on journeys load ([9dc24af](https://github.com/newrelic/nr1-customer-journey/commit/9dc24afc3f23a03afb31823343aa41a15406274c))
+* stats and steps adding new ([1eb4e69](https://github.com/newrelic/nr1-customer-journey/commit/1eb4e69b8a42fa229f0abc9ab8c57a2883babd5d))
+* steps integrated with forms ([3628b51](https://github.com/newrelic/nr1-customer-journey/commit/3628b51fce5ff75986fa92e599b13e2ef7093616))
+* upgrade to React 17 and replace third-party funnel with local component ([ca51832](https://github.com/newrelic/nr1-customer-journey/commit/ca51832f0ba8c65f57e457a6a15a72e39dfbde8e))
+
 ## [0.4.1](https://github.com/newrelic/nr1-customer-journey/compare/v0.4.0...v0.4.1) (2020-07-01)
 
 
