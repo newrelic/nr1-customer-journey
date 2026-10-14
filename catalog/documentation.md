@@ -10,7 +10,7 @@ The application does this through a few visualizations.
 
 ### Multi-series Funnel
 
-It leverages a [`nr1-funnel-component`](https://github.com/newrelic/nr1-funnel-component). This visualization combines a 3rd party funnel library with the NR1 `NerdGraphQuery` component to execute three New Relic `NRQL` queries in the same GraphQL request and align the results into one data set that is delivered to the funnel visualization.
+The funnel is drawn by a component built into this Nerdpack (`nerdlets/components/funnel`), with no third-party charting library. It runs one New Relic `NRQL` funnel query per Series, batched into a single NerdGraph request using the NR1 `NerdGraphQuery` component, and draws each Series as a band in a vertical funnel, with one row per Step. Hover over a Step to see each Series' share of it.
 
 ### Data panels
 
@@ -22,20 +22,20 @@ For any `Journey`, `Series`, and `Step`, there's a Nerdlet that will display the
 
 ## Usage
 
-Currently, the application is driven by a relatively complex JSON config file. The documentation for that configuration file is available [here](https://github.com/newrelic/nr1-customer-journey/blob/master/CONFIG.md).
+Journeys are created and edited in the app, using the built-in wizard (**Add new Journey**), and are saved in `AccountStorage`. Each field in the wizard is described in [CONFIG.md](https://github.com/newrelic/nr1-customer-journey/blob/develop/CONFIG.md).
 
 ## Open Source License
 
-This project is distributed under the [Apache 2 license](https://github.com/newrelic/nr1-customer-journey/blob/master/LICENSE).
+This project is distributed under the [Apache 2 license](https://github.com/newrelic/nr1-customer-journey/blob/develop/LICENSE).
 
 ## What do you need to make this work?
 
 1. Access to [New Relic One](https://newrelic.com/platform).
-2. Configuring the [journeyConfig.js](https://github.com/newrelic/nr1-customer-journey/blob/master/journeyConfig.js).
+2. Configure a Journey with the built-in form.
 
-### Configuring this Nerdpack
+### Configuring a new Journey
 
-See [CONFIG.md](https://github.com/newrelic/nr1-customer-journey/blob/master/CONFIG.md) for detailed instructions on the capabilities of each portion of the [journeyConfig.js](https://github.com/newrelic/nr1-customer-journey/blob/master/journeyConfig.js). Also look at the [examples](https://github.com/newrelic/nr1-customer-journey/tree/master/examples) directory for inspiration.
+In `nr1-customer-journey` you can use the wizard form to configure Journeys, which are saved in `AccountStorage`. See [CONFIG.md](https://github.com/newrelic/nr1-customer-journey/blob/develop/CONFIG.md) for detailed instructions on the capabilities of each portion of the configuration. Also look at the [examples](https://github.com/newrelic/nr1-customer-journey/tree/develop/examples) directory for inspiration.
 
 ## Getting started
 
@@ -93,6 +93,6 @@ Issues and enhancement requests can be submitted in the [Issues tab of this repo
 
 ## Contributing
 
-Contributions are welcome (and if you submit a Enhancement Request, expect to be invited to contribute it yourself :grin:). Please review our [Contributors Guide](https://github.com/newrelic/nr1-customer-journey/blob/master/CONTRIBUTING.md).
+Contributions are welcome (and if you submit a Enhancement Request, expect to be invited to contribute it yourself :grin:). Please review our [Contributors Guide](https://github.com/newrelic/nr1-customer-journey/blob/develop/CONTRIBUTING.md).
 
 Keep in mind that when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. If you'd like to execute our corporate CLA, or if you have any questions, please drop us an email at opensource@newrelic.com.
