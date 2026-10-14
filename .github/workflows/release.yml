@@ -16,16 +16,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: 16.x
 
       - name: Cache node_modules
         id: cache-node-modules
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         env:
           cache-name: node-modules
         with:
@@ -50,18 +50,18 @@ jobs:
     needs: job-checkout-and-build
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       # Probably not necessary since the ubuntu-latest image would have latest Node LTS release
       # and nothing in this job _needs_ older Node
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: 16.x
 
       - name: Download Cached Deps
         id: cache-node-modules
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         env:
           cache-name: node-modules
         with:
@@ -160,18 +160,18 @@ jobs:
       # Checkout ref: develop because previous job committed third_party_notices and
       # we need to checkout develop to pick up that commit
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: develop
 
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: 16.x
 
       - name: Download Cached Deps
         id: cache-node-modules
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         env:
           cache-name: node-modules
         with:
