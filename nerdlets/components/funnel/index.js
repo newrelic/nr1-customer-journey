@@ -7,7 +7,9 @@ import NerdGraphError from '../nerdgraph-error';
 
 const seriesAlias = index => `series${index}`;
 
-const quoteNrqlString = value => `'${value.replace(/'/g, "\\'")}'`;
+// Escape backslashes first, so the backslashes added before quotes stay intact.
+const quoteNrqlString = value =>
+  `'${value.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}'`;
 
 const buildFunnelNrql = ({ funnel, steps, series, since }) => {
   const stepClauses = steps
