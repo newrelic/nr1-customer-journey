@@ -1,0 +1,26 @@
+name: Repolinter Action
+
+# NOTE: This workflow will ONLY check the default branch!
+# There is no way to filter on the default branch in the event
+# triggers, so the job is skipped on any other branch instead.
+on: [push, workflow_dispatch]
+
+permissions:
+  contents: read
+
+jobs:
+  repolint:
+    name: Run Repolinter
+    runs-on: ubuntu-latest
+    if: github.ref_name == github.event.repository.default_branch
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Checkout Self
+        uses: actions/checkout@v4
+      - name: Run Repolinter
+        uses: newrelic/repolinter-action@v1
+        with:
+          config_url: https://raw.githubusercontent.com/newrelic/.github/main/repolinter-rulesets/new-relic-one-catalog-project.json
+          output_type: issue

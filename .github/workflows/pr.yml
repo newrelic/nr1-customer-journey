@@ -1,5 +1,8 @@
 name: Pull Request
 
+permissions:
+  contents: read
+
 on:
   pull_request:
     branches:
@@ -47,6 +50,10 @@ jobs:
     name: eslint
     needs: checkout-and-build-pr
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -128,7 +135,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Validate Open Source Files
-        uses: newrelic/validate-nerdpack-action@v1.0.2
+        uses: newrelic/validate-nerdpack-action@v1
 
       - name: Install NR1 CLI
         run: |
